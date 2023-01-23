@@ -23,7 +23,7 @@ const textureLoader = new THREE.TextureLoader()
 // particles
 // const particlesGeometry = new THREE.BoxGeometry(1, 32, 32)
 const particlesGeometry = new THREE.BufferGeometry()
-const count = 12500
+const count = 22500
 
 // we use 3 here because we want to keep the array in the units of 3 (x,y,z)
 // e.g) arr[0] = x pos, arr[1] = y pos, arr[2] = z pos, arr[3] = x pos and so on
@@ -40,7 +40,7 @@ particlesGeometry.setAttribute(
 
 
 const particlesMaterial = new THREE.PointsMaterial()
-particlesMaterial.size = 0.02
+particlesMaterial.size = 0.05
 // if particle is closer to camera, becomes bigger if sizeAttenuation is set to true
 particlesMaterial.sizeAttenuation = true
 
@@ -119,9 +119,9 @@ tick()
 
 function update() {
   // グループを回転
-  var rotateX = particles.rotation.x + 0.002;
-  var rotateY = particles.rotation.y + 0.005;
-  var rotateZ = particles.rotation.z + 0.01;
+  var rotateX = particles.rotation.x + 0.0010;
+  var rotateY = particles.rotation.y + 0.003;
+  var rotateZ = particles.rotation.z + 0.004;
   particles.rotation.set(rotateX, rotateY, rotateZ)
 //   group.rotation.set( rotateX, rotateY, rotateZ );
 
