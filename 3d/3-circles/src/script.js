@@ -89,6 +89,9 @@ gui.add(parameters, 'radius').min(0.01).max(20).step(0.01).onFinishChange(genera
 gui.add(parameters, 'branches').min(2).max(20).step(1).onFinishChange(generateGalaxy)
 
 
+
+
+
 /**
  * Sizes
  */
