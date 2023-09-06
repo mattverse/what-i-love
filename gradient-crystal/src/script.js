@@ -19,94 +19,42 @@ const scene = new THREE.Scene()
 
 // Texture
 const textureLoader = new THREE.TextureLoader()
-const gradientTexture = textureLoader.load('/texture.jpg')
+const gradientTexture = textureLoader.load('/texture_square.png')
+
+const envMap = new THREE.CubeTextureLoader().load([
+    '/texture_square.png',
+    '/texture_square.png',
+    '/texture_square.png',
+    '/texture_square.png',
+    '/texture_square.png',
+    '/texture_square.png',
+])
+console.log(envMap)
+// scene.background = envMap
 
 /**
  * Test cube
  */
-// const coneGeometry = new THREE.ConeGeometry(0.5, 1)
-const boxGeometry = new THREE.BoxGeometry(1, 1, 1)
+const coneGeometry = new THREE.ConeGeometry(0.5, 1)
 
-const boxMirror = new Reflector(boxGeometry, {
+
+// equireGradientTexture.mapping = THREE.EquirectangularReflectionMapping
+// const cone = new THREE.Mesh(coneGeometry, new THREE.MeshStandardMaterial({envMap: equireGradientTexture}))
+// scene.add(cone)
+// const boxGeometry = new THREE.BoxGeometry(1, 1, 1)
+
+const boxMirror = new Reflector(coneGeometry, {
     clipBias: 0.03,
     textureWidth: window.innerWidth * window.devicePixelRatio,
     textureHeight: window.innerWidth * window.devicePixelRatio,
     color: 0x777777
 })
-scene.add(boxMirror)
-
-const params = {
-    distanceFromCenter : 5
-}
-
-const axesHelper = new THREE.AxesHelper( 5 );
-scene.add(axesHelper)
-
-// PLANES
-const planeGroup = new THREE.Group()
-const surroundingGeometry = new THREE.BoxGeometry(10, 10, 1)
-const zPositivePlane = new THREE.Mesh(
-    surroundingGeometry,
-    new THREE.MeshStandardMaterial({
-        map: gradientTexture,
-    })
-)
-zPositivePlane.position.set(0,0, params.distanceFromCenter)
-zPositivePlane.rotation.x = -Math.PI
-planeGroup.add(zPositivePlane)
-
-const zNegaitvePlane = new THREE.Mesh(
-    surroundingGeometry,
-    new THREE.MeshStandardMaterial({
-        map: gradientTexture,
-    })
-)
-zNegaitvePlane.position.set(0,0,-params.distanceFromCenter)
-planeGroup.add(zNegaitvePlane)
-
-const xPositivePlane = new THREE.Mesh(
-    surroundingGeometry,
-    new THREE.MeshStandardMaterial({
-        map: gradientTexture,
-    })
-)
-xPositivePlane.position.set(params.distanceFromCenter,0,0)
-xPositivePlane.rotation.y = -Math.PI * 0.5
-planeGroup.add(xPositivePlane)
-
-const xNegativePlane = new THREE.Mesh(
-    surroundingGeometry,
-    new THREE.MeshStandardMaterial({
-        map: gradientTexture,
-    })
-)
-xNegativePlane.position.set(-params.distanceFromCenter,0,0)
-xNegativePlane.rotation.y = -Math.PI * 0.5
-planeGroup.add(xNegativePlane)
 
 
-const yPositivePlane = new THREE.Mesh(
-    surroundingGeometry,
-    new THREE.MeshStandardMaterial({
-        map: gradientTexture,
-    })
-)
-yPositivePlane.position.set(0,params.distanceFromCenter,0)
-yPositivePlane.rotation.x = -Math.PI * 0.5   
-planeGroup.add(yPositivePlane)
-
-const yNegativePlane = new THREE.Mesh(
-    surroundingGeometry,
-    new THREE.MeshStandardMaterial({
-        map: gradientTexture,
-    })
-)
-yNegativePlane.position.set(0,-params.distanceFromCenter,0)
-yNegativePlane.rotation.x = -Math.PI * 0.5   
-planeGroup.add(yNegativePlane)
-// planeGroup.visible = false
-scene.add(planeGroup)
-
+const equireGradientTexture = textureLoader.load('/texture_square.png')
+equireGradientTexture.mapping = THREE.EquirectangularReflectionMapping
+const cone = new THREE.Mesh(coneGeometry, new THREE.MeshBasicMaterial({envMap: envMap}))
+scene.add(cone)
 
 /**
  * Sizes
@@ -142,8 +90,8 @@ scene.add(ambientLight)
  * Camera
  */
 // Base camera
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 100)
-camera.position.x = 3
+const camera = new THREE.PerspectiveCamera(30, sizes.width / sizes.height, 0.1, 100)
+camera.position.x = 3 
 camera.position.y = 3
 camera.position.z = 3
 scene.add(camera)
@@ -161,6 +109,14 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
+// const equireGradientTexture = textureLoader.load('/texture_square.png')
+// var cubeCamera = new THREE.CubeCamera( 0.1, 100, 512 );
+// cubeCamera.renderTarget.texture = envMap;
+// cubeCamera.update( renderer, scene );
+// var material = new THREE.MeshBasicMaterial( { envMap: cubeCamera.renderTarget.texture } );
+// scene.add(new THREE.Mesh(new THREE.MeshStandardMaterial, material))
+
+
 /**
  * Animate
  */
@@ -170,6 +126,8 @@ const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
 
+    cone.rotation.x = 0.1 * elapsedTime
+    cone.rotation.y = 0.2 * elapsedTime
     // Update controls
     controls.update()
 
