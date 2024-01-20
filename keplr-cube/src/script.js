@@ -17,6 +17,15 @@ const canvas = document.querySelector('canvas.webgl')
 // Scene
 const scene = new THREE.Scene()
 
+const textureLoader = new THREE.TextureLoader()
+const bakedTexture = textureLoader.load('colors.png')
+bakedTexture.colorSpace = THREE.SRGBColorSpace
+// bakedTexture.flipY = false
+
+const heightTexture = textureLoader.load('hight1.png')
+// const bakedMaterial = new THREE.MeshStandardMaterial({ map: bakedTexture })
+const bakedMaterial = new THREE.MeshStandardMaterial({ map: bakedTexture, displacementMap: heightTexture })
+
 /**
  * Models
  */
@@ -28,13 +37,18 @@ gltfLoader.setDRACOLoader(dracoLoader)
 
 let mixer = null
 
-let blockModel = new THREE.Group()
+
+// let blockModel = new THREE.Group()
 gltfLoader.load(
     '/models/blocks.glb',
-    (gltf) =>
-    {
-        blockModel = gltf.scene
+    (gltf) => {
         scene.add(gltf.scene)
+        // console.log(gltf.scene.children)
+        const bakedMesh = gltf.scene.children.find((child) => child.name === 'CUBE')
+        bakedMesh.material = bakedMaterial
+
+        // blockModel = gltf.scene
+
     }
 )
 
@@ -73,8 +87,7 @@ const sizes = {
     height: window.innerHeight
 }
 
-window.addEventListener('resize', () =>
-{
+window.addEventListener('resize', () => {
     // Update sizes
     sizes.width = window.innerWidth
     sizes.height = window.innerHeight
@@ -89,28 +102,28 @@ window.addEventListener('resize', () =>
 })
 
 // Particles
-const particlesGeometry = new THREE.BufferGeometry()
-const count = 5000
-const positions = new Float32Array( count * 3 )
-for (let i = 0; i < count * 3; i ++) {
-    positions[i] = (Math.random() - 0.5) * 100
-}
-particlesGeometry.setAttribute(
-    'position',
-    new THREE.BufferAttribute(positions, 3)
-)
+// const particlesGeometry = new THREE.BufferGeometry()
+// const count = 5000
+// const positions = new Float32Array(count * 3)
+// for (let i = 0; i < count * 3; i++) {
+//     positions[i] = (Math.random() - 0.5) * 100
+// }
+// particlesGeometry.setAttribute(
+//     'position',
+//     new THREE.BufferAttribute(positions, 3)
+// )
 
-const particlesMaterial = new THREE.PointsMaterial()
-particlesMaterial.size = 0.1
-// if particle is closer to camera, becomes bigger if sizeAttenuation is set to true
-particlesMaterial.sizeAttenuation = true
-particlesMaterial.depthWrite = false
-// blends the colors if two or more objects are together
-particlesMaterial.blending = THREE.AdditiveBlending
-const particles = new THREE.Points(particlesGeometry, particlesMaterial)
-gui.add(particlesMaterial, 'size').min(0).max(0.5).step(0.1)
+// const particlesMaterial = new THREE.PointsMaterial()
+// particlesMaterial.size = 0.1
+// // if particle is closer to camera, becomes bigger if sizeAttenuation is set to true
+// particlesMaterial.sizeAttenuation = true
+// particlesMaterial.depthWrite = false
+// // blends the colors if two or more objects are together
+// particlesMaterial.blending = THREE.AdditiveBlending
+// const particles = new THREE.Points(particlesGeometry, particlesMaterial)
+// gui.add(particlesMaterial, 'size').min(0).max(0.5).step(0.1)
 
-scene.add(particles)
+// scene.add(particles)
 
 
 /**
@@ -143,8 +156,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 const clock = new THREE.Clock()
 let previousTime = 0
 
-const tick = () =>
-{
+const tick = () => {
     const elapsedTime = clock.getElapsedTime()
     const deltaTime = elapsedTime - previousTime
     previousTime = elapsedTime
@@ -152,8 +164,7 @@ const tick = () =>
     // rotate block 
     // blockModel.rotation.x = 0. * elapsedTime
     // blockModel.rotation.y = 0.2 * elapsedTime
-    if(mixer)
-    {
+    if (mixer) {
         mixer.update(deltaTime)
     }
 
