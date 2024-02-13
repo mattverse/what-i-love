@@ -1,30 +1,25 @@
 import { Environment, OrbitControls, useGLTF, MeshTransmissionMaterial, RandomizedLight, Html } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber';
 import Lights from './Lights.jsx'
-import { forwardRef, useRef } from 'react'
+import { forwardRef, useRef, useState, useEffect } from 'react'
 import * as THREE from 'three'
 import { useControls } from 'leva'
 
 
 
 export default function Experience() {
+    const [textColor, setTextColor] = useState("#FE5D27") // default color is midnight purple
+    const [backgroundColor, setBackgroundColor] = useState('#2A0241') // default color is midnight purple
+
     const ribbon = useRef()
     const ribbon2 = useRef()
     const ribbon3 = useRef()
 
-
-
     useFrame((state, delta) => {
-        // console.log(ribbon);
         ribbon.current.rotation.x += delta * 0.5
         ribbon2.current.rotation.x += delta * 0.5
         ribbon3.current.rotation.x += delta * 0.5
-
-        // ribbon.current.x += delta * 0.2
-        // ribbon.current.z += delta * 0.2
     })
-
-
     return <>
 
         <color args={['#000000']} attach="background" />
@@ -32,44 +27,43 @@ export default function Experience() {
 
         <Lights />
         <ambientLight />
-        <RandomizedLight radius={10} ambient={0.5} intensity={1} position={[2.5, 8, -2.5]} bias={0.001} />
 
 
-        {/* <Environment preset='sunset' /> */}
-
-        <Ribbon ref={ribbon} position={[10, 4, -10]} />
+        <Ribbon ref={ribbon} position={[10, 4, -10]} textColor={textColor} backgroundColor={backgroundColor} />
         <Ribbon ref={ribbon2} position={[10, 1, -10]} />
         <Ribbon ref={ribbon3} position={[10, -2, -10]} />
 
-
-        <Button />
+        <Button setTextColor={setTextColor} setBackgroundColor={setBackgroundColor} />
 
     </>
 }
 
 // pass in position as props
-const Ribbon = forwardRef(({ ...props }, ref) => {
+const Ribbon = forwardRef(({ textColor, backgroundColor, ...props }, ref) => {
     const { nodes, materials } = useGLTF("/twist-blue-orange.glb");
 
+    useEffect(() => {
+        if (textColor && materials.Text) {
+            materials.Text.color = new THREE.Color(textColor)
+        }
+    }, [textColor, materials.Text])
+
+    useEffect(() => {
+        if (backgroundColor && materials.Base) {
+            materials.Base.color = new THREE.Color(backgroundColor)
+        }
+    }, [backgroundColor, materials.Base])
+
     const config = useControls({
-        meshPhysicalMaterial: false,
-        transmissionSampler: false,
-        backside: false,
-        samples: { value: 10, min: 1, max: 32, step: 1 },
-        resolution: { value: 2048, min: 256, max: 2048, step: 256 },
-        transmission: { value: 1, min: 0, max: 1 },
         roughness: { value: 0.0, min: 0, max: 1, step: 0.01 },
         thickness: { value: 3.5, min: 0, max: 10, step: 0.01 },
         ior: { value: 1.5, min: 1, max: 5, step: 0.01 },
         chromaticAberration: { value: 1, min: 0, max: 1 },
         anisotropy: { value: 1, min: 0, max: 1, step: 0.01 },
-        distortion: { value: 0.0, min: 0, max: 1, step: 0.01 },
-        distortionScale: { value: 0.3, min: 0.01, max: 1, step: 0.01 },
-        temporalDistortion: { value: 0.5, min: 0, max: 1, step: 0.01 },
         clearcoat: { value: 1, min: 0, max: 1 },
         attenuationDistance: { value: 0.5, min: 0, max: 10, step: 0.01 },
         attenuationColor: '#ffffff',
-        color: '#804d4d',
+        color: '#b4b4b4',
         bg: '#1600ff'
     })
 
@@ -81,7 +75,18 @@ const Ribbon = forwardRef(({ ...props }, ref) => {
                 geometry={nodes.Cube001.geometry}
             // material={materials.Base}
             >
-                <MeshTransmissionMaterial background={new THREE.Color(config.bg)} {...config} />
+                <MeshTransmissionMaterial
+                    background={materials.Base.color}
+                    // background={new THREE.Color(config.bg)}
+                    // use 10 in prod
+                    // samples={1}
+                    samples={10}
+                    // use 2048 in prod
+                    // resolution={128}
+                    resolution={2048}
+                    transmission={1}
+
+                    {...config} />
             </mesh>
 
             <mesh
@@ -89,15 +94,42 @@ const Ribbon = forwardRef(({ ...props }, ref) => {
                 receiveShadow
                 geometry={nodes.Cube001_1.geometry}
                 material={materials.Text}
+            // material={textMaterial}
             />
         </group>
     </group>
 })
 
-const Button = () => {
+const Button = ({ setTextColor, setBackgroundColor }) => {
     return <Html>
-        <div class='button -flower center'>Where the figs lie</div>
+        <button onClick={() => {
+            setTextColor("#FE5D27")
+            setBackgroundColor("#2A0241")
 
+        }} >
+            Midnight Purple
+        </button>
+        <button onClick={() => {
+            setTextColor("#2A0241")
+            setBackgroundColor("#BCFD55")
+        }
+        } >
+            Lime
+        </button>
+        <button onClick={() => {
+            setTextColor("#BCFD55")
+            setBackgroundColor("#F1008B")
+        }
+        } >
+            Fuchsia
+        </button>
+        <button onClick={() => {
+            setTextColor("#BCFD55")
+            setBackgroundColor("#FE5D27")
+        }
+        } >
+            Orange
+        </button>
     </Html>
 }
 
