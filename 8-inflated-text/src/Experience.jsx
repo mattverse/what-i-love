@@ -1,11 +1,10 @@
 import { OrbitControls, useGLTF, useHelper, Environment } from '@react-three/drei'
-import Lights from './Lights.jsx'
 import { useControls } from 'leva'
 import { useRef } from 'react';
 import * as THREE from 'three'
 import { Canvas, useFrame } from "@react-three/fiber"
 
-import { BallCollider, Physics, RigidBody, CylinderCollider } from "@react-three/rapier"
+import { BallCollider, Physics, RigidBody, CylinderCollider, ConvexHullCollider } from "@react-three/rapier"
 
 import { Attractor } from "@react-three/rapier-addons";
 
@@ -21,7 +20,7 @@ const GreenMaterial = () => (
 
 const sphereGeometry = new THREE.SphereGeometry(1, 28, 28)
 
-const letters = [...Array(8)].map((_, index) => ({
+const letters = [...Array(2)].map((_, index) => ({
     id: index, // or any unique identifier
     scale: [0.75, 0.75, 1, 1, 1.25][Math.floor(Math.random() * 5)]
 }));
@@ -90,15 +89,17 @@ function Letter({ id, vec = new THREE.Vector3(), scale, r = THREE.MathUtils.rand
     const meshName = `Text${String(id).padStart(3, '0')}`; // Text001, Text002, ...
     const geometry = nodes[meshName]?.geometry;
 
+    const xPosition = -8 + 2 * id; // This maps id 0 to -8, id 1 to -6, ..., id 8 to 8
+
     return (
-        <RigidBody linearDamping={0.75} angularDamping={0.15} friction={0.2} position={[r(20), r(20) - 25, r(20) - 10]} ref={api} colliders={false} dispose={null}>
-            <BallCollider args={[scale]} />
+        <RigidBody linearDamping={3.75} angularDamping={3.15} friction={3.2} position={[xPosition, 0, 0]} ref={api} colliders={false} dispose={null}>
+            <ConvexHullCollider />
             <mesh
                 key={id}
                 castShadow
                 receiveShadow
                 geometry={geometry}
-                position={[-2.858, 0.035, 0]}
+                position={[xPosition, 0, 0]}
                 rotation={[Math.PI / 2, 0, 0]}
             >
                 <GreenMaterial />

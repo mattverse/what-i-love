@@ -47,21 +47,13 @@ export default function Hand(props) {
         };
     }, [bowlMesh]);
 
-    useFrame((state, delta) => {
+    useFrame(() => {
         // ensure model is loaded before animating it
         if (hand.current) {
             // Move hand towards fingerTo
             const fingerPosition = fingerTo.clone()
             fingerPosition.y += 2.6
             hand.current.setNextKinematicTranslation(fingerPosition)
-
-            // const lerpFactor = 0.1; // Adjust this for smoother or faster movement
-
-            // const currentPosition = new THREE.Vector3(hand.current.translation())
-            // const fingerPosition = new THREE.Vector3(fingerTo.x, fingerTo.y + 2.7, fingerTo.z);
-            // console.log(currentPosition);
-            // const interpolatedPosition = currentPosition.lerp(fingerPosition, lerpFactor);
-            // hand.current.setNextKinematicTranslation(interpolatedPosition)
         }
     })
 

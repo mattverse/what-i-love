@@ -106,7 +106,7 @@ export default function Experience() {
 
                 <directionalLight castShadow position={[1, 2, 3]} intensity={4.5} />
                 <ambientLight intensity={1.5} />
-                <Physics gravity={[0, -19.81, 0]} >
+                <Physics gravity={[0, -19.81, 0]} debug >
                     {/* Objects */}
                     {envMaps.map((envMap, index) => (
                         <Fragment key={index}>

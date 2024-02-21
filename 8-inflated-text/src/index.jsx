@@ -16,7 +16,7 @@ root.render(
             position: [2.5, 4, 6]
         }}
     >
-        <Physics gravity={[0, 0, 0]} >
+        <Physics debug gravity={[0, 0, 0]} >
             <Experience />
         </Physics>
     </Canvas>
