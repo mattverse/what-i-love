@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;700&display=swap');
+
+html,
+body,
+#root {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: white;
+}
+
+body {
+    position: fixed;
+    overflow: hidden;
+    overscroll-behavior-y: none;
+}
+
+
+.container {
+    /* must set to absolute to be with canvas */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 40;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    pointer-events: none;
+}
+
+/* 
+
+.container {
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    font-family: "Zen Old Mincho", serif;
+
+} */
+
+.topLeftContent {
+    margin: 150px 0 0 250px;
+    font-size: 100px;
+    font-weight: 700;
+    align-self: flex-start;
+    /* Adds margin based on the viewport size */
+}
+
+.bottomRightContent {
+    margin: 0 150px 150px 0px;
+    font-size: 100px;
+    align-self: flex-start;
+    /* Adds margin based on the viewport size */
+}
+
+
+.topLeftContent p,
+.bottomRightContent p {
+    margin: 0;
+    /* Removes the default margin */
+    /* padding: 0.5rem 0; */
+    /* Adds a smaller space between lines */
+}
+
+.bottomRightContent {
+    align-self: flex-end;
+    /* Align to the bottom right */
+    position: absolute;
+    bottom: 0;
+    /* Position at the bottom of the container */
+    right: 0;
+    /* Position at the right of the container */
+}
+
+@media screen and (max-width: 568px) {
+    .full {
+        visibility: hidden;
+        display: none;
+    }
+}
