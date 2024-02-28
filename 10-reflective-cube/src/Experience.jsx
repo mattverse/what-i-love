@@ -3,29 +3,30 @@ import { useLoader, useFrame } from '@react-three/fiber';
 import { useEffect, Suspense, useRef } from 'react';
 import * as THREE from 'three'
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js'
-
-import { Environment, Center, MeshTransmissionMaterial, Html, Text, useGLTF, PresentationControls } from '@react-three/drei'
+import { Environment, Center, MeshTransmissionMaterial, Text, useGLTF, PresentationControls } from '@react-three/drei'
+import { EffectComposer, Bloom } from '@react-three/postprocessing'
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
 
 
 export default function Experience() {
+
+
     return <>
         {/* <OrbitControls makeDefault enablePan={false} enableZoom={false} /> */}
 
-        <Environment files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/dancing_hall_1k.hdr" background blur={10} />
         <color args={['white']} attach={"background"} />
+        <Environment files="https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/dancing_hall_1k.hdr" blur={10} />
 
-        <PresentationControls>
-            <mesh position={[1, 1, 1]}>
-                <boxGeometry />
-                <meshBasicMaterial />
-            </mesh>
-        </PresentationControls>
-
-        {/* <Suspense fallback={null}>
-            <FBXModel position={[2, -0.6, 0]} url="chamfercube.fbx" />
-            <FBXModel position={[-2, 0.6, 0]} url="chamfercube.fbx" />
-        </Suspense> */}
+        <EffectComposer disableNormalPass >
+            <Bloom
+                luminanceThreshold={14}
+                intensity={3.5}
+            />
+            <Suspense fallback={null}>
+                <FBXModel position={[2, -0.6, 0]} rotation={[Math.random() * Math.PI * 2, Math.random() * Math.PI * 2, Math.random() * Math.PI * 2]} url="chamfercube.fbx" />
+                <FBXModel position={[-2, 0.6, 0]} rotation={[Math.random() * Math.PI * 2, Math.random() * Math.PI * 2, Math.random() * Math.PI * 2]} url="chamfercube.fbx" />
+            </Suspense>
+        </EffectComposer>
 
         <CustomText position={[-5, 3.5, -5]}>MOMENT</CustomText>
         <CustomText position={[-5, 2, -5]}>OF</CustomText>
@@ -50,7 +51,7 @@ function CustomText({ position, children }) {
 }
 
 
-function FBXModel({ url, position }) {
+function FBXModel({ url, position, rotation }) {
     const fbx = useLoader(FBXLoader, url);
 
     const rgbeLoader = new RGBELoader()
@@ -77,7 +78,6 @@ function FBXModel({ url, position }) {
                         ref={cube1}
                         key={child.id}
                         geometry={child.geometry}
-                        // position={position} // Adjust position as needed
                         scale={[0.035, 0.035, 0.035]} // Adjust scale as needed
                     >
                         <MeshTransmissionMaterial
@@ -86,10 +86,7 @@ function FBXModel({ url, position }) {
                             thickness={0.8}
                             iridescence={1}
                             iridescenceIOR={0.7}
-                            envMap={hdrEquirect}
-                            envMapIntensity={1.5}
-                            // map={hdrEquirect}
-                            chromaticAberration={0.2}
+                            chromaticAberration={0.1}
                         />
                     </mesh>
                 </Center>
@@ -102,6 +99,7 @@ function FBXModel({ url, position }) {
     return (
         <group scale={30}
             position={position}
+            rotation={rotation}
         >
             {fbx.children.map((child) => {
                 if (child.isMesh) {
