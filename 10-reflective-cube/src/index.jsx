@@ -2,13 +2,13 @@ import './style.css'
 import ReactDOM from 'react-dom/client'
 import { Canvas } from '@react-three/fiber'
 import Experience from './Experience.jsx'
-import Underlay from './Underlay.jsx'
+import Overlay from './Overlay.jsx'
 
 const root = ReactDOM.createRoot(document.querySelector('#root'))
 
 root.render(
     <>
-        {/* <Underlay /> */}
+
         <Canvas
             shadows
             camera={{
@@ -20,5 +20,6 @@ root.render(
         >
             <Experience />
         </Canvas>
+        <Overlay />
     </>
 )
