@@ -67,18 +67,10 @@ function FBXModel({ url, position, rotation }) {
     const fbx = useLoader(FBXLoader, url);
     const modelRef = useRef(); // Reference to the mesh/group
 
-    const targetRotation = useRef({ x: 0, y: 0 });
-
     useFrame((state, delta) => {
-        modelRef.current.rotation.y += delta * 0.5
         const { x, y } = state.pointer;
         modelRef.current.rotation.y = x * Math.PI; // Rotate around Y axis based on mouse X
         modelRef.current.rotation.x = -y * Math.PI;
-
-
-        // Dampen the rotation by interpolating towards the target rotation
-        modelRef.current.rotation.y += (targetRotation.current.y - modelRef.current.rotation.y) * delta * 5; // Adjust the 5 for more/less damping
-        modelRef.current.rotation.x += (targetRotation.current.x - modelRef.current.rotation.x) * delta * 5; // Adjust the 5 for more/less damping
     })
 
 

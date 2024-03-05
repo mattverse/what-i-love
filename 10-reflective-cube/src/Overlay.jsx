@@ -4,6 +4,9 @@ import './style.css'; // Make sure to use the correct path to your CSS file
 const Overlay = () => {
     return (
         <div className="container">
+            {/* <div className='top-quote'>
+                Death is not an event in life: we do not live to experience death. If we take eternity to mean not infinite temporal duration but timelessness,
+            </div> */}
             <div className='topRightContent'>
                 <div className='date-container'>
                     <div className='header'> DATE </div>

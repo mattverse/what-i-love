@@ -31,7 +31,8 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    padding: 40px;
+    padding: 40px 20px 40px 40px;
+    /* Adjusted right padding to 20px */
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -81,6 +82,16 @@ body {
     /* Position at the bottom of the container */
     right: 0;
     /* Position at the right of the container */
+}
+
+.top-quote {
+    font-size: 21px;
+    font-family: "Inter", sans-serif;
+    font-weight: 200;
+    font-style: normal;
+    /* margin: 4px 30px 0 0; */
+    margin-right: -20px;
+    /* Move more to the left */
 }
 
 @media screen and (max-width: 568px) {
