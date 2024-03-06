@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap');
+
+
+html,
+body,
+#root {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* background: #2b143f; */
+    background: #252324;
+}
+
+
+.overlay {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.headline {
+    font-family: "Inter", sans-serif;
+
+    font-weight: 900;
+
+    font-size: 100px;
+    /* Adjust based on your preference for "giant" */
+    color: white;
+    /* Adjust color as needed */
+    margin-top: 20px;
+    /* Adjust to place it at the exact top as you want */
+    text-align: center;
+
+    /* letter-spacing: 20px; */
+}
