@@ -10,6 +10,7 @@ import holographicFragmentShader from './shaders/fragment.glsl'
 const HolographicMaterial = shaderMaterial(
     {
         uTime: 0,
+        uColor: new THREE.Color('#70c1ff')
     },
     holographicVertexShader,
     holographicFragmentShader,
@@ -81,6 +82,9 @@ export default function Experience() {
                     <holographicMaterial
                         ref={holographicMaterial}
                         transparent={true}
+                        sidde={THREE.DoubleSide}
+                        depthWrite={false}
+                        blending={THREE.AdditiveBlending}
 
                     />
                 </ mesh>
