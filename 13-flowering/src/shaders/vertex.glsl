@@ -1,3 +1,5 @@
+uniform float uProgress;
+
 #include ./random2D.glsl
 
 void main()
