@@ -29,9 +29,10 @@ export default function useRain() {
     const [rainTo, setRainTo] = useState(new THREE.Vector3())
 
     const textureLoader = new THREE.TextureLoader()
-    const particleTexture = textureLoader.load('./particles-3.png')
+    const particleTexture = textureLoader.load('./particles-5.png')
     particleTexture.flipY = false
 
+    let material
 
     const makeRain = useCallback(
         (count, position, size, texture, radius, color) => {
@@ -77,7 +78,7 @@ export default function useRain() {
                 new Float32BufferAttribute(timeMultipliersArray, 1)
             );
 
-            const material = new ShaderMaterial({
+            material = new ShaderMaterial({
                 vertexShader: wateringVertexShader,
                 fragmentShader: wateringFragmentShader,
                 transparent: true,
@@ -91,6 +92,7 @@ export default function useRain() {
                     uTexture: new Uniform(texture),
                     uColor: new Uniform(color),
                     uProgress: new Uniform(0),
+                    uTime: new Uniform(0)
                 },
             });
 
@@ -142,23 +144,27 @@ export default function useRain() {
     }, [camera]);
 
 
-    useFrame(() => {
+    useFrame((state, delta) => {
         if (!rainTo.equals(new THREE.Vector3())) { // Checks if rainTo is not the initial vector
             createRainEffect();
+            if (material) {
+                material.uniforms.uTime += delta
+                console.log(material.uniforms.uTime)
+            }
         }
-    })
+    }, [material])
 
     const createRainEffect = useCallback(() => {
         const position = rainTo.clone()
         // const color = new Color('#2d4a5c');
 
         const color = new Color();
-        color.setHSL(Math.random(), 1, 0.2);
+        color.setHSL(Math.random() * 0.2 + 0.32, 1, 1);
 
         // makeRain(100, position, 100, particleTexture, 0.03, color);
-        makeRain(5, position, 10, particleTexture, 0.09, color);
+        makeRain(1, position, 10, particleTexture, 0.09, color);
     }, [makeRain, rainTo, particleTexture]);
 }
 
 
-useTexture.preload("./particles.png")
+useTexture.preload("./particles-3.png")
