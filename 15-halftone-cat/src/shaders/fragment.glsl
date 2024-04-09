@@ -2,7 +2,6 @@ uniform vec2 uResolution;
 uniform vec3 uBaseColor;
 uniform vec3 uPointColor;
 
-
 varying vec3 vNormal;
 
 void main() {
@@ -18,22 +17,17 @@ void main() {
     uv = mod(uv, 1.0);
 
     float point = distance(uv, vec2(0.5));
-    point  = 1. - step(0.9 * intensity, point);
+    point = 1. - step(0.9 * intensity, point);
 
-    vec3 color = mix(uBaseColor, uPointColor, point );
+    vec3 color = mix(uBaseColor, uPointColor, point);
 
     vec3 upperDirection = vec3(0.0, 1.0, 0.0);
     intensity = dot(normal, upperDirection);
 
     float upperPoints = distance(uv, vec2(0.5));
-    upperPoints  = 1. - step(0.6 * intensity, upperPoints);
+    upperPoints = 1. - step(0.6 * intensity, upperPoints);
 
-
-    color = mix(color, uPointColor, upperPoints );
-
-
-
-
+    color = mix(color, uPointColor, upperPoints);
 
     gl_FragColor = vec4(color, 1.0);
 
