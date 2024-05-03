@@ -1,6 +1,8 @@
-import { useGLTF, Center, Point } from "@react-three/drei"
+import { useGLTF, Center, Point, useProgress } from "@react-three/drei"
 import { useThree, useFrame } from "@react-three/fiber";
 import * as THREE from 'three'
+
+import gsap from 'gsap'
 
 import vertexShader from './shaders/vertex.glsl'
 import fragmentShader from './shaders/fragment.glsl'
@@ -32,8 +34,6 @@ export default function Connector() {
     });
 
     // iterate over two models and see which one has more particles. 
-
-    // first we need to find out the model with greater particle counts, remap the smaller array to the greater array
     if (lightbulbPositions.length < humanModelPositions.length) {
         const newArray = new Float32Array(humanModelPositions.length)
 
@@ -41,46 +41,36 @@ export default function Connector() {
             const i3 = i * 3
 
             if (i3 < lightbulbPositions.length) {
-                newArray[i3 + 0] = lightbulbPositions
-                newArray[i3 + 1] = lightbulbPositions
-                newArray[i3 + 2] = lightbulbPositions
+                newArray[i3 + 0] = lightbulbPositions[i3 + 0]
+                newArray[i3 + 1] = lightbulbPositions[i3 + 1]
+                newArray[i3 + 2] = lightbulbPositions[i3 + 2]
             } else {
-                const randomIndex = Math.floor(lightbulbPositions.count * Math.random()) * 3
+                // divide length by three since we the positions array is for x,y,z
+                const randomIndex = Math.floor(lightbulbPositions.length / 3 * Math.random()) * 3
                 newArray[i3 + 0] = lightbulbPositions[randomIndex + 0]
                 newArray[i3 + 1] = lightbulbPositions[randomIndex + 1]
                 newArray[i3 + 2] = lightbulbPositions[randomIndex + 2]
             }
         }
-    } else {
-        const newArray = new Float32Array(lightbulbPositions.length)
 
-        for (let i = 0; i < lightbulbPositions.length; i++) {
-            const i3 = i * 3
-
-            if (i3 < humanModelPositions.length) {
-                newArray[i3 + 0] = humanModelPositions
-                newArray[i3 + 1] = humanModelPositions
-                newArray[i3 + 2] = humanModelPositions
-            } else {
-                const randomIndex = Math.floor(humanModelPositions.count * Math.random()) * 3
-                newArray[i3 + 0] = humanModelPositions[randomIndex + 0]
-                newArray[i3 + 1] = humanModelPositions[randomIndex + 1]
-                newArray[i3 + 2] = humanModelPositions[randomIndex + 2]
-            }
-        }
+        lightbulbPositions = newArray
     }
 
     // Convert the regular array to a Float32Array when done
-    let convergedPosistions = new THREE.Float32BufferAttribute(new Float32Array(lightbulbPositions), 3)
+    const lightbulbPositionsBufferAttribute = new THREE.Float32BufferAttribute(new Float32Array(lightbulbPositions), 3)
+    const humanmodelPositionsBufferAttribute = new THREE.Float32BufferAttribute(new Float32Array(humanModelPositions), 3)
+
     let lightbulbGeometry = new THREE.BufferGeometry()
-    lightbulbGeometry.setAttribute('position', convergedPosistions)
+    // always pass on buffer attribute instead of direct arrays :) 
+    lightbulbGeometry.setAttribute('position', lightbulbPositionsBufferAttribute)
+    lightbulbGeometry.setAttribute('aPositionTarget', humanmodelPositionsBufferAttribute)
     lightbulbGeometry.setIndex(null)
 
-    convergedPosistions = new THREE.Float32BufferAttribute(new Float32Array(humanModelPositions), 3)
-    let humanModelGeometry = new THREE.BufferGeometry()
-    humanModelGeometry.setAttribute('position', convergedPosistions)
-    humanModelGeometry.setIndex(null)
 
+    let humanModelGeometry = new THREE.BufferGeometry()
+    humanModelGeometry.setAttribute('position', humanmodelPositionsBufferAttribute)
+    humanModelGeometry.setAttribute('aPositionTarget', lightbulbPositionsBufferAttribute)
+    humanModelGeometry.setIndex(null)
 
     let material = new THREE.ShaderMaterial({
         vertexShader: vertexShader,
@@ -89,11 +79,17 @@ export default function Connector() {
             uResolution: new THREE.Uniform(
                 new THREE.Vector2(sizes.width * pixelRatio, sizes.height * pixelRatio)
             ),
+            uProgress: new THREE.Uniform(0)
         },
         blending: THREE.AdditiveBlending,
         depthWrite: false
     })
 
+    gsap.fromTo(
+        material.uniforms.uProgress,
+        { value: 0 },
+        { value: 1, duration: 3, ease: 'linear' }
+    )
 
     return (
         <>
@@ -102,11 +98,12 @@ export default function Connector() {
                 position={[-2.2, -1, 0]}
                 geometry={lightbulbGeometry}
                 material={material}
+                frustumCulled={false}
             />
-            <points
+            {/* <points
                 scale={6.3}
                 position={[2.2, -1.4, 0]}
-                geometry={humanModelGeometry} material={material} />
+                geometry={humanModelGeometry} material={material} /> */}
         </>
 
     )
