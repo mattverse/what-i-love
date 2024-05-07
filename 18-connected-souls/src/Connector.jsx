@@ -33,7 +33,8 @@ export default function Connector() {
         }
     });
 
-    // iterate over two models and see which one has more particles. 
+    // human model positions have more particles, remap light bulb positions to have equal particle count
+    // (This is bad code practice, this should instead be simple if / else statement)
     if (lightbulbPositions.length < humanModelPositions.length) {
         const newArray = new Float32Array(humanModelPositions.length)
 
@@ -58,7 +59,68 @@ export default function Connector() {
 
     // Convert the regular array to a Float32Array when done
     const lightbulbPositionsBufferAttribute = new THREE.Float32BufferAttribute(new Float32Array(lightbulbPositions), 3)
+
+    // set light bulb offset for the lightbulb geometry attributes
+    const lightbulbOffset = new THREE.Vector3(-0.07, -0.03, 0);
+    const lightbulbCount = lightbulbPositionsBufferAttribute.count;
+
+    for (let i = 0; i < lightbulbCount; i++) {
+        const x = lightbulbPositionsBufferAttribute.getX(i);
+        const y = lightbulbPositionsBufferAttribute.getY(i);
+        const z = lightbulbPositionsBufferAttribute.getZ(i);
+
+        lightbulbPositionsBufferAttribute.setXYZ(i, x + lightbulbOffset.x, y + lightbulbOffset.y, z + lightbulbOffset.z);
+    }
+
+    const lightbulbScale = new THREE.Vector3(32, 32, 32)
+
+    for (let i = 0; i < lightbulbCount; i++) {
+        let x = lightbulbPositionsBufferAttribute.getX(i);
+        let y = lightbulbPositionsBufferAttribute.getY(i);
+        let z = lightbulbPositionsBufferAttribute.getZ(i);
+
+        // Apply the scaling factor
+        x *= lightbulbScale.x;
+        y *= lightbulbScale.y;
+        z *= lightbulbScale.z;
+
+        lightbulbPositionsBufferAttribute.setXYZ(i, x, y, z);
+    }
+
+    lightbulbPositionsBufferAttribute.needsUpdate = true; // Mark the attribute to be updated on the GPU
+
     const humanmodelPositionsBufferAttribute = new THREE.Float32BufferAttribute(new Float32Array(humanModelPositions), 3)
+
+
+    // set light bulb offset for the lightbulb geometry attributes
+    const offset = new THREE.Vector3(0.3, -0.2, 0);
+    const count = humanmodelPositionsBufferAttribute.count;
+
+    for (let i = 0; i < count; i++) {
+        const x = humanmodelPositionsBufferAttribute.getX(i);
+        const y = humanmodelPositionsBufferAttribute.getY(i);
+        const z = humanmodelPositionsBufferAttribute.getZ(i);
+
+        humanmodelPositionsBufferAttribute.setXYZ(i, x + offset.x, y + offset.y, z + offset.z);
+    }
+
+    const scale = new THREE.Vector3(8, 8, 8)
+
+    for (let i = 0; i < count; i++) {
+        let x = humanmodelPositionsBufferAttribute.getX(i);
+        let y = humanmodelPositionsBufferAttribute.getY(i);
+        let z = humanmodelPositionsBufferAttribute.getZ(i);
+
+        // Apply the scaling factor
+        x *= scale.x;
+        y *= scale.y;
+        z *= scale.z;
+
+        humanmodelPositionsBufferAttribute.setXYZ(i, x, y, z);
+    }
+
+    humanmodelPositionsBufferAttribute.needsUpdate = true; // Mark the attribute to be updated on the GPU
+
 
     let lightbulbGeometry = new THREE.BufferGeometry()
     // always pass on buffer attribute instead of direct arrays :) 
@@ -88,22 +150,18 @@ export default function Connector() {
     gsap.fromTo(
         material.uniforms.uProgress,
         { value: 0 },
-        { value: 1, duration: 3, ease: 'linear' }
+        { value: 1, duration: 8, ease: 'linear', repeat: -1 }
     )
 
     return (
         <>
             <points
-                scale={32}
-                position={[-2.2, -1, 0]}
                 geometry={lightbulbGeometry}
                 material={material}
                 frustumCulled={false}
             />
-            {/* <points
-                scale={6.3}
-                position={[2.2, -1.4, 0]}
-                geometry={humanModelGeometry} material={material} /> */}
+            <points
+                geometry={humanModelGeometry} material={material} />
         </>
 
     )
