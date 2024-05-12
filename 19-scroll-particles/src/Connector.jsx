@@ -1,14 +1,39 @@
-import { useGLTF, Center, Point, useProgress } from "@react-three/drei"
-import { useThree, useFrame } from "@react-three/fiber";
+import { useGLTF, useScroll } from "@react-three/drei"
+import { useFrame } from "@react-three/fiber";
 import * as THREE from 'three'
-
-import gsap from 'gsap'
 
 import vertexShader from './shaders/vertex.glsl'
 import fragmentShader from './shaders/fragment.glsl'
 
 export default function Connector() {
     const pixelRatio = Math.min(window.devicePixelRatio, 2)
+
+    let material = new THREE.ShaderMaterial({
+        vertexShader: vertexShader,
+        fragmentShader: fragmentShader,
+        uniforms: {
+            uResolution: new THREE.Uniform(
+                new THREE.Vector2(window.innerWidth * pixelRatio, window.innerHeight * pixelRatio)
+            ),
+            uProgress: new THREE.Uniform(0),
+            uColorA: new THREE.Uniform(new THREE.Color('#fff53d')),
+            uColorB: new THREE.Uniform(new THREE.Color('#c987ff'))
+        },
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+    })
+
+    const scroll = useScroll()
+
+    useFrame((state, delta) => {
+        const r1 = scroll.range(0, 1)
+
+        if (material) {
+            material.uniforms.uProgress.value = r1
+        }
+    }, [material])
+
+
 
     let lightbulbScene = useGLTF('/lightbulb.glb').scene
     let humanModelScene = useGLTF('/human.glb').scene
@@ -89,8 +114,8 @@ export default function Connector() {
 
     const humanmodelPositionsBufferAttribute = new THREE.Float32BufferAttribute(new Float32Array(humanModelPositions), 3)
 
-
-    const offset = new THREE.Vector3(0.3, -1.2, 0);
+    // Human model Offset
+    const offset = new THREE.Vector3(-0.2, -0.85, 0);
     const count = humanmodelPositionsBufferAttribute.count;
 
     for (let i = 0; i < count; i++) {
@@ -131,24 +156,6 @@ export default function Connector() {
     humanModelGeometry.setAttribute('aPositionTarget', lightbulbPositionsBufferAttribute)
     humanModelGeometry.setIndex(null)
 
-    let material = new THREE.ShaderMaterial({
-        vertexShader: vertexShader,
-        fragmentShader: fragmentShader,
-        uniforms: {
-            uResolution: new THREE.Uniform(
-                new THREE.Vector2(window.innerWidth * pixelRatio, window.innerHeight * pixelRatio)
-            ),
-            uProgress: new THREE.Uniform(0)
-        },
-        blending: THREE.AdditiveBlending,
-        depthWrite: false
-    })
-
-    gsap.fromTo(
-        material.uniforms.uProgress,
-        { value: 0 },
-        { value: 1, duration: 8, ease: 'linear', repeat: -1 }
-    )
 
     return (
         <>
@@ -157,8 +164,6 @@ export default function Connector() {
                 material={material}
                 frustumCulled={false}
             />
-            <points
-                geometry={humanModelGeometry} material={material} />
         </>
 
     )
