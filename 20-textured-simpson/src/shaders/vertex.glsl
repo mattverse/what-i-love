@@ -14,7 +14,7 @@ void main() {
 
     gl_Position = projectedPosition;
 
-    gl_PointSize = uResolution.y * 0.01;
+    gl_PointSize = uResolution.y * 0.03;
     gl_PointSize *= (1.0 / -viewPosition.z);
 
     if(gl_PointSize < 1.0)

@@ -17,12 +17,55 @@ export default function Homer() {
     let homerPositions = [];
     homerScene.traverse(child => {
         if (child.isMesh && child.geometry && child.geometry.attributes.position) {
+            console.log(child)
+
             let posArray = child.geometry.attributes.position.array
-            for (let i = 0; i < posArray.length; i++) {
-                // we can't use spread operators here since the original array is too big and would cause
-                // stack size errors
-                homerPositions.push(posArray[i])
+            // homer's nose
+            if (child.name == "Sphere_Material002_0") {
+                for (let i = 0; i < posArray.length; i += 300) {  // Skip some vertices
+                    // we can't use spread operators here since the original array is too big and would cause
+                    // stack size errors
+                    homerPositions.push(posArray[i], posArray[i + 1], posArray[i + 2]);
+                }
+            } else if (child.name == "Sphere_Material004_0") { // homer's hair
+                for (let i = 0; i < posArray.length; i += 600) {
+                    homerPositions.push(posArray[i], posArray[i + 1], posArray[i + 2]);
+                }
+            } else if (child.name == "Sphere_Material_0") { // homer's legs
+                for (let i = 0; i < posArray.length; i += 60) {
+                    homerPositions.push(posArray[i], posArray[i + 1], posArray[i + 2]);
+                }
+            } else if (child.name == "Sphere_Material001_0") { // homer's forehead
+                for (let i = 0; i < posArray.length; i += 150) {
+                    homerPositions.push(posArray[i], posArray[i + 1], posArray[i + 2]);
+                }
+            } else if (child.name == "Sphere_Material001_0_1") { // head & left ears
+                for (let i = 0; i < posArray.length; i += 150) {
+                    homerPositions.push(posArray[i], posArray[i + 1], posArray[i + 2]);
+                }
+            } else {
+
+                // each child of the model has different vertices density. 
+                // we want to get an equivilent density of the particles 
+
+                if (150000 < child.geometry.attributes.position.array.length) {
+                    for (let i = 0; i < posArray.length; i += 120) {  // Skip some vertices
+                        // we can't use spread operators here since the original array is too big and would cause
+                        // stack size errors
+                        homerPositions.push(posArray[i], posArray[i + 1], posArray[i + 2]);
+                    }
+                } else {
+                    for (let i = 0; i < posArray.length; i += 21) {  // Skip some vertices
+                        // we can't use spread operators here since the original array is too big and would cause
+                        // stack size errors
+                        homerPositions.push(posArray[i], posArray[i + 1], posArray[i + 2]);
+                    }
+                }
             }
+
+
+
+
         }
     });
     const homerPositionsBufferAttribute = new THREE.Float32BufferAttribute(new Float32Array(homerPositions), 3)
@@ -69,7 +112,7 @@ export default function Homer() {
                 rotation={[-Math.PI / 2, 0, -Math.PI / 2 - 0.5]}
                 geometry={homerGeometry}
                 material={shaderMaterial}
-                frustumCulled={false}
+            // frustumCulled={false}
             />
         </>
     )
