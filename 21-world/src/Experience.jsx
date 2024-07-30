@@ -1,15 +1,20 @@
-import { OrbitControls, useKeyboardControls } from '@react-three/drei'
+import { OrbitControls, useKeyboardControls, useTexture } from '@react-three/drei'
 import Lights from './Lights.jsx'
 import Me from './me.jsx'
+import * as THREE from 'three'
 
 export default function Experience() {
+    const bakedTexture = useTexture('./blue-tile-4.png')
+    bakedTexture.wrapS = THREE.RepeatWrapping
+    bakedTexture.wrapT = THREE.RepeatWrapping
+    bakedTexture.repeat.set(4, 4);
     return <>
         <OrbitControls makeDefault />
         <Lights />
 
-        <mesh receiveShadow position-y={- 1} rotation-x={- Math.PI * 0.5} scale={10}>
+        <mesh receiveShadow rotation-x={- Math.PI * 0.5} scale={100}>
             <planeGeometry />
-            <meshStandardMaterial color="greenyellow" />
+            <meshBasicMaterial map={bakedTexture} />
         </mesh>
 
         <Me />

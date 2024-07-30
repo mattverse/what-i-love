@@ -1,44 +1,54 @@
-
 import { useAnimations, useGLTF, useKeyboardControls } from '@react-three/drei'
 import { useEffect, useState } from 'react'
 import { useFrame } from "@react-three/fiber"
 
-// import { useControls } from 'leva'
-
 export default function Me() {
     const [subscribeKeys, getKeys] = useKeyboardControls()
 
-    const me = useGLTF('./me.glb')
+    const me = useGLTF('./me2.glb')
     const animations = useAnimations(me.animations, me.scene)
     const [currentAction, setCurrentAction] = useState(null)
+    const [isJumping, setIsJumping] = useState(false)
 
     useFrame((state, delta) => {
-        const { forward, backward, leftward, rightward, run } = getKeys()
+        const { forward, backward, leftward, rightward, run, jump } = getKeys()
 
-        if (forward || backward || leftward || rightward) {
-            if (run) {
-                if (currentAction !== 'run') {
-                    transitionToAction(animations, currentAction, 'run')
-                    setCurrentAction('run')
+        if (jump && !isJumping) {
+            setIsJumping(true)
+            transitionToAction(animations, currentAction, 'jump')
+            setCurrentAction('jump')
+
+            // Set a timeout for the duration of the jump animation
+            setTimeout(() => {
+                setIsJumping(false)
+            }, 1000) // Adjust this time based on your jump animation duration
+        } else if (!jump && isJumping) {
+            // This block can handle the logic when the character lands (if needed)
+        } else if (!isJumping) {
+            if (forward || backward || leftward || rightward) {
+                if (run) {
+                    if (currentAction !== 'run') {
+                        transitionToAction(animations, currentAction, 'run')
+                        setCurrentAction('run')
+                    }
+                } else {
+                    if (currentAction !== 'walk') {
+                        transitionToAction(animations, currentAction, 'walk')
+                        setCurrentAction('walk')
+                    }
                 }
             } else {
-                if (currentAction !== 'walk') {
-                    transitionToAction(animations, currentAction, 'walk')
-                    setCurrentAction('walk')
+                if (currentAction !== 'idle') {
+                    transitionToAction(animations, currentAction, 'idle')
+                    setCurrentAction('idle')
                 }
-            }
-        } else {
-            if (currentAction !== 'idle') {
-                transitionToAction(animations, currentAction, 'idle')
-                setCurrentAction('idle3000')
             }
         }
     })
 
     return <primitive
         object={me.scene}
-        // scale={0.02}
-        // position={[-2.5, 0, 2.5]}
+        scale={0.02}
         rotation-y={0.3}
     />
 }
