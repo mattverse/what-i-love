@@ -14,7 +14,7 @@ export default function Me() {
 
     useFrame((state, delta) => {
         const { forward, backward, leftward, rightward, run, jump } = getKeys()
-        let speed = run ? 0.02 : 0.015 // Adjust speed values as needed
+        let speed = run ? 0.05 : 0.03 // Adjust speed values as needed
 
         // Reset movement direction
         movementDirection.current.set(0, 0, 0)
