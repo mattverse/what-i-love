@@ -1,4 +1,6 @@
 import { OrbitControls, useKeyboardControls, useTexture, Sky, Stars } from '@react-three/drei'
+import { DepthOfField, EffectComposer } from '@react-three/postprocessing'
+
 import Lights from './Lights.jsx'
 import Me from './me.jsx'
 import Environment from './Environment.jsx'
@@ -9,8 +11,15 @@ export default function Experience() {
         <OrbitControls makeDefault />
         <Lights />
 
-        <Sky distance={450000} sunPosition={[0, 1, 0]} inclination={0} azimuth={0.25} />
+        <Sky sunPosition={[0, 1, 0]} inclination={-6} azimuth={0.25} />
         <Me />
         <Environment />
+        <EffectComposer disableNormalPass>
+            <DepthOfField
+                focusDistance={0.025}
+                focalLength={0.025}
+                bokehScale={6}
+            />
+        </EffectComposer >
     </>
 }
