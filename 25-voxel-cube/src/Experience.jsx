@@ -2,9 +2,6 @@ import { OrbitControls, shaderMaterial } from '@react-three/drei';
 import Lights from './Lights';
 import { useMemo, useRef, useState, useEffect } from 'react';
 import { useFrame, extend } from '@react-three/fiber'
-
-import gsap from 'gsap';
-
 import * as THREE from 'three'
 
 import vertexShader from './shaders/vertex.glsl'
@@ -55,16 +52,11 @@ export default function Experience() {
         geometry.setAttribute('random', new THREE.InstancedBufferAttribute(random, 1))
         geometry.setAttribute('depth', new THREE.InstancedBufferAttribute(depth, 1))
         geometry.setAttribute('pos', new THREE.InstancedBufferAttribute(pos, 3))
-
-        console.log(meshRef.current);
-
     }, [])
 
     useFrame((state, delta) => {
         material.uniforms.time.value += delta
-
         meshRef.current.rotation.y += delta / 4
-
     })
 
     return (
