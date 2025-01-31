@@ -1,26 +1,23 @@
-import { OrbitControls, useKeyboardControls, useTexture, Sky, Stars } from '@react-three/drei'
-import { DepthOfField, EffectComposer } from '@react-three/postprocessing'
+import { OrbitControls, } from '@react-three/drei'
+import { Physics } from '@react-three/rapier'
 
 import Lights from './Lights.jsx'
 import Me from './me.jsx'
 import Environment from './Environment.jsx'
 import * as THREE from 'three'
+import { Suspense } from 'react'
 
 export default function Experience() {
     return <>
+        {/* <color args={['#464646']} attach={"background"} /> */}
 
         <OrbitControls makeDefault />
         <Lights />
-
-        {/* <Sky sunPosition={[0, 1, 0]} inclination={-6} azimuth={0.25} /> */}
-        <Me />
-        <Environment />
-        {/* <EffectComposer disableNormalPass>
-            <DepthOfField
-                focusDistance={0.025}
-                focalLength={0.025}
-                bokehScale={6}
-            />
-        </EffectComposer > */}
+        <Suspense >
+            <Physics gravity={[0, -9.81, 0]} debug timeStep={"vary"}>
+                <Me />
+                <Environment />
+            </Physics>
+        </Suspense>
     </>
 }

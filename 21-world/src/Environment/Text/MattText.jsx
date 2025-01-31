@@ -1,8 +1,9 @@
 import { Text, Text3D, useGLTF } from "@react-three/drei";
+import { RigidBody } from "@react-three/rapier";
 import { useEffect } from "react";
 
-export default function Matt() {
-    const matt = useGLTF('./matt.glb')
+export default function MattText() {
+    const matt = useGLTF('./mattText.glb')
 
 
     useEffect(() => {
@@ -14,11 +15,20 @@ export default function Matt() {
     }, [matt])
 
     return <>
-        <primitive
-            object={matt.scene}
-            rotation={[0, -Math.PI / 2, 0]}
-        />
+        <RigidBody
+            colliders="hull"
+            friction={0}
+            restitution={0.2}
+            canSleep={false}
+            linearDamping={10}
+            angularDamping={4}
 
+        >
+            <primitive
+                object={matt.scene}
+                rotation={[0, -Math.PI / 2, 0]}
+            />
+        </RigidBody>
 
         <Text
             font="./m6x11plus.ttf"
@@ -26,10 +36,9 @@ export default function Matt() {
             lineHeight={0.8}
             scale={0.7}
             rotation={[-Math.PI / 2, 0, 0]}
-            position={[3.1, 0.1, 1.2]}
+            position={[3.1, 0.5, 1.5]}
         >
             {"Creative\nDeveloper"}
-
         </Text>
     </>
 }
