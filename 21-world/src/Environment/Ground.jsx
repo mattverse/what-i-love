@@ -4,7 +4,7 @@ import { useGLTF, useTexture } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
 
 export default function Ground() {
-    const stripeTexture = useTexture("./environment/grass-stripes.png");
+    const stripeTexture = useTexture("./environment/grass/grass-stripes.png");
 
     useEffect(() => {
         // Configure textures
@@ -26,8 +26,8 @@ export default function Ground() {
 
     return (
         <RigidBody type="fixed" colliders="cuboid" friction={0}>
-            <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-                <boxGeometry args={[10, 8, 0.7]} /> {/* Flat cube */}
+            <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow position={[5, 0, 0]}>
+                <boxGeometry args={[20, 8, 0.7]} /> {/* Flat cube */}
                 <meshBasicMaterial
                     map={stripeTexture}
                     metalness={0}

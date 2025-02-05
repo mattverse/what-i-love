@@ -26,12 +26,25 @@ export default function Me() {
         });
     }, [robot])
 
+
+    const handleCollision = (e) => {
+        console.log("here");
+        // velocity.current.set(0, 0, 0)
+        if (e.other.rigidBody.userData?.isSign) {
+            // Stop movement when colliding with sign
+            velocity.current.set(0, 0, 0)
+        }
+    }
+
     useFrame((state, delta) => {
         if (!characterRigidBodyRef.current) return;
+
 
         const { forward, backward, leftward, rightward, run } = getKeys()
         let acceleration = run ? 0.2 : 0.1
         let friction = 0.69
+
+
 
         // Reset movement direction
         movementDirection.current.set(0, 0, 0)
@@ -56,10 +69,10 @@ export default function Me() {
             currentPosition.z + velocity.current.z
         )
 
-        const maxX = 4.5;  // Half of 10
-        const maxZ = 5;  // Half of 8
-        newPosition.x = THREE.MathUtils.clamp(newPosition.x, -maxX, maxX);
-        newPosition.z = THREE.MathUtils.clamp(newPosition.z, -maxZ, maxZ);
+        // const maxX = 4.5;  // Half of 10
+        // const maxZ = 5;  // Half of 8
+        // newPosition.x = THREE.MathUtils.clamp(newPosition.x, -maxX, maxX);
+        // newPosition.z = THREE.MathUtils.clamp(newPosition.z, -maxZ, maxZ);
 
         const smoothFactor = 0.9; // Adjust for smoother motion
         const interpolatedPosition = new THREE.Vector3().lerpVectors(
@@ -106,6 +119,7 @@ export default function Me() {
             colliders={false}
             canSleep={false}
             friction={0}
+            onCollisionEnter={handleCollision} // Add collision handler
             restitution={0}
             linearDamping={1.5}
             angularDamping={3.5}

@@ -1,5 +1,6 @@
 import { useGLTF } from '@react-three/drei';
 import { useEffect, useRef } from 'react';
+import { CuboidCollider, RigidBody } from "@react-three/rapier";
 import * as THREE from 'three';
 import { useControls } from 'leva';
 
@@ -9,26 +10,21 @@ export default function Sign({ position, scale }) {
     const meshRef = useRef();
     const sign = useGLTF('./environment/sign.glb')
 
-    // Use Leva to control the color
-    // const { color } = useControls('Grass Tall', {
-    //     color: '#8dbd35'
-    // });
-
-
-    useEffect(() => {
-        console.log(nodes);
-
-
-    })
-
     return (
         <>
-            <primitive
-                object={sign.scene}
-                position={[-3, -1.7, 0]}
-                rotation={[0, -Math.PI / 2, 0]}
-                scale={0.15}
-            />
+            <RigidBody
+                type="dynamic"
+                colliders="cuboid"
+                linearDamping={5}
+                angularDamping={5}
+            >
+                <primitive
+                    object={sign.scene}
+                    position={[0.3, 1.2, 2]}
+                    rotation={[0, 0, 0]}
+                    scale={0.15}
+                />
+            </RigidBody >
         </>
 
     );
