@@ -7,6 +7,7 @@ import Grass from './Environment/Grass/Grass';
 import MattText from './Environment/Text/MattText'
 import Sign from './Environment/Sign';
 import PathRocks from './Environment/Rocks/PathRocks';
+import Osmosis from './Portfolio/osmosis';
 
 
 export default function EnvironmentSettings() {
@@ -16,6 +17,7 @@ export default function EnvironmentSettings() {
             <MattText />
             <Sign />
             <PathRocks />
+            <Osmosis />
         </>
     );
 }
