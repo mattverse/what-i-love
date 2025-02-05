@@ -5,10 +5,7 @@ import * as THREE from 'three';
 import { useControls } from 'leva';
 
 export default function Sign({ position, scale }) {
-    const { nodes } = useGLTF('./environment/sign.glb'); // Load as a mesh\
-
-    const meshRef = useRef();
-    const sign = useGLTF('./environment/sign.glb')
+    const sign = useGLTF('./environment/sign-transformed.glb')
 
     return (
         <>
