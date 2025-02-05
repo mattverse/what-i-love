@@ -25,6 +25,7 @@ export default function MattText() {
 
         >
             <primitive
+                position={[-0.2, 0, -2]}
                 object={matt.scene}
                 rotation={[0, -Math.PI / 2, 0]}
             />
@@ -36,7 +37,7 @@ export default function MattText() {
             lineHeight={0.8}
             scale={0.7}
             rotation={[-Math.PI / 2, 0, 0]}
-            position={[3.1, 0.5, 1.5]}
+            position={[2.9, 0.5, -0.4]}
         >
             {"Creative\nDeveloper"}
         </Text>

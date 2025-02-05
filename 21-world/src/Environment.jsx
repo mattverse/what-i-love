@@ -5,13 +5,15 @@ import { useEffect, useRef, useMemo } from 'react';
 import Ground from './Environment/Ground';
 import Grass from './Environment/Grass/Grass';
 import MattText from './Environment/Text/MattText'
+import Sign from './Environment/Sign';
 
 
-export default function Environment() {
+export default function EnvironmentSettings() {
     return (
         <>
             <Ground />
             <MattText />
+            <Sign />
         </>
     );
 }

@@ -56,8 +56,8 @@ export default function Me() {
             currentPosition.z + velocity.current.z
         )
 
-        const maxX = 5;  // Half of 10
-        const maxZ = 4;  // Half of 8
+        const maxX = 4.5;  // Half of 10
+        const maxZ = 5;  // Half of 8
         newPosition.x = THREE.MathUtils.clamp(newPosition.x, -maxX, maxX);
         newPosition.z = THREE.MathUtils.clamp(newPosition.z, -maxZ, maxZ);
 
@@ -69,12 +69,6 @@ export default function Me() {
         );
 
         characterRigidBodyRef.current.setNextKinematicTranslation(interpolatedPosition)
-
-        // Rotate character mesh based on movement direction
-        if (characterRef.current && velocity.current.length() > 0.01) {
-            const angle = Math.atan2(velocity.current.x, velocity.current.z)
-            characterRef.current.rotation.y = angle
-        }
 
         // Handle animations
         if (movementDirection.current.length() > 0) {
@@ -89,6 +83,12 @@ export default function Me() {
         }
 
         // Camera follow logic
+        // Rotate character mesh based on movement direction
+        if (characterRef.current && velocity.current.length() > 0.01) {
+            const angle = Math.atan2(velocity.current.x, velocity.current.z)
+            characterRef.current.rotation.y = angle
+        }
+
         smoothedCameraPosition.lerp(
             new THREE.Vector3(newPosition.x - 2, newPosition.y + 8, newPosition.z + 8),
             0.1
@@ -110,13 +110,13 @@ export default function Me() {
             linearDamping={1.5}
             angularDamping={3.5}
         >
-            <CuboidCollider args={[0.2, 0.5, 0.2]} position={[0, 0.9, 0]} />
+            <CuboidCollider args={[0.2, 0.5, 0.2]} position={[0.4, 0.9, -1.5]} />
             <primitive
                 ref={characterRef}
                 object={robot.scene}
                 scale={0.2}
                 castShadow
-                position={[0, 0.5, 0]}
+                position={[0.4, 0.5, -1.5]}
             />
         </RigidBody>
     )

@@ -4,19 +4,14 @@ import { useGLTF, useTexture } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
 
 export default function Ground() {
-    const { scene: groundScene } = useGLTF("./environment/plain-grass.glb");
-
-    // Load both textures
-    const groundTexture = useTexture("./environment/baked.jpg");
     const stripeTexture = useTexture("./environment/grass-stripes.png");
 
     useEffect(() => {
         // Configure textures
-        [groundTexture, stripeTexture].forEach(texture => {
-            texture.colorSpace = THREE.SRGBColorSpace;
-            texture.flipY = false;
-            texture.needsUpdate = true;
-        });
+        stripeTexture.colorSpace = THREE.SRGBColorSpace;
+        stripeTexture.flipY = false
+        stripeTexture.needsUpdate = true
+
 
         // Stripe texture setup
         stripeTexture.wrapS = stripeTexture.wrapT = THREE.RepeatWrapping;
@@ -27,22 +22,7 @@ export default function Ground() {
             Math.PI / 2, // 45° rotation
             0.5, 0.5
         );
-
-        // Ground material setup
-        if (groundScene) {
-            groundScene.traverse((child) => {
-                if (child.isMesh) {
-                    child.material = new THREE.MeshStandardMaterial({
-                        map: groundTexture,
-                        metalness: 0,
-                        roughness: 1,
-                        toneMapped: true
-                    });
-                    child.receiveShadow = true;
-                }
-            });
-        }
-    }, [groundScene, groundTexture, stripeTexture]);
+    }, [stripeTexture]);
 
     return (
         <RigidBody type="fixed" colliders="cuboid" friction={0}>
