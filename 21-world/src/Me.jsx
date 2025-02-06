@@ -69,6 +69,7 @@ export default function Me() {
             currentPosition.z + velocity.current.z
         )
 
+
         // const maxX = 4.5;  // Half of 10
         // const maxZ = 5;  // Half of 8
         // newPosition.x = THREE.MathUtils.clamp(newPosition.x, -maxX, maxX);
@@ -102,10 +103,29 @@ export default function Me() {
             characterRef.current.rotation.y = angle
         }
 
+        // smoothedCameraPosition.lerp(
+        //     new THREE.Vector3(newPosition.x - 2, newPosition.y + 8, newPosition.z + 8),
+        //     0.1
+        // )
+        // smoothedCameraTarget.lerp(newPosition, 0.1)
+
+        // state.camera.position.copy(smoothedCameraPosition)
+        // state.camera.lookAt(smoothedCameraTarget)
+
+        const cameraOffset = new THREE.Vector3()
+        const baseCameraPosition = new THREE.Vector3(-2, 8, 8) // Normal camera offset
+        const elevatedCameraPosition = new THREE.Vector3(0, 14, 6) // More elevated offset
+
+        // Blend between camera positions based on X position
+        const cameraBlend = THREE.MathUtils.clamp((newPosition.x - 4) / 2, 0, 1) // Smooth transition between 4-6 X position
+        cameraOffset.copy(baseCameraPosition).lerp(elevatedCameraPosition, cameraBlend)
+
         smoothedCameraPosition.lerp(
-            new THREE.Vector3(newPosition.x - 2, newPosition.y + 8, newPosition.z + 8),
+            new THREE.Vector3().addVectors(newPosition, cameraOffset),
             0.1
         )
+
+
         smoothedCameraTarget.lerp(newPosition, 0.1)
 
         state.camera.position.copy(smoothedCameraPosition)

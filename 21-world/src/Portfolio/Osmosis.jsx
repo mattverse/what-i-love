@@ -70,9 +70,9 @@ function OsmosisDateText() {
         font="./m6x11plus.ttf"
         color={"black"}
         lineHeight={0.8}
-        scale={0.3}
+        scale={0.35}
         rotation={[-Math.PI / 2, 0, 0]}
-        position={[11.6, 0.5, -2.5]}
+        position={[12.6, 0.5, -2.7]}
     >
         {"2021-2025"}
     </Text>
@@ -82,10 +82,10 @@ function OsmosisExplanationText() {
     return <Text
         font="./m6x11plus.ttf"
         color={"black"}
-        lineHeight={0.8}
+        lineHeight={1}
         scale={0.25}
         rotation={[-Math.PI / 2, 0, 0]}
-        position={[9.8, 0.5, -1.8]}
+        position={[9.8, 0.5, -2.1]}
     >
         {`Osmosis is the largest decentralized exchange in the Cosmos ecosystem,
 facilitating cross-chain liquidity via IBC with over $100M in total value locked (TVL).`}
@@ -97,10 +97,10 @@ function OsmosisExperienceText() {
     return <Text
         font="./m6x11plus.ttf"
         color={"black"}
-        lineHeight={0.8}
+        lineHeight={1}
         scale={0.3}
         rotation={[-Math.PI / 2, 0, 0]}
-        position={[9.7, 0.5, 2]}>
+        position={[9.7, 0.5, 1.5]}>
         {`- Implemented the Concentrated Liquidity module using Golang and
   Cosmos SDK, enhancing capital efficiency for traders and liquidity
   providers. This implementation had up to 4,000% greater capital
