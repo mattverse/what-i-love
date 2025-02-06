@@ -9,6 +9,7 @@ import Sign from './Environment/Sign';
 import PathRocks from './Environment/Rocks/PathRocks';
 import Osmosis from './Portfolio/osmosis';
 import Riiid from './Portfolio/Riiid';
+import Awake from './Portfolio/Awake';
 
 
 export default function EnvironmentSettings() {
@@ -20,6 +21,7 @@ export default function EnvironmentSettings() {
             <PathRocks />
             <Osmosis />
             <Riiid />
+            <Awake />
         </>
     );
 }

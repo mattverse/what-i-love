@@ -28,8 +28,6 @@ export default function Me() {
 
 
     const handleCollision = (e) => {
-        console.log("here");
-        // velocity.current.set(0, 0, 0)
         if (e.other.rigidBody.userData?.isSign) {
             // Stop movement when colliding with sign
             velocity.current.set(0, 0, 0)
