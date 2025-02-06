@@ -35,6 +35,20 @@ export default function PathRocks() {
             <mesh geometry={rocksGeometryArray[1]} material={rockMaterial} scale={0.14} position={[3.1, 0.4, 2.5]} rotation={[0, Math.PI / 2 + 0.1, 0]} />
             <mesh geometry={rocksGeometryArray[2]} material={rockMaterial} scale={0.14} position={[3.8, 0.4, 2.5]} rotation={[0, -Math.PI / 2 - 0.05, 0]} />
             <mesh geometry={rocksGeometryArray[1]} material={rockMaterial} scale={0.14} position={[4.6, 0.4, 2.5]} rotation={[0, Math.PI / 2, 0]} />
+            <OsmosisRiiidPath geometry={rocksGeometryArray} material={rockMaterial} />
         </>
     );
+}
+
+function OsmosisRiiidPath({ geometry, material }) {
+    return (
+        <>
+            <mesh geometry={geometry[1]} material={material} scale={0.14} position={[14.5, 0.4, 2.5]} rotation={[0, Math.PI / 2, 0]} />
+            <mesh geometry={geometry[0]} material={material} scale={0.135} position={[15.3, 0.4, 2.55]} rotation={[0, Math.PI / 2, 0]} />
+            <mesh geometry={geometry[2]} material={material} scale={0.14} position={[16.1, 0.4, 2.55]} rotation={[0, Math.PI / 2, 0]} />
+            <mesh geometry={geometry[2]} material={material} scale={0.14} position={[16.1, 0.4, 2.55]} rotation={[0, Math.PI / 2, 0]} />
+            <mesh geometry={geometry[4]} material={material} scale={0.14} position={[16.8, 0.4, 2.38]} rotation={[0, Math.PI / 2, 0]} />
+            <mesh geometry={geometry[2]} material={material} scale={0.14} position={[17., 0.4, 2.55]} rotation={[0, Math.PI / 2, 0]} />
+        </>
+    )
 }

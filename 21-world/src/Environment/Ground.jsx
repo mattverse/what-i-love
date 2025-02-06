@@ -26,8 +26,8 @@ export default function Ground() {
 
     return (
         <RigidBody type="fixed" colliders="cuboid" friction={0}>
-            <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow position={[5, 0, 0]}>
-                <boxGeometry args={[20, 11, 0.7]} /> {/* Flat cube */}
+            <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow position={[15, 0, 0]}>
+                <boxGeometry args={[40, 11, 0.7]} /> {/* Flat cube */}
                 <meshBasicMaterial
                     map={stripeTexture}
                     metalness={0}

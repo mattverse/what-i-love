@@ -8,6 +8,7 @@ import MattText from './Environment/Text/MattText'
 import Sign from './Environment/Sign';
 import PathRocks from './Environment/Rocks/PathRocks';
 import Osmosis from './Portfolio/osmosis';
+import Riiid from './Portfolio/Riiid';
 
 
 export default function EnvironmentSettings() {
@@ -18,6 +19,7 @@ export default function EnvironmentSettings() {
             <Sign />
             <PathRocks />
             <Osmosis />
+            <Riiid />
         </>
     );
 }
