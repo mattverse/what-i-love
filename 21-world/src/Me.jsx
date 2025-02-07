@@ -4,6 +4,9 @@ import { useFrame } from "@react-three/fiber"
 import { RigidBody, CuboidCollider } from '@react-three/rapier'
 import * as THREE from 'three'
 
+import { DissolveMaterialImpl } from './DissolveMaterial' // The custom material from above
+
+
 export default function Me() {
     const [subscribeKeys, getKeys] = useKeyboardControls()
     const robot = useGLTF('./robot-3.glb')
@@ -23,13 +26,29 @@ export default function Me() {
     const teleportTimeout = useRef(null)
     const [isTeleporting, setIsTeleporting] = useState(false);
 
+    // We'll keep references to the original materials so we can restore them if desired
+    const originalMaterialsRef = useRef([])
+    // We'll keep references to the custom dissolve materials
+    const dissolveMaterialsRef = useRef([])
 
     useEffect(() => {
         robot.scene.traverse((child) => {
             if (child.isMesh) {
                 child.castShadow = true;
+                // Store the original material so we can revert later
+                originalMaterialsRef.current.push(child.material)
+
+                // Create a new DissolveMaterial for each mesh
+                // We'll copy the map (texture) if it exists
+                const dissolveMat = new DissolveMaterialImpl()
+                if (child.material.map) {
+                    dissolveMat.uniforms.uMap.value = child.material.map
+                }
+                dissolveMat.transparent = true
+
+                dissolveMaterialsRef.current.push(dissolveMat)
             }
-        });
+        })
     }, [robot])
 
     useFrame((state, delta) => {
@@ -74,6 +93,8 @@ export default function Me() {
         // const maxZ = 5;  // Half of 8
         // newPosition.x = THREE.MathUtils.clamp(newPosition.x, -maxX, maxX);
         // newPosition.z = THREE.MathUtils.clamp(newPosition.z, -maxZ, maxZ);
+
+
         if (teleportJustPressed && !isTeleporting) {
             setIsTeleporting(true);
 
@@ -92,8 +113,16 @@ export default function Me() {
 
             teleportTimeout.current = setTimeout(() => {
                 characterRigidBodyRef.current.setNextKinematicTranslation(teleportTarget)
-                characterRef.current.visible = true
-                setIsTeleporting(false)
+                // Time to reappear with the effect:
+                triggerDissolveEffect({
+                    onComplete: () => {
+                        setIsTeleporting(false)
+                        // Optionally revert to original materials if you only want a brief effect
+                        revertMaterials()
+                    }
+                })
+
+
                 velocity.current.set(0, 0, 0) // Reset velocity after teleport
             }, 50)
         }
@@ -158,6 +187,51 @@ export default function Me() {
             }
         }
     }, [])
+
+    function triggerDissolveEffect({ onComplete }) {
+        // Swap to dissolve materials
+        setDissolveMaterials()
+
+        // Make the character visible again (it starts invisible right after teleport)
+        characterRef.current.visible = true
+
+        // Animate the uniform from 0 -> 1 with a small library or a simple approach
+        // For a quick example, let's just do a simple manual approach in a useFrame or setInterval:
+        let progress = 0
+        const steps = 2
+        const interval = setInterval(() => {
+            progress += 1 / steps
+            dissolveMaterialsRef.current.forEach((mat) => {
+                mat.uniforms.uDissolveProgress.value = progress
+                mat.uniforms.uTime.value += 0.1
+            })
+            if (progress >= 1.0) {
+                clearInterval(interval)
+                if (onComplete) onComplete()
+            }
+        }, 30)
+    }
+
+    function setDissolveMaterials() {
+        let i = 0
+        robot.scene.traverse((child) => {
+            if (child.isMesh) {
+                child.material = dissolveMaterialsRef.current[i]
+                i++
+            }
+        })
+    }
+
+    function revertMaterials() {
+        // Swap back to the original materials if you only want a brief effect
+        let i = 0
+        robot.scene.traverse((child) => {
+            if (child.isMesh) {
+                child.material = originalMaterialsRef.current[i]
+                i++
+            }
+        })
+    }
 
     return (
         <RigidBody
