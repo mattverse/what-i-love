@@ -18,6 +18,12 @@ export default function Me() {
     const [smoothedCameraPosition] = useState(() => new THREE.Vector3(0, 7, 8))
     const [smoothedCameraTarget] = useState(() => new THREE.Vector3())
 
+
+    const prevTeleport = useRef(false)
+    const teleportTimeout = useRef(null)
+    const [isTeleporting, setIsTeleporting] = useState(false);
+
+
     useEffect(() => {
         robot.scene.traverse((child) => {
             if (child.isMesh) {
@@ -26,23 +32,19 @@ export default function Me() {
         });
     }, [robot])
 
-
-    const handleCollision = (e) => {
-        if (e.other.rigidBody.userData?.isSign) {
-            // Stop movement when colliding with sign
-            velocity.current.set(0, 0, 0)
-        }
-    }
-
     useFrame((state, delta) => {
         if (!characterRigidBodyRef.current) return;
 
+        // getKeys returns boolean field
+        const { forward, backward, leftward, rightward, run, teleport } = getKeys()
 
-        const { forward, backward, leftward, rightward, run } = getKeys()
+        const teleportJustPressed = teleport && !prevTeleport.current
+        prevTeleport.current = teleport
+
+
+
         let acceleration = run ? 0.2 : 0.1
         let friction = 0.69
-
-
 
         // Reset movement direction
         movementDirection.current.set(0, 0, 0)
@@ -72,26 +74,53 @@ export default function Me() {
         // const maxZ = 5;  // Half of 8
         // newPosition.x = THREE.MathUtils.clamp(newPosition.x, -maxX, maxX);
         // newPosition.z = THREE.MathUtils.clamp(newPosition.z, -maxZ, maxZ);
+        if (teleportJustPressed && !isTeleporting) {
+            setIsTeleporting(true);
 
-        const smoothFactor = 0.9; // Adjust for smoother motion
-        const interpolatedPosition = new THREE.Vector3().lerpVectors(
-            currentPosition,
-            newPosition,
-            smoothFactor
-        );
+            // Hide character
+            characterRef.current.visible = false;
 
-        characterRigidBodyRef.current.setNextKinematicTranslation(interpolatedPosition)
+            const forwardVector = new THREE.Vector3()
+            characterRef.current.getWorldDirection(forwardVector)
+            forwardVector.y = 0
+            forwardVector.normalize()
+
+            const teleportDistance = 3
+            const teleportTarget = new THREE.Vector3()
+                .copy(currentPosition)
+                .add(forwardVector.multiplyScalar(teleportDistance))
+
+            teleportTimeout.current = setTimeout(() => {
+                characterRigidBodyRef.current.setNextKinematicTranslation(teleportTarget)
+                characterRef.current.visible = true
+                setIsTeleporting(false)
+                velocity.current.set(0, 0, 0) // Reset velocity after teleport
+            }, 50)
+        }
+
+        if (!isTeleporting) {
+            // Normal movement logic
+            const smoothFactor = 0.9;
+            const interpolatedPosition = new THREE.Vector3().lerpVectors(
+                currentPosition,
+                newPosition,
+                smoothFactor
+            );
+
+            characterRigidBodyRef.current.setNextKinematicTranslation(interpolatedPosition);
+        }
+
 
         // Handle animations
-        if (movementDirection.current.length() > 0) {
-            const action = run ? 'run' : 'Walk'
+        if (!isTeleporting && movementDirection.current.length() > 0) {
+            const action = run ? 'run' : 'Walk';
             if (currentAction !== action) {
-                transitionToAction(robotAnimations, currentAction, action)
-                setCurrentAction(action)
+                transitionToAction(robotAnimations, currentAction, action);
+                setCurrentAction(action);
             }
-        } else if (velocity.current.length() < 0.01) {
-            transitionToAction(robotAnimations, currentAction, 'idle')
-            setCurrentAction('idle')
+        } else if (!isTeleporting && velocity.current.length() < 0.01) {
+            transitionToAction(robotAnimations, currentAction, 'idle');
+            setCurrentAction('idle');
         }
 
         // Camera follow logic
@@ -100,15 +129,6 @@ export default function Me() {
             const angle = Math.atan2(velocity.current.x, velocity.current.z)
             characterRef.current.rotation.y = angle
         }
-
-        // smoothedCameraPosition.lerp(
-        //     new THREE.Vector3(newPosition.x - 2, newPosition.y + 8, newPosition.z + 8),
-        //     0.1
-        // )
-        // smoothedCameraTarget.lerp(newPosition, 0.1)
-
-        // state.camera.position.copy(smoothedCameraPosition)
-        // state.camera.lookAt(smoothedCameraTarget)
 
         const cameraOffset = new THREE.Vector3()
         const baseCameraPosition = new THREE.Vector3(-2, 8, 8) // Normal camera offset
@@ -128,7 +148,16 @@ export default function Me() {
 
         state.camera.position.copy(smoothedCameraPosition)
         state.camera.lookAt(smoothedCameraTarget)
+
     })
+
+    useEffect(() => {
+        return () => {
+            if (teleportTimeout.current) {
+                clearTimeout(teleportTimeout.current)
+            }
+        }
+    }, [])
 
     return (
         <RigidBody
@@ -137,7 +166,6 @@ export default function Me() {
             colliders={false}
             canSleep={false}
             friction={0}
-            onCollisionEnter={handleCollision} // Add collision handler
             restitution={0}
             linearDamping={1.5}
             angularDamping={3.5}
