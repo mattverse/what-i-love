@@ -34,23 +34,14 @@ export default function Me() {
     useEffect(() => {
         robot.scene.traverse((child) => {
             if (child.isMesh) {
-
-                child.castShadow = true;
-                // Store the original material so we can revert later
-                originalMaterialsRef.current.push(child.material)
-
-                // Create a new DissolveMaterial for each mesh
-                // We'll copy the map (texture) if it exists
-                const dissolveMat = new DissolveMaterialImpl()
-                if (child.material.map) {
-                    dissolveMat.uniforms.uMap.value = child.material.map
-                }
-                dissolveMat.transparent = true
-
-                dissolveMaterialsRef.current.push(dissolveMat)
+                originalMaterialsRef.current.push(child.material);
+                const dissolveMat = new DissolveMaterialImpl();
+                dissolveMat.uniforms.uColor.value = new THREE.Color('#70c1ff');
+                dissolveMat.skinning = true; // If needed for animations
+                dissolveMaterialsRef.current.push(dissolveMat);
             }
-        })
-    }, [robot])
+        });
+    }, [robot]);
 
     useFrame((state, delta) => {
         if (!characterRigidBodyRef.current) return;
@@ -118,9 +109,6 @@ export default function Me() {
                 triggerDissolveEffect({
                     onComplete: () => {
                         setIsTeleporting(false)
-                        // Optionally revert to original materials if you only want a brief effect
-                        console.log("reverting material");
-
                         revertMaterials()
                     }
                 })
@@ -195,31 +183,41 @@ export default function Me() {
         setDissolveMaterials();
         characterRef.current.visible = true;
 
-        let progress = 1.0; // Start fully dissolved
-        const duration = 200; // 1 second
-        const startTime = Date.now();
+        let startTime = Date.now();
+        const duration = 300; // in ms
 
-        const animate = () => {
-            const elapsed = Date.now() - startTime;
-            progress = 1.0 - (elapsed / duration);
+        function easeOutQuad(t) {
+            return 1 - (1 - t) * (1 - t);
+        }
+
+        function animate() {
+            let elapsed = Date.now() - startTime;
+            let t = elapsed / duration;
+
+            // Clamp t to [0, 1]
+            if (t > 1) t = 1;
+
+            // Instead of linear, use an ease-out approach:
+            //   - We start from progress=1 (fully dissolved) 
+            //   - to progress=0 (fully visible).
+            // So we can do: progress = 1 - easeOutQuad(t)
+            const eased = easeOutQuad(t);
+            let progress = 1 - eased;
 
             dissolveMaterialsRef.current.forEach((mat) => {
                 mat.uniforms.uDissolveProgress.value = progress;
-                mat.uniforms.uTime.value += 0.01;
-
-                mat.skinning = true; // Ensure skinning is enabled
-
+                mat.uniforms.uTime.value = (Date.now() - startTime) / 1000;
             });
 
-            if (progress > 0) {
+            if (t < 1) {
                 requestAnimationFrame(animate);
             } else {
-                dissolveMaterialsRef.current.forEach(mat => mat.uniforms.uDissolveProgress.value = 0);
+                // Once fully visible, call onComplete callback
                 if (onComplete) onComplete();
             }
-        };
+        }
 
-        animate()
+        animate();
     }
 
 
