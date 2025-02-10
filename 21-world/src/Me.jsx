@@ -34,6 +34,7 @@ export default function Me() {
     useEffect(() => {
         robot.scene.traverse((child) => {
             if (child.isMesh) {
+
                 child.castShadow = true;
                 // Store the original material so we can revert later
                 originalMaterialsRef.current.push(child.material)
@@ -118,6 +119,8 @@ export default function Me() {
                     onComplete: () => {
                         setIsTeleporting(false)
                         // Optionally revert to original materials if you only want a brief effect
+                        console.log("reverting material");
+
                         revertMaterials()
                     }
                 })
@@ -175,8 +178,8 @@ export default function Me() {
 
         smoothedCameraTarget.lerp(newPosition, 0.1)
 
-        state.camera.position.copy(smoothedCameraPosition)
-        state.camera.lookAt(smoothedCameraTarget)
+        // state.camera.position.copy(smoothedCameraPosition)
+        // state.camera.lookAt(smoothedCameraTarget)
 
     })
 
@@ -189,33 +192,43 @@ export default function Me() {
     }, [])
 
     function triggerDissolveEffect({ onComplete }) {
-        // Swap to dissolve materials
-        setDissolveMaterials()
+        setDissolveMaterials();
+        characterRef.current.visible = true;
 
-        // Make the character visible again (it starts invisible right after teleport)
-        characterRef.current.visible = true
+        let progress = 1.0; // Start fully dissolved
+        const duration = 200; // 1 second
+        const startTime = Date.now();
 
-        // Animate the uniform from 0 -> 1 with a small library or a simple approach
-        // For a quick example, let's just do a simple manual approach in a useFrame or setInterval:
-        let progress = 0
-        const steps = 2
-        const interval = setInterval(() => {
-            progress += 1 / steps
+        const animate = () => {
+            const elapsed = Date.now() - startTime;
+            progress = 1.0 - (elapsed / duration);
+
             dissolveMaterialsRef.current.forEach((mat) => {
-                mat.uniforms.uDissolveProgress.value = progress
-                mat.uniforms.uTime.value += 0.1
-            })
-            if (progress >= 1.0) {
-                clearInterval(interval)
-                if (onComplete) onComplete()
+                mat.uniforms.uDissolveProgress.value = progress;
+                mat.uniforms.uTime.value += 0.01;
+
+                mat.skinning = true; // Ensure skinning is enabled
+
+            });
+
+            if (progress > 0) {
+                requestAnimationFrame(animate);
+            } else {
+                dissolveMaterialsRef.current.forEach(mat => mat.uniforms.uDissolveProgress.value = 0);
+                if (onComplete) onComplete();
             }
-        }, 30)
+        };
+
+        animate()
     }
+
 
     function setDissolveMaterials() {
         let i = 0
         robot.scene.traverse((child) => {
             if (child.isMesh) {
+                console.log("applied dissolve material");
+
                 child.material = dissolveMaterialsRef.current[i]
                 i++
             }
@@ -237,12 +250,12 @@ export default function Me() {
         <RigidBody
             type='kinematicPosition'
             ref={characterRigidBodyRef}
-            colliders={false}
             canSleep={false}
             friction={0}
             restitution={0}
             linearDamping={1.5}
             angularDamping={3.5}
+            colliders={false}
         >
             <CuboidCollider args={[0.2, 0.5, 0.2]} position={[0.4, 0.9, -1.5]} />
             <primitive
@@ -250,7 +263,7 @@ export default function Me() {
                 object={robot.scene}
                 scale={0.2}
                 castShadow
-                position={[0.4, 0.5, -1.5]}
+                position={[0.4, 1.1, -1.5]}
             />
         </RigidBody>
     )
