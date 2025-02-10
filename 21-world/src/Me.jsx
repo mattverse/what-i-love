@@ -113,9 +113,8 @@ export default function Me() {
                     }
                 })
 
-
                 velocity.current.set(0, 0, 0) // Reset velocity after teleport
-            }, 50)
+            }, 1)
         }
 
         if (!isTeleporting) {
@@ -184,7 +183,7 @@ export default function Me() {
         characterRef.current.visible = true;
 
         let startTime = Date.now();
-        const duration = 300; // in ms
+        const duration = 200; // in ms
 
         function easeOutQuad(t) {
             return 1 - (1 - t) * (1 - t);
@@ -203,6 +202,7 @@ export default function Me() {
             // So we can do: progress = 1 - easeOutQuad(t)
             const eased = easeOutQuad(t);
             let progress = 1 - eased;
+
 
             dissolveMaterialsRef.current.forEach((mat) => {
                 mat.uniforms.uDissolveProgress.value = progress;

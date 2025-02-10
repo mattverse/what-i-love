@@ -30,8 +30,9 @@ class DissolveMaterialImpl extends THREE.ShaderMaterial {
           glitchStrength /= 3.0;
           glitchStrength = smoothstep(0.3, 1.0, glitchStrength);
           glitchStrength *= 0.05;
-          modelPosition.x += (random(modelPosition.xz + uTime) - 0.5) * glitchStrength;
-          modelPosition.z += (random(modelPosition.zx + uTime) - 0.5) * glitchStrength;
+          
+          modelPosition.y += (random(modelPosition.zx + uTime) - 0.3);
+
           
           vUv = uv;
           vPosition = modelPosition.xyz;
