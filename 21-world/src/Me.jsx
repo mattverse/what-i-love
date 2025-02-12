@@ -7,7 +7,7 @@ import * as THREE from 'three'
 import { DissolveMaterialImpl } from './DissolveMaterial' // The custom material from above
 
 
-export default function Me() {
+export default function Me({ onEnterArrow }) {
     const [subscribeKeys, getKeys] = useKeyboardControls()
     const robot = useGLTF('./robot-3.glb')
     const robotAnimations = useAnimations(robot.animations, robot.scene)
@@ -30,6 +30,31 @@ export default function Me() {
     const originalMaterialsRef = useRef([])
     // We'll keep references to the custom dissolve materials
     const dissolveMaterialsRef = useRef([])
+
+    const [hasInteracted, setHasInteracted] = useState(false)
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (!hasInteracted && characterRigidBodyRef.current) {
+                console.log("here");
+
+                // if (e.key === 'Enter' && !hasInteracted && characterRigidBodyRef.current) {
+                // Get the current character position:
+                const pos = characterRigidBodyRef.current.translation()
+                const currentPos = new THREE.Vector3(pos.x, pos.y, pos.z)
+                // Define the arrow’s position (same as in the Arrow component):
+                const arrowPos = new THREE.Vector3(-6.6, 0.4, 1.4)
+                // Check if the character is within the interaction threshold:
+                if (currentPos.distanceTo(arrowPos) < 1.5) {
+                    setHasInteracted(true)
+                    if (onEnterArrow) onEnterArrow()
+                }
+            }
+        }
+        window.addEventListener('keydown', handleKeyDown)
+        return () => window.removeEventListener('keydown', handleKeyDown)
+    }, [hasInteracted, onEnterArrow])
+
+
 
     useEffect(() => {
         robot.scene.traverse((child) => {
@@ -165,8 +190,8 @@ export default function Me() {
 
         smoothedCameraTarget.lerp(newPosition, 0.1)
 
-        state.camera.position.copy(smoothedCameraPosition)
-        state.camera.lookAt(smoothedCameraTarget)
+        // state.camera.position.copy(smoothedCameraPosition)
+        // state.camera.lookAt(smoothedCameraTarget)
     })
 
     useEffect(() => {

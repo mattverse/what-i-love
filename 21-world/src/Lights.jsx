@@ -6,8 +6,8 @@ export default function Lights() {
     const lightRef = useRef()
     const lightRef2 = useRef()
 
-    useHelper(lightRef, DirectionalLightHelper, 5)
-    useHelper(lightRef2, DirectionalLightHelper, 5)
+    // useHelper(lightRef, DirectionalLightHelper, 5)
+    // useHelper(lightRef2, DirectionalLightHelper, 5)
 
     useEffect(() => {
         if (lightRef.current) {

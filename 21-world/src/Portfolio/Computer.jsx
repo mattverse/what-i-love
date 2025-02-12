@@ -11,10 +11,14 @@ import { useFrame } from "@react-three/fiber"
 import { EffectComposer, Bloom, Select, ToneMapping } from '@react-three/postprocessing'
 import { ToneMappingMode } from 'postprocessing'
 import FloatingText from './GlowingText'
+import PortfolioCards from './Cards'
 
 
-export function Computer(props) {
+export function Computer({ showCards, ...props }) {
   const { nodes, materials } = useGLTF('./portfolio/computer.glb')
+  const screenRef = useRef();
+
+
   return (
     <group {...props} dispose={null} scale={1.2} position={[0, 0, -1]} >
       <group position={[-5, 0.4, -0.5]} scale={[6.8, 4, 4]}>
@@ -29,29 +33,43 @@ export function Computer(props) {
         <mesh geometry={nodes.Object_3002_8.geometry} material={materials.texture9} />
         <mesh geometry={nodes.Object_3002_9.geometry} material={materials.texture10} />
       </group>
-      <mesh
-        geometry={new THREE.PlaneGeometry(0.78, 0.38)}
-        position={[-5.36, 1.4, 0.26]}
-        scale={2.05}
+      <group >
+        <mesh
+          geometry={new THREE.PlaneGeometry(0.78, 0.38)}
+          position={[-5.39, 1.4, 0.26]}
+          scale={2.05}
+        >{showCards ? (
+          <meshStandardMaterial color="white">
+            <RenderTexture attach="map" anisotropy={16}>
+              <color attach="background" args={['black']} />
+              <PerspectiveCamera makeDefault position={[0, 2, 2.5]} />
+              <PortfolioCards
+                position={[0, 0, 0]}
+                scale={[0.35, 0.35, 0.35]}
+              />
+            </RenderTexture>
+          </meshStandardMaterial>
+        ) : (
+          <meshStandardMaterial toneMapped={false} emissive="#35c193" emissiveIntensity={2}>
+            <RenderTexture
+              attach="map"
+              anisotropy={16}
+            >
+              <color attach="background" args={['#35c19f']} />
+              <PerspectiveCamera makeDefault manual aspect={1 / 1} position={[0, 0, 18]} />
+              <FloatingText />
+            </RenderTexture>
+          </meshStandardMaterial>
+        )}
 
-      >
-        <meshStandardMaterial toneMapped={false} emissive="#35c193" emissiveIntensity={2}>
-          <RenderTexture
-            attach="map"
-            anisotropy={16}
-          >
-            <color attach="background" args={['#35c19f']} />
-            <PerspectiveCamera makeDefault manual aspect={1 / 1} position={[0, 0, 18]} />
-            <FloatingText />
-          </RenderTexture>
-        </meshStandardMaterial>
-      </mesh>
+        </mesh>
+      </group>
 
       <EffectComposer disableNormalPass>
         <ToneMapping mode={ToneMappingMode.ACES_FILMIC} />
         <Bloom
-          luminanceThreshold={0.8}
-          intensity={4}
+          luminanceThreshold={showCards ? 1.2 : 0.8}
+          intensity={showCards ? 2 : 4}
           mipmapBlur
         />
       </EffectComposer>

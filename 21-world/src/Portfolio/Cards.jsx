@@ -6,7 +6,7 @@ import { easing, geometry } from 'maath';
 
 extend(geometry);
 
-const Portfolio = () => (
+const PortfolioCards = () => (
     <Scene position={[0, 1.5, 0]} scale={0.2} />
 );
 
@@ -20,7 +20,7 @@ function Scene(props) {
         <group ref={ref} {...props}>
             <Cards
                 count={14}
-                radius={5.25}
+                radius={3}
                 hovered={hovered}
                 setHovered={setHovered}
             />
@@ -97,4 +97,4 @@ function ActiveCard({ hovered }) {
     );
 }
 
-export default Portfolio;
+export default PortfolioCards;
