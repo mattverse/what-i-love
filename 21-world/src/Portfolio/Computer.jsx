@@ -11,7 +11,7 @@ import { useFrame } from "@react-three/fiber"
 import { EffectComposer, Bloom, Select, ToneMapping } from '@react-three/postprocessing'
 import { ToneMappingMode } from 'postprocessing'
 import FloatingText from './GlowingText'
-import PortfolioCards from './Cards'
+import PortfolioCards from './PortfolioCards'
 
 
 export function Computer({ showCards, ...props }) {

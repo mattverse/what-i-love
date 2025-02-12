@@ -10,6 +10,7 @@ import Awake from './WorkExperience/Awake';
 import Arrow from './Portfolio/Arrow';
 
 import { Computer } from './Portfolio/Computer';
+import PortfolioCards from './Portfolio/PortfolioCards';
 
 export default function EnvironmentSettings({ showCards }) {
     return (
@@ -23,6 +24,7 @@ export default function EnvironmentSettings({ showCards }) {
             <Awake />
             <Computer showCards={showCards} />
             <Arrow />
+            <PortfolioCards />
         </>
     );
 }

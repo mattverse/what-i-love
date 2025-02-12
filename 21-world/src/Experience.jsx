@@ -22,11 +22,11 @@ export default function Experience() {
 
 
     useFrame((state) => {
-        console.log(state.camera.position);
+        // console.log(state.camera.position);
 
         if (cameraState === 'transition') {
             // Animate camera to computer screen
-            cameraTarget.current.lerp(new THREE.Vector3(-6.1, 1.75, 1.2), 0.2);
+            cameraTarget.current.lerp(new THREE.Vector3(-6.1, 1.75, 1.2), 0.1);
             cameraPosition.current.lerp(new THREE.Vector3(-6.1, 1.75, 1.3), 0.1);
 
             state.camera.lookAt(cameraTarget.current);
@@ -43,7 +43,6 @@ export default function Experience() {
     return <>
         <Background />
 
-        {/* <OrbitControls makeDefault /> */}
         <Lights />
         <Suspense >
             <Physics gravity={[0, -9.81, 0]} debug timeStep={"vary"}>
