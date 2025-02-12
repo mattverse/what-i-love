@@ -10,7 +10,8 @@ import PathRocks from './Environment/Rocks/PathRocks';
 import Osmosis from './WorkExperience/osmosis';
 import Riiid from './WorkExperience/Riiid';
 import Awake from './WorkExperience/Awake';
-import Portfolio from './Portfolio/Portfolio';
+import Portfolio from './Portfolio/Cards';
+import Arrow from './Portfolio/Arrow';
 
 import { Computer } from './Portfolio/Computer';
 
@@ -26,6 +27,7 @@ export default function EnvironmentSettings() {
             <Awake />
             <Portfolio />
             <Computer />
+            <Arrow />
         </>
     );
 }

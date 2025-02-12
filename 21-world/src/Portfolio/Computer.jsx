@@ -16,8 +16,8 @@ import FloatingText from './GlowingText'
 export function Computer(props) {
   const { nodes, materials } = useGLTF('./portfolio/computer.glb')
   return (
-    <group {...props} dispose={null}>
-      <group position={[-5, 0.4, -0.5]} scale={[6, 4, 4]}>
+    <group {...props} dispose={null} scale={1.2} position={[0, 0, -1]} >
+      <group position={[-5, 0.4, -0.5]} scale={[6.8, 4, 4]}>
         <mesh geometry={nodes.Object_3002.geometry} material={materials.texture3} />
         <mesh geometry={nodes.Object_3002_1.geometry} material={materials.texture2} />
         <mesh geometry={nodes.Object_3002_2.geometry} material={materials.texture4} />
@@ -30,8 +30,8 @@ export function Computer(props) {
         <mesh geometry={nodes.Object_3002_9.geometry} material={materials.texture10} />
       </group>
       <mesh
-        geometry={new THREE.PlaneGeometry(0.69, 0.38)}
-        position={[-5.34, 1.4, 0.26]}
+        geometry={new THREE.PlaneGeometry(0.78, 0.38)}
+        position={[-5.36, 1.4, 0.26]}
         scale={2.05}
 
       >
