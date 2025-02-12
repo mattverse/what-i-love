@@ -10,9 +10,9 @@ import PathRocks from './Environment/Rocks/PathRocks';
 import Osmosis from './WorkExperience/osmosis';
 import Riiid from './WorkExperience/Riiid';
 import Awake from './WorkExperience/Awake';
-import Portfolio from './Portfolio';
+import Portfolio from './Portfolio/Portfolio';
 
-import { Computer } from './Computer';
+import { Computer } from './Portfolio/Computer';
 
 export default function EnvironmentSettings() {
     return (
