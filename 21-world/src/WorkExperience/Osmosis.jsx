@@ -20,7 +20,7 @@ export default function Osmosis() {
 
 
 function OsmosisTextMesh() {
-    const { nodes, materials } = useGLTF('./portfolio/osmosis/osmosisText.glb')
+    const { nodes, materials } = useGLTF('./workExperience/osmosis/osmosisText.glb')
     return (
         <group
             dispose={null}
@@ -32,10 +32,10 @@ function OsmosisTextMesh() {
         </group>
     )
 }
-useGLTF.preload('./portfolio/osmosis/osmosisText.glb')
+useGLTF.preload('./workExperience/osmosis/osmosisText.glb')
 
 function Potion() {
-    const { nodes, materials } = useGLTF('./portfolio/osmosis/potion.glb')
+    const { nodes, materials } = useGLTF('./workExperience/osmosis/potion.glb')
     return (
         <group
             scale={0.15}
@@ -48,7 +48,7 @@ function Potion() {
         </group>
     )
 }
-useGLTF.preload('./portfolio/osmosis/potion.glb')
+useGLTF.preload('./workExperience/osmosis/potion.glb')
 
 
 

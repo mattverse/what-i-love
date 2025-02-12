@@ -38,6 +38,6 @@ export default function Lights() {
             shadow-camera-near={0.1}
             shadow-camera-far={100}
         />
-        <ambientLight intensity={1.2} />
+        <ambientLight intensity={1} />
     </>
 }

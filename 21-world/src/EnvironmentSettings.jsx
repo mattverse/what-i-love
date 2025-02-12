@@ -7,10 +7,12 @@ import Grass from './Environment/Grass/Grass';
 import MattText from './Environment/Text/MattText'
 import Sign from './Environment/Sign';
 import PathRocks from './Environment/Rocks/PathRocks';
-import Osmosis from './Portfolio/osmosis';
-import Riiid from './Portfolio/Riiid';
-import Awake from './Portfolio/Awake';
+import Osmosis from './WorkExperience/osmosis';
+import Riiid from './WorkExperience/Riiid';
+import Awake from './WorkExperience/Awake';
+import Portfolio from './Portfolio';
 
+import { Computer } from './Computer';
 
 export default function EnvironmentSettings() {
     return (
@@ -22,6 +24,8 @@ export default function EnvironmentSettings() {
             <Osmosis />
             <Riiid />
             <Awake />
+            <Portfolio />
+            <Computer />
         </>
     );
 }

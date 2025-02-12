@@ -165,8 +165,8 @@ export default function Me() {
 
         smoothedCameraTarget.lerp(newPosition, 0.1)
 
-        // state.camera.position.copy(smoothedCameraPosition)
-        // state.camera.lookAt(smoothedCameraTarget)
+        state.camera.position.copy(smoothedCameraPosition)
+        state.camera.lookAt(smoothedCameraTarget)
 
     })
 

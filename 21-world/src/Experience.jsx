@@ -1,8 +1,8 @@
 import { Physics } from '@react-three/rapier'
 
 import Lights from './Lights.jsx'
-import Me from './me.jsx'
-import EnvironmentSettings from './Environment.jsx'
+import Me from './Me.jsx'
+import EnvironmentSettings from './EnvironmentSettings.jsx'
 import * as THREE from 'three'
 import { Suspense } from 'react'
 

@@ -21,7 +21,7 @@ export default function Riiid() {
 
 
 function RiiidTextMesh() {
-    const { nodes, materials } = useGLTF('./portfolio/riiid/riiidText.glb')
+    const { nodes, materials } = useGLTF('./workExperience/riiid/riiidText.glb')
     return (
         <group
             dispose={null}
@@ -33,10 +33,10 @@ function RiiidTextMesh() {
         </group>
     )
 }
-useGLTF.preload('./portfolio/riiid/riiidText.glb')
+useGLTF.preload('./workExperience/riiid/riiidText.glb')
 
 function RiiidLogo() {
-    const { nodes, materials } = useGLTF('./portfolio/riiid/riiidLogo.glb')
+    const { nodes, materials } = useGLTF('./workExperience/riiid/riiidLogo.glb')
     return (
         <group dispose={null} scale={0.13} position={[20.3, 2, -3.45]}>
             <group rotation={[Math.PI / 2, 0, 0]} scale={2.817}>
@@ -46,7 +46,7 @@ function RiiidLogo() {
         </group>
     )
 }
-useGLTF.preload('./portfolio/riiid/riiidLogo.glb')
+useGLTF.preload('./workExperience/riiid/riiidLogo.glb')
 
 
 

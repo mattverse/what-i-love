@@ -24,6 +24,7 @@ root.render(
                 far: 200,
                 position: [0, 7, 8]
             }}
+        // linear
         >
             <Experience />
         </Canvas>
