@@ -7,11 +7,11 @@ import * as THREE from 'three'
 import { Suspense, useState, useRef } from 'react'
 import { Canvas, extend, useFrame } from '@react-three/fiber';
 
+
 import Background from './Background.jsx'
 import { Computer } from './Portfolio/Computer.jsx'
 
 import { OrbitControls } from '@react-three/drei'
-import { log } from 'three/examples/jsm/nodes/Nodes.js'
 
 export default function Experience() {
     const [showPortfolio, setShowPortfolio] = useState(false)
@@ -29,28 +29,30 @@ export default function Experience() {
             cameraTarget.current.lerp(new THREE.Vector3(-6.1, 1.75, 1.2), 0.1);
             cameraPosition.current.lerp(new THREE.Vector3(-6.1, 1.75, 1.3), 0.1);
 
-            state.camera.lookAt(cameraTarget.current);
-            state.camera.position.copy(cameraPosition.current);
+            // state.camera.lookAt(cameraTarget.current);
+            // state.camera.position.copy(cameraPosition.current);
 
-            // Complete transition when close enough
-            if (state.camera.position.distanceTo(new THREE.Vector3(-6.1, 1.75, 1.3)) < 0.1) {
-                setCameraState('screen-view');
-            }
+            // // Complete transition when close enough
+            // if (state.camera.position.distanceTo(new THREE.Vector3(-6.1, 1.75, 1.3)) < 0.1) {
+            //     setCameraState('screen-view');
+            // }
+
+            setCameraState('screen-view');
+
         }
     });
 
 
     return <>
         <Background />
-
+        <OrbitControls makeDefault />
         <Lights />
         <Suspense >
             <Physics gravity={[0, -9.81, 0]} debug timeStep={"vary"}>
-                <EnvironmentSettings showCards={cameraState === 'screen-view'} />
-                <Me onEnterArrow={() => {
-                    setCameraState('transition');
-                    setTimeout(() => setShowPortfolio(true), 1000);
-                }} />
+                <EnvironmentSettings
+                    showCards={cameraState === 'screen-view'}
+                />
+                <Me />
             </Physics>
         </Suspense>
 

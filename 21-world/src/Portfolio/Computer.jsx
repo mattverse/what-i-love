@@ -9,6 +9,8 @@ import { React, useRef } from 'react'
 import { useGLTF, Merged, RenderTexture, PerspectiveCamera, Text } from '@react-three/drei'
 import { useFrame } from "@react-three/fiber"
 import { EffectComposer, Bloom, Select, ToneMapping } from '@react-three/postprocessing'
+import { RigidBody, CuboidCollider } from '@react-three/rapier'
+
 import { ToneMappingMode } from 'postprocessing'
 import FloatingText from './GlowingText'
 import PortfolioCards from './PortfolioCards'
@@ -20,60 +22,69 @@ export function Computer({ showCards, ...props }) {
 
 
   return (
-    <group {...props} dispose={null} scale={1.2} position={[0, 0, -1]} >
-      <group position={[-5, 0.4, -0.5]} scale={[6.8, 4, 4]}>
-        <mesh geometry={nodes.Object_3002.geometry} material={materials.texture3} />
-        <mesh geometry={nodes.Object_3002_1.geometry} material={materials.texture2} />
-        <mesh geometry={nodes.Object_3002_2.geometry} material={materials.texture4} />
-        <mesh geometry={nodes.Object_3002_3.geometry} material={materials.texture6} />
-        <mesh geometry={nodes.Object_3002_4.geometry} material={materials.texture5} />
-        <mesh geometry={nodes.Object_3002_5.geometry} material={materials.texture} />
-        <mesh geometry={nodes.Object_3002_6.geometry} material={materials.texture7} />
-        <mesh geometry={nodes.Object_3002_7.geometry} material={materials.texture8} />
-        <mesh geometry={nodes.Object_3002_8.geometry} material={materials.texture9} />
-        <mesh geometry={nodes.Object_3002_9.geometry} material={materials.texture10} />
-      </group>
-      <group >
-        <mesh
-          geometry={new THREE.PlaneGeometry(0.78, 0.38)}
-          position={[-5.39, 1.4, 0.26]}
-          scale={2.05}
-        >{showCards ? (
-          <meshStandardMaterial color="white">
-            <RenderTexture attach="map" anisotropy={16}>
-              <color attach="background" args={['black']} />
-              <PerspectiveCamera makeDefault position={[0, 2, 2.5]} />
-              <PortfolioCards
-                position={[0, 0, 0]}
-                scale={[0.35, 0.35, 0.35]}
-              />
-            </RenderTexture>
-          </meshStandardMaterial>
-        ) : (
-          <meshStandardMaterial toneMapped={false} emissive="#35c193" emissiveIntensity={2}>
-            <RenderTexture
-              attach="map"
-              anisotropy={16}
-            >
-              <color attach="background" args={['#35c19f']} />
-              <PerspectiveCamera makeDefault manual aspect={1 / 1} position={[0, 0, 18]} />
-              <FloatingText />
-            </RenderTexture>
-          </meshStandardMaterial>
-        )}
+    <RigidBody
+      type="fixed"
+      colliders="cuboid"
+      position={[0, 0, -1]}
+      scale={1.2}
+    >
 
-        </mesh>
-      </group>
+      <group {...props} dispose={null} scale={1.2} position={[0, 0, -1]} >
+        <group position={[-5, 0.4, -0.5]} scale={[6.8, 4, 4]}>
+          <mesh geometry={nodes.Object_3002.geometry} material={materials.texture3} />
+          <mesh geometry={nodes.Object_3002_1.geometry} material={materials.texture2} />
+          <mesh geometry={nodes.Object_3002_2.geometry} material={materials.texture4} />
+          <mesh geometry={nodes.Object_3002_3.geometry} material={materials.texture6} />
+          <mesh geometry={nodes.Object_3002_4.geometry} material={materials.texture5} />
+          <mesh geometry={nodes.Object_3002_5.geometry} material={materials.texture} />
+          <mesh geometry={nodes.Object_3002_6.geometry} material={materials.texture7} />
+          <mesh geometry={nodes.Object_3002_7.geometry} material={materials.texture8} />
+          <mesh geometry={nodes.Object_3002_8.geometry} material={materials.texture9} />
+          <mesh geometry={nodes.Object_3002_9.geometry} material={materials.texture10} />
+        </group>
+        <group >
+          <mesh
+            geometry={new THREE.PlaneGeometry(0.78, 0.38)}
+            position={[-5.39, 1.4, 0.26]}
+            scale={2.05}
+          >{showCards ? (
+            <meshStandardMaterial color="white">
+              <RenderTexture attach="map" anisotropy={16}>
+                <color attach="background" args={['black']} />
+                <PerspectiveCamera makeDefault position={[0, 2, 2.5]} />
+                <PortfolioCards
+                  position={[0, 0, 0]}
+                  scale={[0.35, 0.35, 0.35]}
+                />
+              </RenderTexture>
+            </meshStandardMaterial>
+          ) : (
+            <meshStandardMaterial toneMapped={false} emissive="#35c193" emissiveIntensity={2}>
+              <RenderTexture
+                attach="map"
+                anisotropy={16}
+              >
+                <color attach="background" args={['#35c19f']} />
+                <PerspectiveCamera makeDefault manual aspect={1 / 1} position={[0, 0, 18]} />
+                <FloatingText />
+              </RenderTexture>
+            </meshStandardMaterial>
+          )}
 
-      <EffectComposer disableNormalPass>
-        <ToneMapping mode={ToneMappingMode.ACES_FILMIC} />
-        <Bloom
-          luminanceThreshold={showCards ? 1.2 : 0.8}
-          intensity={showCards ? 2 : 4}
-          mipmapBlur
-        />
-      </EffectComposer>
-    </group >
+          </mesh>
+        </group>
+
+        <EffectComposer disableNormalPass>
+          <ToneMapping mode={ToneMappingMode.ACES_FILMIC} />
+          <Bloom
+            luminanceThreshold={showCards ? 1.2 : 0.8}
+            intensity={showCards ? 2 : 4}
+            mipmapBlur
+          />
+        </EffectComposer>
+      </group >
+    </RigidBody>
+
   )
 }
 

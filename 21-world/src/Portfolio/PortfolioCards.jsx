@@ -37,16 +37,6 @@ function Cards({ count, radius, hovered, setHovered }) {
             {Array.from({ length: count }).map((_, i) => {
                 const angle = (i / count) * Math.PI * 2;
                 return (
-                    // <Card
-                    //     key={i}
-                    //     onPointerOver={() => setHovered(i)}
-                    //     onPointerOut={() => setHovered(null)}
-                    //     position={[Math.sin(angle) * radius, 0, Math.cos(angle) * radius]}
-                    //     rotation={[0, Math.PI / 2 + angle, 0]}
-                    //     active={hovered !== null}
-                    //     hovered={hovered === i}
-                    //     url={`/portfolio/${i + 1}.png`}
-                    // />
                     <Card
                         key={i}
                         url={`/portfolio/${i + 1}.png`}

@@ -7,7 +7,7 @@ import * as THREE from 'three'
 import { DissolveMaterialImpl } from './DissolveMaterial' // The custom material from above
 
 
-export default function Me({ onEnterArrow }) {
+export default function Me({ }) {
     const [subscribeKeys, getKeys] = useKeyboardControls()
     const robot = useGLTF('./robot-3.glb')
     const robotAnimations = useAnimations(robot.animations, robot.scene)
@@ -26,35 +26,28 @@ export default function Me({ onEnterArrow }) {
     const teleportTimeout = useRef(null)
     const [isTeleporting, setIsTeleporting] = useState(false);
 
-    // We'll keep references to the original materials so we can restore them if desired
     const originalMaterialsRef = useRef([])
-    // We'll keep references to the custom dissolve materials
     const dissolveMaterialsRef = useRef([])
 
     const [hasInteracted, setHasInteracted] = useState(false)
-    useEffect(() => {
-        const handleKeyDown = (e) => {
-            if (!hasInteracted && characterRigidBodyRef.current) {
-                console.log("here");
 
-                // if (e.key === 'Enter' && !hasInteracted && characterRigidBodyRef.current) {
-                // Get the current character position:
-                const pos = characterRigidBodyRef.current.translation()
-                const currentPos = new THREE.Vector3(pos.x, pos.y, pos.z)
-                // Define the arrow’s position (same as in the Arrow component):
-                const arrowPos = new THREE.Vector3(-6.6, 0.4, 1.4)
-                // Check if the character is within the interaction threshold:
-                if (currentPos.distanceTo(arrowPos) < 1.5) {
-                    setHasInteracted(true)
-                    if (onEnterArrow) onEnterArrow()
-                }
-            }
+    const [isInArrowArea, setIsInArrowArea] = useState(false)
+
+    const handleArrowIntersection = (inside) => {
+        setIsInArrowArea(inside)
+    }
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter' && isInArrowArea && !hasInteracted) {
+            setHasInteracted(true)
         }
+    }
+
+
+    useEffect(() => {
         window.addEventListener('keydown', handleKeyDown)
         return () => window.removeEventListener('keydown', handleKeyDown)
-    }, [hasInteracted, onEnterArrow])
-
-
+    }, [isInArrowArea, hasInteracted])
 
     useEffect(() => {
         robot.scene.traverse((child) => {
@@ -79,7 +72,7 @@ export default function Me({ onEnterArrow }) {
 
 
 
-        let acceleration = run ? 0.2 : 0.1
+        let acceleration = run ? 1.5 : 5. // Increased from 0.2/0.1
         let friction = 0.69
 
         // Reset movement direction
@@ -143,16 +136,13 @@ export default function Me({ onEnterArrow }) {
         }
 
         if (!isTeleporting) {
-            // Normal movement logic
-            const smoothFactor = 0.9;
-            const interpolatedPosition = new THREE.Vector3().lerpVectors(
-                currentPosition,
-                newPosition,
-                smoothFactor
-            );
-
-            characterRigidBodyRef.current.setNextKinematicTranslation(interpolatedPosition);
+            characterRigidBodyRef.current.setLinvel({
+                x: velocity.current.x,
+                y: characterRigidBodyRef.current.linvel().y, // Maintain Y velocity
+                z: velocity.current.z
+            })
         }
+
 
 
         // Handle animations
@@ -174,24 +164,16 @@ export default function Me({ onEnterArrow }) {
             characterRef.current.rotation.y = angle
         }
 
-        const cameraOffset = new THREE.Vector3()
-        const baseCameraPosition = new THREE.Vector3(-2, 8, 8) // Normal camera offset
-        const elevatedCameraPosition = new THREE.Vector3(0, 14, 6) // More elevated offset
+        // Camera follow logic
+        const cameraOffset = new THREE.Vector3(-2, 8, 8) // Fixed offset
+        const desiredCameraPosition = new THREE.Vector3().addVectors(newPosition, cameraOffset)
 
-        // Blend between camera positions based on X position
-        const cameraBlend = THREE.MathUtils.clamp((newPosition.x - 4) / 2, 0, 1) // Smooth transition between 4-6 X position
-        cameraOffset.copy(baseCameraPosition).lerp(elevatedCameraPosition, cameraBlend)
+        // Smoother target tracking
+        smoothedCameraTarget.lerp(newPosition, 0.25 * delta * 3)
+        smoothedCameraPosition.lerp(desiredCameraPosition, 0.25 * delta * 3)
 
-        smoothedCameraPosition.lerp(
-            new THREE.Vector3().addVectors(newPosition, cameraOffset),
-            0.1
-        )
-
-
-        smoothedCameraTarget.lerp(newPosition, 0.1)
-
-        // state.camera.position.copy(smoothedCameraPosition)
-        // state.camera.lookAt(smoothedCameraTarget)
+        state.camera.position.copy(smoothedCameraPosition)
+        state.camera.lookAt(smoothedCameraTarget)
     })
 
     useEffect(() => {
@@ -270,14 +252,15 @@ export default function Me({ onEnterArrow }) {
 
     return (
         <RigidBody
-            type='kinematicPosition'
+            type='dynamic'
             ref={characterRigidBodyRef}
             canSleep={false}
             friction={0}
             restitution={0}
-            linearDamping={1.5}
-            angularDamping={3.5}
+            linearDamping={0.5} // Reduced from 1.5
+            angularDamping={1.5} // Reduced from 3.5
             colliders={false}
+            lockRotations={true}
         >
             <CuboidCollider args={[0.2, 0.5, 0.2]} position={[0.4, 0.9, -1.5]} />
             <primitive

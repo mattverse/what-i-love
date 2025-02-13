@@ -2,6 +2,9 @@ import { Text, Text3D, useGLTF } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
 import { useEffect } from "react";
 
+
+// ...
+
 export default function MattText() {
     const matt = useGLTF('./mattText.glb')
 

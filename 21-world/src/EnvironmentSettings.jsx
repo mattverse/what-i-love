@@ -1,3 +1,8 @@
+import { RigidBody, CuboidCollider } from '@react-three/rapier'
+import { useFrame } from '@react-three/fiber'
+import { useState, useEffect } from 'react'
+
+
 // components
 import Ground from './Environment/Ground';
 import Grass from './Environment/Grass/Grass';
@@ -7,12 +12,17 @@ import PathRocks from './Environment/Rocks/PathRocks';
 import Osmosis from './WorkExperience/osmosis';
 import Riiid from './WorkExperience/Riiid';
 import Awake from './WorkExperience/Awake';
-import Arrow from './Portfolio/Arrow';
+import { ArrowArea } from './Portfolio/ArrowArea';
 
 import { Computer } from './Portfolio/Computer';
 import PortfolioCards from './Portfolio/PortfolioCards';
 
 export default function EnvironmentSettings({ showCards }) {
+    const [isInArrowArea, setIsInArrowArea] = useState(false)
+
+    const handleArrowIntersection = (inside) => {
+        setIsInArrowArea(inside)
+    }
     return (
         <>
             <Ground />
@@ -23,7 +33,10 @@ export default function EnvironmentSettings({ showCards }) {
             <Riiid />
             <Awake />
             <Computer showCards={showCards} />
-            <Arrow />
+            <ArrowArea
+                onIntersection={handleArrowIntersection}
+                onEnter={() => console.log("Entered arrow area!")}
+            />
             <PortfolioCards />
         </>
     );
