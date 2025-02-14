@@ -176,24 +176,13 @@ export default function Me({ }) {
         smoothedCameraTarget.lerp(newPosition, 0.25 * delta * 3)
         smoothedCameraPosition.lerp(desiredCameraPosition, 0.25 * delta * 3)
 
-        // state.camera.position.copy(smoothedCameraPosition)
-        // state.camera.lookAt(smoothedCameraTarget)
+        state.camera.position.copy(smoothedCameraPosition)
+        state.camera.lookAt(smoothedCameraTarget)
 
-        if (characterRef.current && instructionBoxRef.current) {
-            // Use the visual robot model's world position:
-            // characterRef.current.getWorldPosition(charWorldPos);
+        // if (characterRef.current && instructionBoxRef.current) {
+        //     instructionBoxRef.current.position.set(0, 2, 0);
 
-            console.log(currentPosition)
-            const boxPosition = new THREE.Vector3(
-                currentPosition.x,
-                currentPosition.y,
-                currentPosition.z
-            );
-
-            // Add the offset (adjust if needed)
-            boxPosition.add(new THREE.Vector3(0, 2, 0));
-            instructionBoxRef.current.position.copy(boxPosition);
-        }
+        // }
     })
 
     useEffect(() => {

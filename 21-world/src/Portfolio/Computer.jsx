@@ -29,7 +29,7 @@ export function Computer({ showCards, ...props }) {
       scale={1.2}
     >
 
-      <group {...props} dispose={null} scale={1.2} position={[0, 0, -0.2]} >
+      <group {...props} dispose={null} scale={1.2} position={[1.5, 0, -0.2]} >
         <group position={[-5, 0.4, -0.5]} scale={[6.8, 4, 4]}>
           <mesh geometry={nodes.Object_3002.geometry} material={materials.texture3} />
           <mesh geometry={nodes.Object_3002_1.geometry} material={materials.texture2} />

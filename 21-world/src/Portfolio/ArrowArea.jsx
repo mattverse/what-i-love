@@ -13,19 +13,17 @@ const FenceMaterial = forwardRef(({ time = 0, borderAlpha = 0.5, strikeAlpha = 0
                 uTime: { value: time },
                 uBorderAlpha: { value: borderAlpha },
                 uStrikeAlpha: { value: strikeAlpha },
-                uStrikeWidth: { value: 0.5 },
-                uBorderWidth: { value: 0.05 },  // Border thickness control
-                uBandHeight: { value: 0.4 }
+                uStrikeWidth: { value: 0.2 },
+                uBorderWidth: { value: 0.05 },
+                uBandHeight: { value: 0.2 }
             }}
             vertexShader={`
                 varying vec3 vPosition;
-                varying vec2 vUv;
                 varying vec3 vModelPosition;
                 
                 void main() {
                     vPosition = position;
                     vModelPosition = position;
-                    vUv = uv;
                     gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
                 }
             `}
@@ -39,10 +37,9 @@ const FenceMaterial = forwardRef(({ time = 0, borderAlpha = 0.5, strikeAlpha = 0
                 
                 varying vec3 vPosition;
                 varying vec3 vModelPosition;
-                varying vec2 vUv;
 
                 void main() {
-                    // Hard vertical band boundaries
+                    // Vertical band boundaries
                     float verticalPosition = abs(vModelPosition.y);
                     if(verticalPosition > uBandHeight) discard;
 
@@ -54,21 +51,15 @@ const FenceMaterial = forwardRef(({ time = 0, borderAlpha = 0.5, strikeAlpha = 0
                     );
                     float strikeStrength = step(strike, 0.5) * uStrikeAlpha;
 
-                    // Original side borders (left/right)
-                    float sideBorder = max(
-                        step(1.0 - vUv.x, uBorderWidth), 
-                        step(vUv.x, uBorderWidth)
-                    ) * uBorderAlpha;
-
-                    // New edge borders (top/bottom of stripe band)
+                    // Top and bottom edge borders
                     float edgeBorder = smoothstep(
                         uBandHeight - uBorderWidth * 2.0,
-                        uBandHeight - uBorderWidth * 0.5,
+                        uBandHeight,
                         verticalPosition
                     ) * uBorderAlpha;
 
-                    // Combine all effects
-                    float alpha = max(max(strikeStrength, sideBorder), edgeBorder);
+                    // Combine effects
+                    float alpha = max(strikeStrength, edgeBorder);
                     
                     gl_FragColor = vec4(vec3(1.0), alpha);
                 }
