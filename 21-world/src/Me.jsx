@@ -176,18 +176,23 @@ export default function Me({ }) {
         smoothedCameraTarget.lerp(newPosition, 0.25 * delta * 3)
         smoothedCameraPosition.lerp(desiredCameraPosition, 0.25 * delta * 3)
 
-        state.camera.position.copy(smoothedCameraPosition)
-        state.camera.lookAt(smoothedCameraTarget)
+        // state.camera.position.copy(smoothedCameraPosition)
+        // state.camera.lookAt(smoothedCameraTarget)
 
         if (characterRef.current && instructionBoxRef.current) {
-            const charWorldPos = new THREE.Vector3();
             // Use the visual robot model's world position:
-            characterRef.current.getWorldPosition(charWorldPos);
-            console.log(characterRef.current.getWorldPosition(charWorldPos));
+            // characterRef.current.getWorldPosition(charWorldPos);
+
+            console.log(currentPosition)
+            const boxPosition = new THREE.Vector3(
+                currentPosition.x,
+                currentPosition.y,
+                currentPosition.z
+            );
 
             // Add the offset (adjust if needed)
-            charWorldPos.add(new THREE.Vector3(0, 0, 0));
-            instructionBoxRef.current.position.copy(charWorldPos);
+            boxPosition.add(new THREE.Vector3(0, 2, 0));
+            instructionBoxRef.current.position.copy(boxPosition);
         }
     })
 
@@ -266,33 +271,31 @@ export default function Me({ }) {
     }
 
     return (
-        <RigidBody
-            type='dynamic'
-            ref={characterRigidBodyRef}
-            canSleep={false}
-            friction={0}
-            restitution={0}
-            linearDamping={0.5} // Reduced from 1.5
-            angularDamping={1.5} // Reduced from 3.5
-            colliders={false}
-            lockRotations={true}
-        >
-            <CuboidCollider args={[0.2, 0.5, 0.2]} position={[0.4, 0.9, -1.5]} />
-            <group>
-                <primitive
-                    ref={characterRef}
-                    object={robot.scene}
-                    scale={0.2}
-                    castShadow
-                    position={[0.4, 1.1, -1.5]}
-                />
-
-                {/* The instruction box mesh */}
-
-
-            </group>
-            <InstructionBox ref={instructionBoxRef} />
-        </RigidBody>
+        <>
+            <RigidBody
+                type='dynamic'
+                ref={characterRigidBodyRef}
+                canSleep={false}
+                friction={0}
+                restitution={0}
+                linearDamping={0.5} // Reduced from 1.5
+                angularDamping={1.5} // Reduced from 3.5
+                colliders={false}
+                lockRotations={true}
+            >
+                <CuboidCollider args={[0.2, 0.5, 0.2]} position={[0.4, 0.9, -1.5]} />
+                <group>
+                    <primitive
+                        ref={characterRef}
+                        object={robot.scene}
+                        scale={0.2}
+                        castShadow
+                        position={[0.4, 1.1, -1.5]}
+                    />
+                </group>
+                <InstructionBox ref={instructionBoxRef} />
+            </RigidBody>
+        </>
     )
 }
 

@@ -1,7 +1,15 @@
+import { useFrame } from '@react-three/fiber'
 import React, { useMemo, forwardRef } from 'react'
 import * as THREE from 'three'
 
-const InstructionBox = forwardRef(({ localOffset = [0, 3, 0] }, ref) => {
+const InstructionBox = forwardRef(({ localOffset = [0, 0, 0] }, ref) => {
+
+    useFrame((state, delta) => {
+        console.log(ref.current.position);
+
+    })
+
+
     const canvasTexture = useMemo(() => {
         const canvas = document.createElement('canvas')
         canvas.width = 192
@@ -27,7 +35,7 @@ const InstructionBox = forwardRef(({ localOffset = [0, 3, 0] }, ref) => {
     return (
         // The mesh’s initial position is set to the localOffset,
         // but this will be overwritten by the parent’s update.
-        <mesh ref={ref} position={localOffset}>
+        <mesh ref={ref}>
             <planeGeometry args={[1.5, 0.25]} />
             <meshBasicMaterial map={canvasTexture} transparent />
         </mesh>
