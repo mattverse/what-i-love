@@ -6,8 +6,8 @@ export default function Arrow(props) {
     const { nodes } = useGLTF('./portfolio/arrow.glb')
     return (
         <group
-            // position={[-6.6, 0.4, 1.4]}
-            // scale={[1.5, 1, 1]}
+            position={[-0.6, 0.4, 1.4]}
+            scale={[1.5, 1, 1]}
             {...props}
             dispose={null}
         >

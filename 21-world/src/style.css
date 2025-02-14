@@ -8,3 +8,8 @@ body,
     height: 100%;
     background: white;
 }
+
+@font-face {
+    font-family: 'm6x11plus';
+    src: url('./m6x11plus.ttf') format('truetype');
+}

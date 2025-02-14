@@ -1,11 +1,8 @@
-// ArrowArea.jsx
 import { RigidBody, CuboidCollider } from '@react-three/rapier'
 import { useFrame } from '@react-three/fiber'
 import { useState, useRef, forwardRef } from 'react'
-import Arrow from './Arrow'
 import * as THREE from 'three'
 
-// Fence Material with forwardRef
 const FenceMaterial = forwardRef(({ time = 0, borderAlpha = 0.5, strikeAlpha = 0.25 }, ref) => {
     return (
         <shaderMaterial
@@ -18,12 +15,12 @@ const FenceMaterial = forwardRef(({ time = 0, borderAlpha = 0.5, strikeAlpha = 0
                 uStrikeAlpha: { value: strikeAlpha },
             }}
             vertexShader={`
-        varying vec3 vPosition;
-        varying vec2 vUv;
+        varying vec3 vWorldPosition;
+        varying vec3 vNormal;
         
         void main() {
-          vPosition = position;
-          vUv = uv;
+          vWorldPosition = (modelMatrix * vec4(position, 1.0)).xyz;
+          vNormal = normalMatrix * normal;
           gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
         }
       `}
@@ -32,26 +29,40 @@ const FenceMaterial = forwardRef(({ time = 0, borderAlpha = 0.5, strikeAlpha = 0
         uniform float uBorderAlpha;
         uniform float uStrikeAlpha;
         
-        varying vec3 vPosition;
-        varying vec2 vUv;
+        varying vec3 vWorldPosition;
+        varying vec3 vNormal;
         
         void main() {
-          float strikeStrength = mod((vPosition.x + vPosition.y - uTime * 0.00035 + vPosition.z) * 2.0, 1.0);
-          strikeStrength = step(strikeStrength, 0.5) * uStrikeAlpha;
+          // 3D Stripes - Vertical animation
+          float stripe = mod(vWorldPosition.y * 2.0 - uTime * 0.5, 1.0);
+          float stripeAlpha = step(0.5, stripe) * uStrikeAlpha;
           
-          float borderStrength = max(step(1.0 - vUv.y, 0.1), step(vUv.y, 0.1)) * uBorderAlpha;
-          float alpha = max(strikeStrength, borderStrength);
+          // Edge detection using normals
+          float edge = smoothstep(0.85, 0.9, 
+            max(
+              max(abs(vNormal.x), abs(vNormal.y)),
+              abs(vNormal.z)
+            )
+          ) * uBorderAlpha;
           
-          gl_FragColor = vec4(vec3(1.0), alpha);
+          // Depth effect using normals
+          float depth = 1.0 - smoothstep(-0.2, 0.2, vNormal.y);
+          
+          gl_FragColor = vec4(
+            1.0,  // R
+            1.0,  // G
+            1.0,  // B
+            max(stripeAlpha * depth, edge) // A
+          );
         }
       `}
         />
     )
 })
 
-// Fence Component
-const Fence = ({ position, active }) => {
+const Fence = ({ active }) => {
     const materialRef = useRef()
+    const size = [1.5, 2.0, 0.5] // [width, height, depth]
 
     useFrame((state) => {
         if (materialRef.current) {
@@ -62,39 +73,31 @@ const Fence = ({ position, active }) => {
     })
 
     return (
-        <mesh position={position} visible={active}>
-            <planeGeometry args={[2, 2]} />
+        <mesh
+            position={[-6.6, 1.4, 1.4]} // Center position
+            scale={[1, 1, 1]}
+        >
+            <boxGeometry args={size} />
             <FenceMaterial ref={materialRef} />
         </mesh>
     )
 }
-// ArrowArea Component
-export const ArrowArea = ({ onIntersection, onEnter }) => {
+
+export const ArrowArea = ({ onIntersection }) => {
     const [isActive, setIsActive] = useState(false)
 
-    const handleIntersection = (enter) => {
-        setIsActive(enter)
-        onIntersection?.(enter)
-        if (enter && onEnter) onEnter()
-    }
-
     return (
-        <group position={[-6.6, 0.4, 1.4]}>
-            {/* Collider positioned at character height */}
+        <group>
             <RigidBody type="fixed" sensor>
                 <CuboidCollider
-                    args={[0.75, 0.1, 0.35]}  // Increased height to match character
-                    position={[0, 0.1, 0]}     // Center at 1m height
-                    onIntersectionEnter={() => handleIntersection(true)}
-                    onIntersectionExit={() => handleIntersection(false)}
+                    args={[0.75, 1.0, 0.25]} // Match 3D box size
+                    position={[-6.6, 1.4, 1.4]}
+                    onIntersectionEnter={() => setIsActive(true)}
+                    onIntersectionExit={() => setIsActive(false)}
                 />
             </RigidBody>
 
-            {/* Fence only visible when active */}
-            <Fence position={[0, 0.1, 0]} active={isActive} />
-
-            {/* Optional debug visual */}
-            < Arrow />
+            {isActive && <Fence active={isActive} />}
         </group>
     )
 }
