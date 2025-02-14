@@ -2,7 +2,6 @@ import { RigidBody, CuboidCollider } from '@react-three/rapier'
 import { useFrame } from '@react-three/fiber'
 import { useState, useRef, forwardRef } from 'react'
 import * as THREE from 'three'
-
 const FenceMaterial = forwardRef(({ time = 0, borderAlpha = 0.5, strikeAlpha = 0.25 }, ref) => {
     return (
         <shaderMaterial
@@ -13,53 +12,56 @@ const FenceMaterial = forwardRef(({ time = 0, borderAlpha = 0.5, strikeAlpha = 0
                 uTime: { value: time },
                 uBorderAlpha: { value: borderAlpha },
                 uStrikeAlpha: { value: strikeAlpha },
+                uStrikeWidth: { value: 0.5 },
+                uBorderWidth: { value: 0.1 }
             }}
             vertexShader={`
-        varying vec3 vWorldPosition;
-        varying vec3 vNormal;
-        
-        void main() {
-          vWorldPosition = (modelMatrix * vec4(position, 1.0)).xyz;
-          vNormal = normalMatrix * normal;
-          gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
-        }
-      `}
+          varying vec3 vPosition;
+          varying vec2 vUv;
+          varying vec3 vModelPosition;
+          
+          void main() {
+            vPosition = position;
+            vModelPosition = position; // Local position
+            vUv = uv;
+            gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
+          }
+        `}
             fragmentShader={`
-        uniform float uTime;
-        uniform float uBorderAlpha;
-        uniform float uStrikeAlpha;
-        
-        varying vec3 vWorldPosition;
-        varying vec3 vNormal;
-        
-        void main() {
-          // 3D Stripes - Vertical animation
-          float stripe = mod(vWorldPosition.y * 2.0 - uTime * 0.5, 1.0);
-          float stripeAlpha = step(0.5, stripe) * uStrikeAlpha;
+          uniform float uTime;
+          uniform float uBorderAlpha;
+          uniform float uStrikeAlpha;
+          uniform float uStrikeWidth;
+          uniform float uBorderWidth;
           
-          // Edge detection using normals
-          float edge = smoothstep(0.85, 0.9, 
-            max(
-              max(abs(vNormal.x), abs(vNormal.y)),
-              abs(vNormal.z)
-            )
-          ) * uBorderAlpha;
-          
-          // Depth effect using normals
-          float depth = 1.0 - smoothstep(-0.2, 0.2, vNormal.y);
-          
-          gl_FragColor = vec4(
-            1.0,  // R
-            1.0,  // G
-            1.0,  // B
-            max(stripeAlpha * depth, edge) // A
-          );
-        }
-      `}
+          varying vec3 vPosition;
+          varying vec3 vModelPosition;
+          varying vec2 vUv;
+  
+          void main() {
+            // Diagonal stripe pattern using 3D coordinates
+             float strike = mod(
+                (vPosition.x + vPosition.y - uTime * 0.35 + vPosition.z) / // 1000x faster
+                uStrikeWidth * 0.5, 
+                1.0
+            );
+            float strikeStrength = step(strike, 0.5) * uStrikeAlpha;
+  
+            // Border effect using UV coordinates
+            float borderStrength = max(
+              step(1.0 - vUv.y, uBorderWidth), 
+              step(vUv.y, uBorderWidth)
+            ) * uBorderAlpha;
+  
+            // Combine effects
+            float alpha = max(strikeStrength, borderStrength);
+            
+            gl_FragColor = vec4(vec3(1.0), alpha);
+          }
+        `}
         />
     )
 })
-
 const Fence = ({ active }) => {
     const materialRef = useRef()
     const size = [1.5, 2.0, 0.5] // [width, height, depth]
@@ -74,7 +76,7 @@ const Fence = ({ active }) => {
 
     return (
         <mesh
-            position={[-6.6, 1.4, 1.4]} // Center position
+            position={[-6.6, 1.4, 1.4]}
             scale={[1, 1, 1]}
         >
             <boxGeometry args={size} />
