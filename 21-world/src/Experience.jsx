@@ -51,7 +51,7 @@ export default function Experience() {
             <Physics
                 gravity={[0, -9.81, 0]}
                 timeStep={"vary"}
-            // debug
+                debug
             >
                 <EnvironmentSettings
                     showCards={cameraState === 'screen-view'}

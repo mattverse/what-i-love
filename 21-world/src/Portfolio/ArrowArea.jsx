@@ -3,7 +3,9 @@ import { useFrame } from '@react-three/fiber'
 import { useState, useRef, forwardRef } from 'react'
 import { Text } from "@react-three/drei";
 import * as THREE from 'three'
-const FenceMaterial = forwardRef(({ time = 0, borderAlpha = 0.5, strikeAlpha = 0.25 }, ref) => {
+
+import InstructionBox from "../InstructionBox.jsx"
+const FenceMaterial = forwardRef(({ time = 0, borderAlpha = 0.5, strikeAlpha = 0.25, opacity = 1 }, ref) => {
     return (
         <shaderMaterial
             ref={ref}
@@ -16,7 +18,8 @@ const FenceMaterial = forwardRef(({ time = 0, borderAlpha = 0.5, strikeAlpha = 0
                 uStrikeAlpha: { value: strikeAlpha },
                 uStrikeWidth: { value: 0.2 },
                 uBorderWidth: { value: 0.05 },
-                uBandHeight: { value: 0.2 }
+                uBandHeight: { value: 0.2 },
+                uOpacity: { value: opacity }
             }}
             vertexShader={`
                 varying vec3 vPosition;
@@ -35,6 +38,7 @@ const FenceMaterial = forwardRef(({ time = 0, borderAlpha = 0.5, strikeAlpha = 0
                 uniform float uStrikeWidth;
                 uniform float uBorderWidth;
                 uniform float uBandHeight;
+                uniform float uOpacity;
                 
                 varying vec3 vPosition;
                 varying vec3 vModelPosition;
@@ -61,7 +65,6 @@ const FenceMaterial = forwardRef(({ time = 0, borderAlpha = 0.5, strikeAlpha = 0
 
                     // Combine effects
                     float alpha = max(strikeStrength, edgeBorder);
-                    
                     gl_FragColor = vec4(vec3(1.0), alpha);
                 }
             `}
@@ -118,22 +121,51 @@ const BorderPlane = () => {
         </mesh>
     )
 }
-
-// Simplified Fence component (only animated part)
 const Fence = ({ active }) => {
     const materialRef = useRef()
+    const meshRef = useRef()
     const size = [3., 2.0, 0.8]
 
-    useFrame((state) => {
+    // Animation state
+    const targetY = active ? 1.1 : 0
+    const targetOpacity = active ? 1 : 0
+    const currentY = useRef(0)
+    const currentOpacity = useRef(0)
+
+    useFrame((state, delta) => {
+        if (!meshRef.current) return
+
+        // Smoothly animate position
+        currentY.current = THREE.MathUtils.lerp(currentY.current, targetY, 5 * delta)
+        meshRef.current.position.y = currentY.current
+
+        // Smoothly animate opacity
+        currentOpacity.current = THREE.MathUtils.lerp(currentOpacity.current, targetOpacity, 5 * delta)
+
         if (materialRef.current) {
+            // Update shader uniforms with interpolated values
             materialRef.current.uniforms.uTime.value = state.clock.getElapsedTime()
-            materialRef.current.uniforms.uBorderAlpha.value = active ? 0.8 : 0
-            materialRef.current.uniforms.uStrikeAlpha.value = active ? 0.4 : 0
+            materialRef.current.uniforms.uOpacity.value = currentOpacity.current
+
+            // Smoothly interpolate border and strike effects
+            materialRef.current.uniforms.uBorderAlpha.value = THREE.MathUtils.lerp(
+                materialRef.current.uniforms.uBorderAlpha.value,
+                active ? 0.8 : 0,
+                5 * delta
+            )
+            materialRef.current.uniforms.uStrikeAlpha.value = THREE.MathUtils.lerp(
+                materialRef.current.uniforms.uStrikeAlpha.value,
+                active ? 0.4 : 0,
+                5 * delta
+            )
         }
     })
 
     return (
-        <mesh position={[-6.2, 1.3, 1.9]}>
+        <mesh
+            ref={meshRef}
+            position={[-6.2, 0, 1.9]} // Start at ground level
+        >
             <boxGeometry args={size} />
             <FenceMaterial ref={materialRef} />
         </mesh>
@@ -145,7 +177,6 @@ export const ArrowArea = ({ onIntersection }) => {
 
     return (
         <group>
-            {/* Always visible border plane */}
             <BorderPlane />
 
             <RigidBody type="fixed" sensor>
@@ -157,7 +188,6 @@ export const ArrowArea = ({ onIntersection }) => {
                 />
             </RigidBody>
 
-            {/* Only show animated fence when active */}
             {isActive && <Fence active={isActive} />}
 
             <Text

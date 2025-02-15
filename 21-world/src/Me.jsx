@@ -302,7 +302,7 @@ export default function Me({ }) {
                         position={[0.4, 1.1, -1.5]}
                     />
                 </group>
-                {showInstruction && <InstructionBox ref={instructionBoxRef} />}
+                {showInstruction && <InstructionBox ref={instructionBoxRef} text={"Use WASD to move"} />}
             </RigidBody>
         </>
     )
