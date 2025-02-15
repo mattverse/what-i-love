@@ -1,6 +1,7 @@
 import { RigidBody, CuboidCollider } from '@react-three/rapier'
 import { useFrame } from '@react-three/fiber'
 import { useState, useRef, forwardRef } from 'react'
+import { Text } from "@react-three/drei";
 import * as THREE from 'three'
 const FenceMaterial = forwardRef(({ time = 0, borderAlpha = 0.5, strikeAlpha = 0.25 }, ref) => {
     return (
@@ -67,54 +68,62 @@ const FenceMaterial = forwardRef(({ time = 0, borderAlpha = 0.5, strikeAlpha = 0
         />
     )
 })
+const BorderPlane = () => {
+    const materialRef = useRef()
+    const size = [3., 0.8]
 
-// Add new shader material for the border plane
-const BorderPlaneMaterial = forwardRef(({ borderAlpha = 0.8 }, ref) => {
     return (
-        <shaderMaterial
-            ref={ref}
-            transparent
-            depthWrite={false}
-            side={THREE.DoubleSide}
-            uniforms={{
-                uBorderAlpha: { value: borderAlpha },
-                uBorderWidth: { value: 0.1 }
-            }}
-            vertexShader={`
-                varying vec2 vUv;
-                void main() {
-                    vUv = uv;
-                    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-                }
-            `}
-            fragmentShader={`
-                uniform float uBorderAlpha;
-                uniform float uBorderWidth;
-                varying vec2 vUv;
+        <mesh
+            position={[-6.2, 0.37, 1.9]}
+            rotation={[-Math.PI / 2, 0, 0]}
+        >
+            <planeGeometry args={size} />
+            <shaderMaterial
+                ref={materialRef}
+                transparent
+                depthWrite={false}
+                side={THREE.DoubleSide}
+                uniforms={{
+                    uBorderAlpha: { value: 0.8 },
+                    uBorderWidthHorizontal: { value: 0.015 }, // Left/right
+                    uBorderWidthVertical: { value: 0.05 }    // Top/bottom
+                }}
+                vertexShader={`
+                    varying vec2 vUv;
+                    void main() {
+                        vUv = uv;
+                        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                    }
+                `}
+                fragmentShader={`
+                    uniform float uBorderAlpha;
+                    uniform float uBorderWidthHorizontal;
+                    uniform float uBorderWidthVertical;
+                    varying vec2 vUv;
 
-                void main() {
-                    // Calculate border areas
-                    float border = smoothstep(0.0, uBorderWidth, vUv.x) *
-                                  smoothstep(1.0, 1.0 - uBorderWidth, vUv.x) *
-                                  smoothstep(0.0, uBorderWidth, vUv.y) *
-                                  smoothstep(1.0, 1.0 - uBorderWidth, vUv.y);
-                    
-                    // Invert to get outline
-                    float alpha = 1.0 - border;
-                    alpha = step(0.5, alpha) * uBorderAlpha;
-                    
-                    gl_FragColor = vec4(vec3(1.0), alpha);
-                }
-            `}
-        />
+                    void main() {
+                        // Calculate borders with separate widths
+                        float left = step(vUv.x, uBorderWidthHorizontal);
+                        float right = step(1.0 - uBorderWidthHorizontal, vUv.x);
+                        float bottom = step(vUv.y, uBorderWidthVertical);
+                        float top = step(1.0 - uBorderWidthVertical, vUv.y);
+                        
+                        float border = min(left + right + bottom + top, 1.0);
+                        float alpha = border * uBorderAlpha;
+                        
+                        gl_FragColor = vec4(vec3(1.0), alpha);
+                    }
+                `}
+            />
+        </mesh>
     )
-});
+}
 
-// Updated Fence component
+// Simplified Fence component (only animated part)
 const Fence = ({ active }) => {
     const materialRef = useRef()
-    const planeMaterialRef = useRef()
-    const size = [1.5, 2.0, 0.5] // [width, height, depth]
+    const size = [3., 2.0, 0.8]
+
     useFrame((state) => {
         if (materialRef.current) {
             materialRef.current.uniforms.uTime.value = state.clock.getElapsedTime()
@@ -124,25 +133,12 @@ const Fence = ({ active }) => {
     })
 
     return (
-        <group>
-            {/* Main Fence Body */}
-            <mesh position={[-6.6, 1.4, 1.4]}>
-                <boxGeometry args={size} />
-                <FenceMaterial ref={materialRef} />
-            </mesh>
-
-            {/* Border Plane */}
-            <mesh
-                position={[-6.6, 0.5, 1.4]} // Slightly above ground
-                rotation={[-Math.PI / 2, 0, 0]}
-            >
-                <planeGeometry args={[1.5, 0.5]} />
-                <BorderPlaneMaterial ref={planeMaterialRef} />
-            </mesh>
-        </group>
+        <mesh position={[-6.2, 1.3, 1.9]}>
+            <boxGeometry args={size} />
+            <FenceMaterial ref={materialRef} />
+        </mesh>
     )
 }
-
 
 export const ArrowArea = ({ onIntersection }) => {
     const [isActive, setIsActive] = useState(false)
@@ -154,8 +150,8 @@ export const ArrowArea = ({ onIntersection }) => {
 
             <RigidBody type="fixed" sensor>
                 <CuboidCollider
-                    args={[0.75, 1.0, 0.25]}
-                    position={[-6.6, 1.4, 1.4]}
+                    args={[1.45, 0.2, 0.25]}
+                    position={[-6.2, 1.4, 1.9]}
                     onIntersectionEnter={() => setIsActive(true)}
                     onIntersectionExit={() => setIsActive(false)}
                 />
@@ -163,66 +159,17 @@ export const ArrowArea = ({ onIntersection }) => {
 
             {/* Only show animated fence when active */}
             {isActive && <Fence active={isActive} />}
+
+            <Text
+                font="./m6x11plus.ttf"
+                color={"black"}
+                lineHeight={0.8}
+                fontSize={0.3}
+                rotation={[-Math.PI / 2, 0, 0]}
+                position={[-6.7, 0.38, 2.1]}
+            >
+                {"VIEW PORTFOLIO"}
+            </Text>
         </group>
-    )
-}
-
-const BorderPlane = () => {
-    const materialRef = useRef()
-    const size = [1.5, 0.5]
-
-    useFrame(() => {
-        if (materialRef.current) {
-            // Standard conditional check instead of optional chaining assignment
-            if (materialRef.current.uniforms.uTime) {
-                materialRef.current.uniforms.uTime.value = performance.now() / 1000
-            }
-        }
-    })
-
-
-    return (
-        <mesh
-            position={[-6.6, 0.01, 1.4]}
-            rotation={[-Math.PI / 2, 0, 0]}
-        >
-            <planeGeometry args={size} />
-            <shaderMaterial
-                ref={materialRef}
-                transparent
-                depthWrite={false}
-                side={THREE.DoubleSide}
-                uniforms={{
-                    uBorderAlpha: { value: 0.8 },
-                    uBorderWidth: { value: 0.1 },
-                    uTime: { value: 0 }
-                }}
-                vertexShader={`
-                    varying vec2 vUv;
-                    void main() {
-                        vUv = uv;
-                        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-                    }
-                `}
-                fragmentShader={`
-                    uniform float uBorderAlpha;
-                    uniform float uBorderWidth;
-                    varying vec2 vUv;
-
-                    void main() {
-                        // Calculate border mask
-                        float border = 
-                            smoothstep(0.0, uBorderWidth, vUv.x) *
-                            smoothstep(1.0, 1.0 - uBorderWidth, vUv.x) *
-                            smoothstep(0.0, uBorderWidth, vUv.y) *
-                            smoothstep(1.0, 1.0 - uBorderWidth, vUv.y);
-                        
-                        // Invert to get outline effect
-                        float alpha = (1.0 - border) * uBorderAlpha;
-                        gl_FragColor = vec4(vec3(1.0), alpha);
-                    }
-                `}
-            />
-        </mesh>
     )
 }

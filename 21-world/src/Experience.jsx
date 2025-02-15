@@ -48,7 +48,11 @@ export default function Experience() {
         <OrbitControls makeDefault />
         <Lights />
         <Suspense >
-            <Physics gravity={[0, -9.81, 0]} timeStep={"vary"}>
+            <Physics
+                gravity={[0, -9.81, 0]}
+                timeStep={"vary"}
+            // debug
+            >
                 <EnvironmentSettings
                     showCards={cameraState === 'screen-view'}
                 />
