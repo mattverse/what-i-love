@@ -125,6 +125,8 @@ const Fence = ({ active }) => {
     const materialRef = useRef()
     const meshRef = useRef()
     const size = [3., 2.0, 0.8]
+    const [visible, setVisible] = useState(false)
+
 
     // Animation state
     const targetY = active ? 1.1 : 0
@@ -138,6 +140,11 @@ const Fence = ({ active }) => {
         // Smoothly animate position
         currentY.current = THREE.MathUtils.lerp(currentY.current, targetY, 5 * delta)
         meshRef.current.position.y = currentY.current
+
+
+        // Control visibility based on activity and position
+        if (active && !visible) setVisible(true)
+        if (!active && currentY.current < 0.1 && visible) setVisible(false)
 
         // Smoothly animate opacity
         currentOpacity.current = THREE.MathUtils.lerp(currentOpacity.current, targetOpacity, 5 * delta)
@@ -164,7 +171,9 @@ const Fence = ({ active }) => {
     return (
         <mesh
             ref={meshRef}
-            position={[-6.2, 0, 1.9]} // Start at ground level
+            position={[-6.2, 1., 1.9]} // Start at ground level
+            visible={visible}  // Add visibility control
+
         >
             <boxGeometry args={size} />
             <FenceMaterial ref={materialRef} />
@@ -188,7 +197,8 @@ export const ArrowArea = ({ onIntersection }) => {
                 />
             </RigidBody>
 
-            {isActive && <Fence active={isActive} />}
+            <Fence active={isActive} />
+
 
             <Text
                 font="./m6x11plus.ttf"
