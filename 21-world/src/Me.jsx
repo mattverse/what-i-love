@@ -34,8 +34,12 @@ export default function Me({ }) {
 
 
     const [hasInteracted, setHasInteracted] = useState(false)
-
     const [isInArrowArea, setIsInArrowArea] = useState(false)
+
+    const [showInstruction, setShowInstruction] = useState(true)
+    // NEW: Store the initial position to track movement
+    const startPositionRef = useRef(null)
+
 
     const handleArrowIntersection = (inside) => {
         setIsInArrowArea(inside)
@@ -64,6 +68,14 @@ export default function Me({ }) {
             }
         });
     }, [robot]);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setShowInstruction(false)
+        }, 5000)
+        return () => clearTimeout(timer)
+    }, [])
+
 
     useFrame((state, delta) => {
         if (!characterRigidBodyRef.current) return;
@@ -179,10 +191,18 @@ export default function Me({ }) {
         state.camera.position.copy(smoothedCameraPosition)
         state.camera.lookAt(smoothedCameraTarget)
 
-        // if (characterRef.current && instructionBoxRef.current) {
-        //     instructionBoxRef.current.position.set(0, 2, 0);
-
-        // }
+        if (startPositionRef.current === null) {
+            // Set the initial position once
+            startPositionRef.current = new THREE.Vector3(currentPosition.x, currentPosition.y, currentPosition.z)
+        } else {
+            // Calculate the distance moved from the starting position
+            const currentPosVec = new THREE.Vector3(currentPosition.x, currentPosition.y, currentPosition.z)
+            const distanceMoved = currentPosVec.distanceTo(startPositionRef.current)
+            const movementThreshold = 5 // adjust this threshold as needed
+            if (distanceMoved > movementThreshold) {
+                setShowInstruction(false)
+            }
+        }
     })
 
     useEffect(() => {
@@ -282,7 +302,7 @@ export default function Me({ }) {
                         position={[0.4, 1.1, -1.5]}
                     />
                 </group>
-                <InstructionBox ref={instructionBoxRef} />
+                {showInstruction && <InstructionBox ref={instructionBoxRef} />}
             </RigidBody>
         </>
     )
