@@ -1,76 +1,79 @@
 import { RigidBody, CuboidCollider } from '@react-three/rapier'
 import { useFrame } from '@react-three/fiber'
-import { useState, useRef, forwardRef } from 'react'
+import { useState, useRef, forwardRef, useMemo } from 'react'
 import { Text } from "@react-three/drei";
 import * as THREE from 'three'
 
 import InstructionBox from "../InstructionBox.jsx"
+
 const FenceMaterial = forwardRef(({ time = 0, borderAlpha = 0.5, strikeAlpha = 0.25, opacity = 1 }, ref) => {
+    const uniforms = useMemo(() => ({
+        uTime: { value: time },
+        uBorderAlpha: { value: borderAlpha },
+        uStrikeAlpha: { value: strikeAlpha },
+        uStrikeWidth: { value: 0.2 },
+        uBorderWidth: { value: 0.05 },
+        uBandHeight: { value: 0.2 },
+        uOpacity: { value: opacity }
+    }), [time, borderAlpha, strikeAlpha, opacity])
+
     return (
         <shaderMaterial
             ref={ref}
             transparent
             depthWrite={false}
             side={THREE.DoubleSide}
-            uniforms={{
-                uTime: { value: time },
-                uBorderAlpha: { value: borderAlpha },
-                uStrikeAlpha: { value: strikeAlpha },
-                uStrikeWidth: { value: 0.2 },
-                uBorderWidth: { value: 0.05 },
-                uBandHeight: { value: 0.2 },
-                uOpacity: { value: opacity }
-            }}
+            uniforms={uniforms}
             vertexShader={`
-                varying vec3 vPosition;
-                varying vec3 vModelPosition;
-                
-                void main() {
-                    vPosition = position;
-                    vModelPosition = position;
-                    gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
-                }
-            `}
+          varying vec3 vPosition;
+          varying vec3 vModelPosition;
+          
+          void main() {
+              vPosition = position;
+              vModelPosition = position;
+              gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
+          }
+        `}
             fragmentShader={`
-                uniform float uTime;
-                uniform float uBorderAlpha;
-                uniform float uStrikeAlpha;
-                uniform float uStrikeWidth;
-                uniform float uBorderWidth;
-                uniform float uBandHeight;
-                uniform float uOpacity;
-                
-                varying vec3 vPosition;
-                varying vec3 vModelPosition;
-
-                void main() {
-                    // Vertical band boundaries
-                    float verticalPosition = abs(vModelPosition.y);
-                    if(verticalPosition > uBandHeight) discard;
-
-                    // Animated diagonal stripes
-                    float strike = mod(
-                        (vPosition.x + vPosition.y - uTime * 0.35 + vPosition.z) / 
-                        uStrikeWidth * 0.5, 
-                        1.0
-                    );
-                    float strikeStrength = step(strike, 0.5) * uStrikeAlpha;
-
-                    // Top and bottom edge borders
-                    float edgeBorder = smoothstep(
-                        uBandHeight - uBorderWidth * 2.0,
-                        uBandHeight,
-                        verticalPosition
-                    ) * uBorderAlpha;
-
-                    // Combine effects
-                    float alpha = max(strikeStrength, edgeBorder);
-                    gl_FragColor = vec4(vec3(1.0), alpha);
-                }
-            `}
+          uniform float uTime;
+          uniform float uBorderAlpha;
+          uniform float uStrikeAlpha;
+          uniform float uStrikeWidth;
+          uniform float uBorderWidth;
+          uniform float uBandHeight;
+          uniform float uOpacity;
+          
+          varying vec3 vPosition;
+          varying vec3 vModelPosition;
+  
+          void main() {
+              // Vertical band boundaries
+              float verticalPosition = abs(vModelPosition.y);
+              if(verticalPosition > uBandHeight) discard;
+  
+              // Animated diagonal stripes
+              float strike = mod(
+                  (vPosition.x + vPosition.y - uTime * 0.35 + vPosition.z) / uStrikeWidth * 0.5, 
+                  1.0
+              );
+              float strikeStrength = step(strike, 0.5) * uStrikeAlpha;
+  
+              // Top and bottom edge borders
+              float edgeBorder = smoothstep(
+                  uBandHeight - uBorderWidth * 2.0,
+                  uBandHeight,
+                  verticalPosition
+              ) * uBorderAlpha;
+  
+              // Combine effects
+              float alpha = max(strikeStrength, edgeBorder);
+              gl_FragColor = vec4(vec3(1.0), alpha);
+          }
+        `}
         />
     )
 })
+
 const BorderPlane = () => {
     const materialRef = useRef()
     const size = [3., 0.8]
