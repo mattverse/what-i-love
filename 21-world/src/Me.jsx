@@ -178,7 +178,7 @@ export const Me = forwardRef((props, ref) => {
             characterRef.current.rotation.y = angle
         }
 
-        // Camera follow logic
+
         const cameraOffset = new THREE.Vector3(-2, 8, 8) // Fixed offset
         const desiredCameraPosition = new THREE.Vector3().addVectors(newPosition, cameraOffset)
 

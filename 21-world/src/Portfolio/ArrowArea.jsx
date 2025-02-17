@@ -1,6 +1,6 @@
 import { RigidBody, CuboidCollider } from '@react-three/rapier'
 import { useFrame } from '@react-three/fiber'
-import { useState, useRef, forwardRef, useMemo } from 'react'
+import { useState, useRef, forwardRef, useMemo, useEffect } from 'react'
 import { Text } from "@react-three/drei";
 import * as THREE from 'three'
 
@@ -184,18 +184,30 @@ const Fence = ({ active }) => {
     )
 }
 
-export const ArrowArea = ({ characterRef }) => {
+export const ArrowArea = ({ characterRef, onSpacePressed }) => {
     const [isActive, setIsActive] = useState(false)
     const instructionRef = useRef()
-    const offset = useMemo(() => new THREE.Vector3(0, 2.8, 0), [])
+    const offset = useMemo(() => new THREE.Vector3(0, 2.5, 0), [])
+
+    // Update the instruction box position (existing code)
     useFrame(() => {
         if (instructionRef.current && characterRef?.current) {
-            // Get current character position
             const characterPos = characterRef.current.translation()
-            // Update instruction box position with offset
             instructionRef.current.position.copy(characterPos).add(offset)
         }
     })
+
+    // Listen for the space key only when the area is active
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (e.code === 'Space' && isActive) {
+                onSpacePressed()  // Tell the parent to change the camera mode
+            }
+        }
+        window.addEventListener('keydown', handleKeyDown)
+        return () => window.removeEventListener('keydown', handleKeyDown)
+    }, [isActive, onSpacePressed])
+
     return (
         <group>
             <BorderPlane />
@@ -210,7 +222,6 @@ export const ArrowArea = ({ characterRef }) => {
             </RigidBody>
 
             <Fence active={isActive} />
-
 
             <Text
                 font="./m6x11plus.ttf"

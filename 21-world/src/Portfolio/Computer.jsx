@@ -16,7 +16,7 @@ import FloatingText from './GlowingText'
 import PortfolioCards from './PortfolioCards'
 
 
-export function Computer({ showCards, ...props }) {
+export function Computer({ ...props }) {
   const { nodes, materials } = useGLTF('./portfolio/computer.glb')
   const screenRef = useRef();
 
@@ -47,18 +47,7 @@ export function Computer({ showCards, ...props }) {
             geometry={new THREE.PlaneGeometry(0.78, 0.38)}
             position={[-5.39, 1.4, 0.26]}
             scale={2.05}
-          >{showCards ? (
-            <meshStandardMaterial color="white">
-              <RenderTexture attach="map" anisotropy={16}>
-                <color attach="background" args={['black']} />
-                <PerspectiveCamera makeDefault position={[0, 2, 2.5]} />
-                <PortfolioCards
-                  position={[0, 0, 0]}
-                  scale={[0.35, 0.35, 0.35]}
-                />
-              </RenderTexture>
-            </meshStandardMaterial>
-          ) : (
+          >
             <meshStandardMaterial toneMapped={false} emissive="#35c193" emissiveIntensity={2}>
               <RenderTexture
                 attach="map"
@@ -69,7 +58,7 @@ export function Computer({ showCards, ...props }) {
                 <FloatingText />
               </RenderTexture>
             </meshStandardMaterial>
-          )}
+
 
           </mesh>
         </group>
@@ -77,8 +66,8 @@ export function Computer({ showCards, ...props }) {
         <EffectComposer disableNormalPass>
           <ToneMapping mode={ToneMappingMode.ACES_FILMIC} />
           <Bloom
-            luminanceThreshold={showCards ? 1.2 : 0.8}
-            intensity={showCards ? 2 : 4}
+            luminanceThreshold={0.8}
+            intensity={4}
             mipmapBlur
           />
         </EffectComposer>

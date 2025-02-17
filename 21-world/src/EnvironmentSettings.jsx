@@ -17,7 +17,7 @@ import { ArrowArea } from './Portfolio/ArrowArea';
 import { Computer } from './Portfolio/Computer';
 import PortfolioCards from './Portfolio/PortfolioCards';
 
-export default function EnvironmentSettings({ showCards, characterRef }) {
+export default function EnvironmentSettings({ characterRef, onSpacePressed }) {
     return (
         <>
             <Ground />
@@ -27,11 +27,12 @@ export default function EnvironmentSettings({ showCards, characterRef }) {
             <Osmosis />
             <Riiid />
             <Awake />
-            <Computer showCards={showCards} />
+            <Computer />
             <ArrowArea
                 characterRef={characterRef}
+                onSpacePressed={onSpacePressed}
             />
-            <PortfolioCards />
+            {/* <PortfolioCards /> */}
         </>
     );
 }
