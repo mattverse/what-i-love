@@ -1,5 +1,5 @@
 import { useAnimations, useGLTF, useKeyboardControls } from '@react-three/drei'
-import { useEffect, useState, useRef, useMemo } from 'react'
+import { useEffect, useState, useRef, useMemo, useImperativeHandle, forwardRef } from 'react'
 import { useFrame, useThree } from "@react-three/fiber"
 import { RigidBody, CuboidCollider } from '@react-three/rapier'
 import * as THREE from 'three'
@@ -7,15 +7,15 @@ import * as THREE from 'three'
 import { DissolveMaterialImpl } from './DissolveMaterial' // The custom material from above
 import InstructionBox from './InstructionBox' // Import the InstructionBox component
 
-
-
-export default function Me({ }) {
+export const Me = forwardRef((props, ref) => {
     const [subscribeKeys, getKeys] = useKeyboardControls()
     const robot = useGLTF('./robot-3.glb')
     const robotAnimations = useAnimations(robot.animations, robot.scene)
     const [currentAction, setCurrentAction] = useState(null)
     const characterRef = useRef()
     const characterRigidBodyRef = useRef()
+    useImperativeHandle(ref, () => characterRigidBodyRef.current)
+
     const velocity = useRef(new THREE.Vector3())
     const movementDirection = useRef(new THREE.Vector3())
 
@@ -30,8 +30,6 @@ export default function Me({ }) {
 
     const originalMaterialsRef = useRef([])
     const dissolveMaterialsRef = useRef([])
-    const instructionBoxRef = useRef()
-
 
     const [hasInteracted, setHasInteracted] = useState(false)
     const [isInArrowArea, setIsInArrowArea] = useState(false)
@@ -305,27 +303,15 @@ export default function Me({ }) {
                 {
                     showInstruction &&
                     <InstructionBox
-                        ref={instructionBoxRef}
-                        text={"Use WASD to move"}
-                        imageUrl="./spaceBar.png"
-                        imageSize={[32, 32]}
+                        textBeforeImage={"Use WASD to move"}
+                        canvasWidth={192}
+                        canvasHeight={32}
                     />
-                    // <InstructionBox
-                    //     textBeforeImage="Press "
-                    //     textAfterImage=" to jump"
-                    //     image={{ url: './spaceBar.png' }}
-                    //     imagePosition="inline"
-                    //     canvasWidth={600}
-                    //     canvasHeight={80}
-                    //     fontSize={40}
-                    //     imageSize={[60, 60]}
-                    // />
-
                 }
             </RigidBody>
         </>
     )
-}
+})
 
 function transitionToAction(robotAnimations, currentAction, newActionName) {
     if (currentAction) {

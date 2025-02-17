@@ -17,12 +17,7 @@ import { ArrowArea } from './Portfolio/ArrowArea';
 import { Computer } from './Portfolio/Computer';
 import PortfolioCards from './Portfolio/PortfolioCards';
 
-export default function EnvironmentSettings({ showCards }) {
-    const [isInArrowArea, setIsInArrowArea] = useState(false)
-
-    const handleArrowIntersection = (inside) => {
-        setIsInArrowArea(inside)
-    }
+export default function EnvironmentSettings({ showCards, characterRef }) {
     return (
         <>
             <Ground />
@@ -34,8 +29,7 @@ export default function EnvironmentSettings({ showCards }) {
             <Awake />
             <Computer showCards={showCards} />
             <ArrowArea
-                onIntersection={handleArrowIntersection}
-                onEnter={() => console.log("Entered arrow area!")}
+                characterRef={characterRef}
             />
             <PortfolioCards />
         </>

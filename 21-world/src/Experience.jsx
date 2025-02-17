@@ -1,7 +1,7 @@
 import { Physics } from '@react-three/rapier'
 
 import Lights from './Lights.jsx'
-import Me from './Me.jsx'
+import { Me } from './Me.jsx'
 import EnvironmentSettings from './EnvironmentSettings.jsx'
 import * as THREE from 'three'
 import { Suspense, useState, useRef } from 'react'
@@ -18,6 +18,7 @@ export default function Experience() {
     const [cameraState, setCameraState] = useState('follow');
     const cameraTarget = useRef(new THREE.Vector3());
     const cameraPosition = useRef(new THREE.Vector3());
+    const characterRef = useRef()
 
 
 
@@ -55,8 +56,9 @@ export default function Experience() {
             >
                 <EnvironmentSettings
                     showCards={cameraState === 'screen-view'}
+                    characterRef={characterRef}
                 />
-                <Me />
+                <Me ref={characterRef} />
             </Physics>
         </Suspense>
 

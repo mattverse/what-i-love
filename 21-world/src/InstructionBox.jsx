@@ -1,33 +1,38 @@
-import { forwardRef, useMemo, useEffect, useState, useLayoutEffect } from 'react'
+import { forwardRef, useMemo, useEffect, useState, useRef } from 'react'
 import * as THREE from 'three'
 
 const InstructionBox = forwardRef(({
     localOffset = [0.25, 2, -1.2],
-    textBeforeImage = "Press ",
+    textBeforeImage = "",
     textAfterImage = "",
-    image = null,
-    canvasWidth = 512,
-    canvasHeight = 64,
-    imageSize = [48, 48],
-    imagePosition = 'inline',
-    fontSize = 32
+    image,
+    imagePosition = "inline",
+    canvasWidth = 600,
+    canvasHeight = 80,
+    fontSize = 24,
+    imageSize = [60, 60]
 }, ref) => {
-    const [contentReady, setContentReady] = useState(false)
-    const [textureSize, setTextureSize] = useState([1, 1])
+    const [texture, setTexture] = useState(null)
+    const canvasRef = useRef(document.createElement('canvas'))
+    const contextRef = useRef(null)
 
-    const canvasTexture = useMemo(() => {
-        const canvas = document.createElement('canvas')
+    // Initialize canvas and base texture
+    useMemo(() => {
+        const canvas = canvasRef.current
         canvas.width = canvasWidth
         canvas.height = canvasHeight
-        return new THREE.CanvasTexture(canvas)
+        contextRef.current = canvas.getContext('2d')
+        setTexture(new THREE.CanvasTexture(canvas))
     }, [canvasWidth, canvasHeight])
 
-    useLayoutEffect(() => {
-        const canvas = canvasTexture.image
-        const context = canvas.getContext('2d')
-        let isMounted = true
+    // Update canvas content when props change
+    useEffect(() => {
+        const context = contextRef.current
+        const canvas = canvasRef.current
+        if (!context || !canvas) return
 
-        const drawContent = async () => {
+        const draw = (img) => {
+            // Clear canvas
             context.clearRect(0, 0, canvas.width, canvas.height)
 
             // Draw background
@@ -37,73 +42,82 @@ const InstructionBox = forwardRef(({
             // Set text style
             context.fillStyle = 'white'
             context.font = `${fontSize}px "m6x11plus"`
+            context.textAlign = 'center'
             context.textBaseline = 'middle'
 
-            let textX = 0
-            let textY = canvas.height / 2
-            let imageX = 0
-            let imageY = (canvas.height - imageSize[1]) / 2
+            if (image?.url && img) {
+                if (imagePosition === 'inline') {
+                    // Calculate positions for inline layout
+                    const textBeforeWidth = context.measureText(textBeforeImage).width
+                    const textAfterWidth = context.measureText(textAfterImage).width
+                    const totalWidth = textBeforeWidth + imageSize[0] + textAfterWidth
 
-            // Measure text components
-            const beforeWidth = context.measureText(textBeforeImage).width
-            const afterWidth = context.measureText(textAfterImage).width
-            const totalTextWidth = beforeWidth + afterWidth
-            const imageSpacing = image ? imageSize[0] + 10 : 0
-            const totalWidth = totalTextWidth + imageSpacing
+                    let xPosition = (canvas.width - totalWidth) / 2
 
-            // Calculate positions
-            switch (imagePosition) {
-                case 'left':
-                    textX = imageSize[0] + 20
-                    imageX = 10
-                    break
-                case 'right':
-                    textX = 10
-                    imageX = canvas.width - imageSize[0] - 10
-                    break
-                case 'inline':
-                default:
-                    textX = (canvas.width - totalWidth) / 2
-                    imageX = textX + beforeWidth + 5
-            }
+                    // Draw text before image
+                    context.fillText(textBeforeImage, xPosition + textBeforeWidth / 2, canvas.height / 2)
+                    xPosition += textBeforeWidth
 
-            // Draw text before image
-            context.fillText(textBeforeImage, textX, textY)
+                    // Draw image
+                    context.drawImage(
+                        img,
+                        xPosition,
+                        (canvas.height - imageSize[1]) / 2,
+                        imageSize[0],
+                        imageSize[1]
+                    )
+                    xPosition += imageSize[0]
 
-            if (image) {
-                await new Promise((resolve) => {
-                    const img = new Image()
-                    img.onload = () => {
-                        if (!isMounted) return
-                        context.drawImage(img, imageX, imageY, ...imageSize)
-                        context.fillText(textAfterImage, imageX + imageSize[0] + 5, textY)
-                        resolve()
-                    }
-                    img.src = image.url
-                })
+                    // Draw text after image
+                    context.fillText(textAfterImage, xPosition + textAfterWidth / 2, canvas.height / 2)
+                } else {
+                    // Block layout (image above text)
+                    const totalHeight = imageSize[1] + fontSize + 10
+                    let yPosition = (canvas.height - totalHeight) / 2
+
+                    // Draw image
+                    context.drawImage(
+                        img,
+                        (canvas.width - imageSize[0]) / 2,
+                        yPosition,
+                        imageSize[0],
+                        imageSize[1]
+                    )
+                    yPosition += imageSize[1] + 10
+
+                    // Draw combined text
+                    context.fillText(
+                        textBeforeImage + textAfterImage,
+                        canvas.width / 2,
+                        yPosition + fontSize / 2
+                    )
+                }
             } else {
-                context.fillText(textAfterImage, textX + beforeWidth, textY)
+                // Fallback: Just draw combined text
+                context.fillText(
+                    textBeforeImage + textAfterImage,
+                    canvas.width / 2,
+                    canvas.height / 2
+                )
             }
 
-            if (isMounted) {
-                canvasTexture.needsUpdate = true
-                setTextureSize([canvasWidth, canvasHeight])
-                setContentReady(true)
-            }
+            // Update texture
+            texture.needsUpdate = true
         }
 
-        drawContent()
-        return () => { isMounted = false }
-    }, [textBeforeImage, textAfterImage, image, canvasTexture, imageSize, imagePosition, fontSize])
+        if (image?.url) {
+            const img = new Image()
+            img.onload = () => draw(img)
+            img.src = image.url
+        } else {
+            draw()
+        }
+    }, [textBeforeImage, textAfterImage, image, imagePosition, fontSize, imageSize, texture])
 
     return (
-        <mesh
-            ref={ref}
-            position={localOffset}
-            scale={contentReady ? [textureSize[0] / 100, textureSize[1] / 100, 1] : [0, 0, 0]}
-        >
-            <planeGeometry args={[1, 1]} />
-            <meshBasicMaterial map={canvasTexture} transparent />
+        <mesh ref={ref} position={localOffset}>
+            <planeGeometry args={[canvasWidth / 100, canvasHeight / 100]} />
+            <meshBasicMaterial map={texture} transparent />
         </mesh>
     )
 })

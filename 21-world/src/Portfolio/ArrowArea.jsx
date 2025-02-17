@@ -184,9 +184,18 @@ const Fence = ({ active }) => {
     )
 }
 
-export const ArrowArea = ({ onIntersection }) => {
+export const ArrowArea = ({ characterRef }) => {
     const [isActive, setIsActive] = useState(false)
-
+    const instructionRef = useRef()
+    const offset = useMemo(() => new THREE.Vector3(0, 2.8, 0), [])
+    useFrame(() => {
+        if (instructionRef.current && characterRef?.current) {
+            // Get current character position
+            const characterPos = characterRef.current.translation()
+            // Update instruction box position with offset
+            instructionRef.current.position.copy(characterPos).add(offset)
+        }
+    })
     return (
         <group>
             <BorderPlane />
@@ -213,6 +222,21 @@ export const ArrowArea = ({ onIntersection }) => {
             >
                 {"VIEW PORTFOLIO"}
             </Text>
+
+            {
+                isActive &&
+                <InstructionBox
+                    ref={instructionRef}
+                    textBeforeImage="Press "
+                    textAfterImage=" to enter"
+                    image={{ url: './spaceBar.png' }}
+                    imagePosition="inline"
+                    canvasWidth={220}
+                    canvasHeight={40}
+                    imageSize={[60, 60]}
+                />
+
+            }
         </group>
     )
 }
