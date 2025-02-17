@@ -302,7 +302,26 @@ export default function Me({ }) {
                         position={[0.4, 1.1, -1.5]}
                     />
                 </group>
-                {showInstruction && <InstructionBox ref={instructionBoxRef} text={"Use WASD to move"} />}
+                {
+                    showInstruction &&
+                    <InstructionBox
+                        ref={instructionBoxRef}
+                        text={"Use WASD to move"}
+                        imageUrl="./spaceBar.png"
+                        imageSize={[32, 32]}
+                    />
+                    // <InstructionBox
+                    //     textBeforeImage="Press "
+                    //     textAfterImage=" to jump"
+                    //     image={{ url: './spaceBar.png' }}
+                    //     imagePosition="inline"
+                    //     canvasWidth={600}
+                    //     canvasHeight={80}
+                    //     fontSize={40}
+                    //     imageSize={[60, 60]}
+                    // />
+
+                }
             </RigidBody>
         </>
     )
