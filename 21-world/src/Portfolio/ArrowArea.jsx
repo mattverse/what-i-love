@@ -191,7 +191,8 @@ export const ArrowArea = ({
     textPosition,
     textAfterImage,
     isInstructionBox,
-    characterRef
+    characterRef,
+    onSpace
 }) => {
     const [isActive, setIsActive] = useState(false)
     const instructionRef = useRef()
@@ -208,13 +209,15 @@ export const ArrowArea = ({
     // Listen for the space key only when the area is active
     useEffect(() => {
         const handleKeyDown = (e) => {
-            if (e.code === 'Space' && isActive) {
+            if (typeof onSpace === 'function' && isActive && e.code === 'Space') {
+                onSpace() // call the provided dice roll callback
+            } else if (e.code === 'Space' && isActive) {
                 window.open(link, '_blank')
             }
         }
         window.addEventListener('keydown', handleKeyDown)
         return () => window.removeEventListener('keydown', handleKeyDown)
-    }, [isActive])
+    }, [isActive, onSpace, link])
 
     return (
         <group position={position}>

@@ -17,6 +17,7 @@ import { ArrowArea } from './Portfolio/ArrowArea';
 import { Computer } from './Portfolio/Computer';
 import SingleSign from './Environment/SingleSign'
 import PublicSpeaking from './Portfolio/PublicSpeaking'
+import Dice from './Portfolio/Dice'
 
 export default function EnvironmentSettings({ characterRef, onSpacePressed }) {
     return (
@@ -31,6 +32,7 @@ export default function EnvironmentSettings({ characterRef, onSpacePressed }) {
             <Computer characterRef={characterRef} />
             <SingleSign />
             <PublicSpeaking />
+            <Dice />
         </>
     );
 }
