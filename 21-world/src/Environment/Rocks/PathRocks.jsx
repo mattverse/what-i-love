@@ -39,6 +39,10 @@ export default function PathRocks() {
             <RiiidAwakePath geometry={rocksGeometryArray} material={rockMaterial} />
             <PortfolioPath geometry={rocksGeometryArray} material={rockMaterial} />
             <PublicSpeakingPath geometry={rocksGeometryArray} material={rockMaterial} />
+            <GopherconPath geometry={rocksGeometryArray} material={rockMaterial} />
+            <IBCSummitPath geometry={rocksGeometryArray} material={rockMaterial} />
+            <PlatePath geometry={rocksGeometryArray} material={rockMaterial} />
+
         </>
     );
 }
@@ -85,6 +89,38 @@ function PublicSpeakingPath({ geometry, material }) {
             <mesh geometry={geometry[1]} material={material} scale={0.14} position={[-8.9, 0.4, 2.9]} rotation={[0, -Math.PI / 2, 0]} />
             <mesh geometry={geometry[2]} material={material} scale={0.14} position={[-9.6, 0.4, 2.85]} rotation={[0, -Math.PI / 2, 0]} />
             <mesh geometry={geometry[0]} material={material} scale={0.14} position={[-10.33, 0.4, 2.85]} rotation={[0, -Math.PI / 2, 0]} />
+
+        </>
+    )
+}
+
+function GopherconPath({ geometry, material }) {
+    return (
+        <>
+            <mesh geometry={geometry[1]} material={material} scale={0.14} position={[-15.9, 0.4, 2.9]} rotation={[0, -Math.PI / 2, 0]} />
+            <mesh geometry={geometry[0]} material={material} scale={0.14} position={[-16.6, 0.4, 2.85]} rotation={[0, -Math.PI / 2, 0]} />
+            <mesh geometry={geometry[0]} material={material} scale={0.14} position={[-17.33, 0.4, 2.85]} rotation={[0, -Math.PI / 2, 0]} />
+
+        </>
+    )
+}
+
+function IBCSummitPath({ geometry, material }) {
+    return (
+        <>
+            <mesh geometry={geometry[1]} material={material} scale={0.14} position={[-21.9, 0.4, 2.9]} rotation={[0, -Math.PI / 2, 0]} />
+            <mesh geometry={geometry[0]} material={material} scale={0.14} position={[-22.6, 0.4, 2.85]} rotation={[0, -Math.PI / 2, 0]} />
+            <mesh geometry={geometry[2]} material={material} scale={0.14} position={[-23.33, 0.4, 2.85]} rotation={[0, -Math.PI / 2, 0]} />
+
+        </>
+    )
+}
+function PlatePath({ geometry, material }) {
+    return (
+        <>
+            <mesh geometry={geometry[1]} material={material} scale={0.14} position={[-27.9, 0.4, 2.9]} rotation={[0, -Math.PI / 2, 0]} />
+            <mesh geometry={geometry[0]} material={material} scale={0.14} position={[-28.6, 0.4, 2.85]} rotation={[0, -Math.PI / 2, 0]} />
+            <mesh geometry={geometry[1]} material={material} scale={0.14} position={[-29.33, 0.4, 2.85]} rotation={[0, Math.PI / 2, 0]} />
 
         </>
     )

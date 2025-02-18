@@ -32,18 +32,111 @@ function DiceModel() {
 
 useGLTF.preload('/dice.glb')
 
+function getDieValue(rigidBody) {
+    const rapierQuat = rigidBody.rotation();
+    const rotation = new THREE.Quaternion(rapierQuat.x, rapierQuat.y, rapierQuat.z, rapierQuat.w);
+
+    const faces = [
+        new THREE.Vector3(0, 0, -1),  // Back face (11)
+        new THREE.Vector3(0, 0, 1),   // Front face (66)
+        new THREE.Vector3(0, -1, 0),  // Bottom face (26)
+        new THREE.Vector3(0, 1, 0),   // Top face (55)
+        new THREE.Vector3(-1, 0, 0),  // Left face (3)
+        new THREE.Vector3(1, 0, 0)     // Right face (4)
+    ];
+
+    const faceValues = [1, 6, 2, 5, 3, 4];
+    const worldUp = new THREE.Vector3(0, 1, 0);
+
+    let maxDot = -Infinity;
+    let maxIndex = 0;
+
+    faces.forEach((face, index) => {
+        const normal = face.clone().applyQuaternion(rotation);
+        const dot = normal.dot(worldUp);
+        if (dot > maxDot) {
+            maxDot = dot;
+            maxIndex = index;
+        }
+    });
+
+    return faceValues[maxIndex];
+}
+
+
 // ─── DICE ROLLER (Two Dice with Physics) ─────────────────────────
 // We wrap our two dice in Rapier RigidBodies and expose a rollDice() method.
 export const DiceRoller = forwardRef((props, ref) => {
     const dice1 = useRef()
     const dice2 = useRef()
+    const [isResting, setIsResting] = useState(false)
+    const restingCounter = useRef(0)
+    const lastTotal = useRef(0)
+
+    // Velocity check parameters
+    const VELOCITY_THRESHOLD = 0.1
+    const ANGULAR_THRESHOLD = 0.1
+    const REQUIRED_REST_FRAMES = 15
+
+    // Helper function to calculate vector magnitude
+    const vectorMagnitude = (vec) => {
+        return Math.sqrt(vec.x ** 2 + vec.y ** 2 + vec.z ** 2)
+    }
+
+    useFrame(() => {
+        if (!dice1.current || !dice2.current) return
+
+        // Get current velocities
+        const linvel1 = dice1.current.linvel()
+        const angvel1 = dice1.current.angvel()
+        const linvel2 = dice2.current.linvel()
+        const angvel2 = dice2.current.angvel()
+
+        // Calculate movement magnitudes
+        const isDice1Resting =
+            vectorMagnitude(linvel1) < VELOCITY_THRESHOLD &&
+            vectorMagnitude(angvel1) < ANGULAR_THRESHOLD
+
+        const isDice2Resting =
+            vectorMagnitude(linvel2) < VELOCITY_THRESHOLD &&
+            vectorMagnitude(angvel2) < ANGULAR_THRESHOLD
+        if (isDice1Resting && isDice2Resting) {
+            restingCounter.current += 1
+            if (restingCounter.current >= REQUIRED_REST_FRAMES && !isResting) {
+                const value1 = getDieValue(dice1.current)
+                const value2 = getDieValue(dice2.current)
+                const total = value1 + value2
+
+                if (total !== lastTotal.current) {
+                    lastTotal.current = total
+
+                    if (total > 8) {
+                        console.log("High roll! Action triggered!")
+                        // Trigger your custom action here
+                    }
+                }
+                setIsResting(true)
+            }
+        } else {
+            restingCounter.current = 0
+            setIsResting(false)
+        }
+    })
+
+
+
 
     useImperativeHandle(ref, () => ({
         rollDice: () => {
+
+            restingCounter.current = 0
+            setIsResting(false)
+            lastTotal.current = 0
+
             // Replace the original impulse/torque definitions with these:
             const impulse1 = new THREE.Vector3(
                 THREE.MathUtils.randFloatSpread(0.2),  // Horizontal impulse: from -0.1 to 0.1
-                THREE.MathUtils.randFloat(0.2, 0.3),     // Vertical impulse: between 0.2 and 0.3
+                THREE.MathUtils.randFloat(0.2, 0.4),     // Vertical impulse: between 0.2 and 0.3
                 THREE.MathUtils.randFloatSpread(0.2)
             )
             const torque1 = new THREE.Vector3(
@@ -53,7 +146,7 @@ export const DiceRoller = forwardRef((props, ref) => {
             )
             const impulse2 = new THREE.Vector3(
                 THREE.MathUtils.randFloatSpread(0.2),
-                THREE.MathUtils.randFloat(0.2, 0.3),
+                THREE.MathUtils.randFloat(0.2, 0.4),
                 THREE.MathUtils.randFloatSpread(0.2)
             )
             const torque2 = new THREE.Vector3(
@@ -75,24 +168,47 @@ export const DiceRoller = forwardRef((props, ref) => {
             <RigidBody
                 ref={dice1}
                 colliders="cuboid"
-                position={[-24.5, 2, 0]} // adjust starting positions as needed
-                restitution={0.1}
-                friction={1.}
+                position={[-32., 2, 0]} // adjust starting positions as needed
+                restitution={0.05}
+                friction={2.}
+
             >
                 <DiceModel />
             </RigidBody>
             <RigidBody
                 ref={dice2}
                 colliders="cuboid"
-                position={[-25.5, 2, 0]}
-                restitution={0.1}
-                friction={1.}
+                position={[-31.1, 2, 0]}
+                rotation={[0.6, Math.PI / 2, Math.PI / 2]}
+                restitution={0.05}
+                friction={2.}
             >
                 <DiceModel />
             </RigidBody>
         </>
     )
 })
+
+export function Plate(props) {
+    const { nodes, materials } = useGLTF('./plate.glb')
+    return (
+        <RigidBody
+            colliders="trimesh"
+            position={[-32., 0.8, -0.3]} // adjust starting positions as needed
+            restitution={0.1}
+            friction={1.}
+            type='fixed'
+        >
+            <group {...props} dispose={null}>
+                <mesh geometry={nodes.asiete__0.geometry} material={materials['Scene_-_Root']} rotation={[-Math.PI / 2, 0, 0]} scale={0.6} />
+            </group>
+
+        </RigidBody>
+    )
+}
+
+useGLTF.preload('./plate.glb')
+
 
 // ─── OPTIONAL: If you want this file to be the dice entry point ───
 export default function Dice() {
@@ -101,15 +217,16 @@ export default function Dice() {
     return (
         <>
             <DiceRoller ref={diceRef} />
-
-
             <ArrowArea
-                position={[-24.5, 0, 0]}
+                position={[-25.5, 0, 0]}
                 onSpace={() => diceRef.current.rollDice()}  // trigger dice roll
-                text="VIEW FULL VIDEO"
+                text="ROLL IT"
                 isInstructionBox={false}
-                textPosition={[-6.7, 0.38, 3.]}
+                textPosition={[-6.2, 0.38, 2.8]}
+                borderPlaneSize={[1.5, 1.5]}
+                fenceSize={[1.5, 2.0, 1.5]}
             />
+            <Plate scale={1.5} />
         </>
 
     )

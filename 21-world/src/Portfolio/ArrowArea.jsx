@@ -74,10 +74,8 @@ const FenceMaterial = forwardRef(({ time = 0, borderAlpha = 0.5, strikeAlpha = 0
     )
 })
 
-const BorderPlane = () => {
+const BorderPlane = ({ size = [3, 0.8] }) => {
     const materialRef = useRef()
-    const size = [3., 0.8]
-
     return (
         <mesh
             position={[-6.2, 0.37, 2.8]}
@@ -124,10 +122,9 @@ const BorderPlane = () => {
         </mesh>
     )
 }
-const Fence = ({ active }) => {
+const Fence = ({ active, size = [3., 2.0, 0.8] }) => {
     const materialRef = useRef()
     const meshRef = useRef()
-    const size = [3., 2.0, 0.8]
     const [visible, setVisible] = useState(false)
 
 
@@ -192,7 +189,10 @@ export const ArrowArea = ({
     textAfterImage,
     isInstructionBox,
     characterRef,
-    onSpace
+    onSpace,
+    colliderSize = [1.45, 0.2, 0.25], // Add new prop
+    fenceSize = [3., 2.0, 0.8],      // Add new prop
+    borderPlaneSize = [3., 0.8]      // Add new prop
 }) => {
     const [isActive, setIsActive] = useState(false)
     const instructionRef = useRef()
@@ -221,18 +221,18 @@ export const ArrowArea = ({
 
     return (
         <group position={position}>
-            <BorderPlane />
+            <BorderPlane size={borderPlaneSize} />
 
             <RigidBody type="fixed" sensor>
                 <CuboidCollider
-                    args={[1.45, 0.2, 0.25]}
+                    args={[fenceSize[0] / 2, 0.2, fenceSize[2] / 2]}
                     position={[-6.2, 1.4, 2.8]}
                     onIntersectionEnter={() => setIsActive(true)}
                     onIntersectionExit={() => setIsActive(false)}
                 />
             </RigidBody>
 
-            <Fence active={isActive} />
+            <Fence active={isActive} size={fenceSize} />
 
             <Text
                 font="./m6x11plus.ttf"
