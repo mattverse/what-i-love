@@ -14,11 +14,22 @@ import React, {
 } from 'react'
 import { useGLTF, Text } from '@react-three/drei'
 import { RigidBody, CuboidCollider } from '@react-three/rapier'
-import { useFrame } from '@react-three/fiber'
+import { useFrame, useLoader } from '@react-three/fiber'
 import * as THREE from 'three'
 import { ArrowArea } from './ArrowArea'
+import { suspend } from 'suspend-react'
 
+const createAudio = async (url) => {
+    const context = new (window.AudioContext || window.webkitAudioContext)()
+    const gain = context.createGain()
+    gain.connect(context.destination)
 
+    const response = await fetch(url)
+    const arrayBuffer = await response.arrayBuffer()
+    const buffer = await context.decodeAudioData(arrayBuffer)
+
+    return { context, gain, buffer }
+}
 function DiceModel() {
     const { nodes, materials } = useGLTF('/dice.glb')
     return (
@@ -72,7 +83,16 @@ export const DiceRoller = forwardRef((props, ref) => {
     const [isResting, setIsResting] = useState(false)
     const restingCounter = useRef(0)
     const lastTotal = useRef(0)
+    const { context, gain, buffer } = suspend(
+        () => createAudio('./diceJackpot.mp3'),
+        ['diceJackpot.mp3']
+    )
+    const audioContextRef = useRef()
 
+    useEffect(() => {
+        audioContextRef.current = context
+        return () => context.close()
+    }, [context])
     // Velocity check parameters
     const VELOCITY_THRESHOLD = 0.1
     const ANGULAR_THRESHOLD = 0.1
@@ -111,8 +131,10 @@ export const DiceRoller = forwardRef((props, ref) => {
                     lastTotal.current = total
 
                     if (total > 8) {
-                        console.log("High roll! Action triggered!")
-                        // Trigger your custom action here
+                        const source = context.createBufferSource()
+                        source.buffer = buffer
+                        source.connect(gain)
+                        source.start(0)
                     }
                 }
                 setIsResting(true)
@@ -123,12 +145,11 @@ export const DiceRoller = forwardRef((props, ref) => {
         }
     })
 
-
-
-
     useImperativeHandle(ref, () => ({
         rollDice: () => {
-
+            if (audioContextRef.current?.state === 'suspended') {
+                audioContextRef.current.resume()
+            }
             restingCounter.current = 0
             setIsResting(false)
             lastTotal.current = 0
@@ -170,6 +191,7 @@ export const DiceRoller = forwardRef((props, ref) => {
                 colliders="cuboid"
                 position={[-32., 2, 0]} // adjust starting positions as needed
                 restitution={0.05}
+                rotation={[Math.PI / 2, 0, 0]}
                 friction={2.}
 
             >
@@ -188,6 +210,27 @@ export const DiceRoller = forwardRef((props, ref) => {
         </>
     )
 })
+
+
+export function DiceSign(props) {
+    const { nodes, materials } = useGLTF('/diceSign.glb')
+    return (
+        <RigidBody
+            colliders="cuboid"
+            restitution={0.1}
+            friction={1.}
+            type='fixed'
+        >
+            <group {...props} dispose={null}>
+                <mesh geometry={nodes.Sign11_1.geometry} material={materials['Dark Wood.002']} />
+                <mesh geometry={nodes.Sign11_2.geometry} material={materials.wood} />
+            </group>
+        </RigidBody>
+    )
+}
+
+useGLTF.preload('/diceSign.glb')
+
 
 export function Plate(props) {
     const { nodes, materials } = useGLTF('./plate.glb')
@@ -227,6 +270,21 @@ export default function Dice() {
                 fenceSize={[1.5, 2.0, 1.5]}
             />
             <Plate scale={1.5} />
+            <DiceSign position={[-35.5, -0.5, 1.5]} scale={120} rotation={[0, 0.3, 0]} />
+            <Text
+                font="./m6x11plus.ttf"
+                fontSize={0.2}
+                color="black"
+                position={[-35.4, 1.65, 1.56]}
+                letterSpacing={-0.04}
+                anchorX="center"
+                anchorY="middle"
+                rotation={[0, 0.3, 0]}
+            >
+
+                {"ROLL 10 OR HIGHER\n (WITH SOUND ON)"}
+            </Text>
+
         </>
 
     )
