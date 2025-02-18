@@ -23,14 +23,6 @@ export const Me = forwardRef((props, ref) => {
     const [smoothedCameraPosition] = useState(() => new THREE.Vector3(0, 7, 8))
     const [smoothedCameraTarget] = useState(() => new THREE.Vector3())
 
-
-    const prevTeleport = useRef(false)
-    const teleportTimeout = useRef(null)
-    const [isTeleporting, setIsTeleporting] = useState(false);
-
-    const originalMaterialsRef = useRef([])
-    const dissolveMaterialsRef = useRef([])
-
     const [hasInteracted, setHasInteracted] = useState(false)
     const [isInArrowArea, setIsInArrowArea] = useState(false)
 
@@ -39,33 +31,6 @@ export const Me = forwardRef((props, ref) => {
     const startPositionRef = useRef(null)
 
 
-    const handleArrowIntersection = (inside) => {
-        setIsInArrowArea(inside)
-    }
-
-    const handleKeyDown = (e) => {
-        if (e.key === 'Enter' && isInArrowArea && !hasInteracted) {
-            setHasInteracted(true)
-        }
-    }
-
-
-    useEffect(() => {
-        window.addEventListener('keydown', handleKeyDown)
-        return () => window.removeEventListener('keydown', handleKeyDown)
-    }, [isInArrowArea, hasInteracted])
-
-    useEffect(() => {
-        robot.scene.traverse((child) => {
-            if (child.isMesh) {
-                originalMaterialsRef.current.push(child.material);
-                const dissolveMat = new DissolveMaterialImpl();
-                dissolveMat.uniforms.uColor.value = new THREE.Color('#70c1ff');
-                dissolveMat.skinning = true; // If needed for animations
-                dissolveMaterialsRef.current.push(dissolveMat);
-            }
-        });
-    }, [robot]);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -80,9 +45,6 @@ export const Me = forwardRef((props, ref) => {
 
         // getKeys returns boolean field
         const { forward, backward, leftward, rightward, run, teleport } = getKeys()
-
-        const teleportJustPressed = teleport && !prevTeleport.current
-        prevTeleport.current = teleport
 
 
 
@@ -113,63 +75,43 @@ export const Me = forwardRef((props, ref) => {
         )
 
 
+        // logic to keep robot from falling off 
+        // is this better perf compared to using fixed transparent colliders?
         // const maxX = 4.5;  // Half of 10
         // const maxZ = 5;  // Half of 8
         // newPosition.x = THREE.MathUtils.clamp(newPosition.x, -maxX, maxX);
         // newPosition.z = THREE.MathUtils.clamp(newPosition.z, -maxZ, maxZ);
 
 
-        if (teleportJustPressed && !isTeleporting) {
-            setIsTeleporting(true);
-
-            // Hide character
-            characterRef.current.visible = false;
-
-            const forwardVector = new THREE.Vector3()
-            characterRef.current.getWorldDirection(forwardVector)
-            forwardVector.y = 0
-            forwardVector.normalize()
-
-            const teleportDistance = 3
-            const teleportTarget = new THREE.Vector3()
-                .copy(currentPosition)
-                .add(forwardVector.multiplyScalar(teleportDistance))
-
-            teleportTimeout.current = setTimeout(() => {
-                characterRigidBodyRef.current.setNextKinematicTranslation(teleportTarget)
-                // Time to reappear with the effect:
-                triggerDissolveEffect({
-                    onComplete: () => {
-                        setIsTeleporting(false)
-                        revertMaterials()
-                    }
-                })
-
-                velocity.current.set(0, 0, 0) // Reset velocity after teleport
-            }, 1)
-        }
-
-        if (!isTeleporting) {
-            characterRigidBodyRef.current.setLinvel({
-                x: velocity.current.x,
-                y: characterRigidBodyRef.current.linvel().y, // Maintain Y velocity
-                z: velocity.current.z
-            })
-        }
+        characterRigidBodyRef.current.setLinvel({
+            x: velocity.current.x,
+            y: characterRigidBodyRef.current.linvel().y, // Maintain Y velocity
+            z: velocity.current.z
+        })
 
 
 
         // Handle animations
-        if (!isTeleporting && movementDirection.current.length() > 0) {
-            const action = run ? 'run' : 'Walk';
+        if (movementDirection.current.length() > 0) {
+            const action = run ? 'run' : 'Walk'
             if (currentAction !== action) {
-                transitionToAction(robotAnimations, currentAction, action);
-                setCurrentAction(action);
+                transitionToAction(robotAnimations, currentAction, action)
+                setCurrentAction(action)
             }
-        } else if (!isTeleporting && velocity.current.length() < 0.01) {
-            transitionToAction(robotAnimations, currentAction, 'idle');
-            setCurrentAction('idle');
+        } else if (velocity.current.length() < 0.01) {
+            transitionToAction(robotAnimations, currentAction, 'idle')
+            setCurrentAction('idle')
         }
+        // if (!isTeleporting && movementDirection.current.length() > 0) {
+        //     const action = run ? 'run' : 'Walk';
+        //     if (currentAction !== action) {
+        //         transitionToAction(robotAnimations, currentAction, action);
+        //         setCurrentAction(action);
+        //     }
+        // } else if (!isTeleporting && velocity.current.length() < 0.01) {
+        //     transitionToAction(robotAnimations, currentAction, 'idle');
+        //     setCurrentAction('idle');
+        // }
 
         // Camera follow logic
         // Rotate character mesh based on movement direction
@@ -202,80 +144,6 @@ export const Me = forwardRef((props, ref) => {
             }
         }
     })
-
-    useEffect(() => {
-        return () => {
-            if (teleportTimeout.current) {
-                clearTimeout(teleportTimeout.current)
-            }
-        }
-    }, [])
-
-    function triggerDissolveEffect({ onComplete }) {
-        setDissolveMaterials();
-        characterRef.current.visible = true;
-
-        let startTime = Date.now();
-        const duration = 200; // in ms
-
-        function easeOutQuad(t) {
-            return 1 - (1 - t) * (1 - t);
-        }
-
-        function animate() {
-            let elapsed = Date.now() - startTime;
-            let t = elapsed / duration;
-
-            // Clamp t to [0, 1]
-            if (t > 1) t = 1;
-
-            // Instead of linear, use an ease-out approach:
-            //   - We start from progress=1 (fully dissolved) 
-            //   - to progress=0 (fully visible).
-            // So we can do: progress = 1 - easeOutQuad(t)
-            const eased = easeOutQuad(t);
-            let progress = 1 - eased;
-
-
-            dissolveMaterialsRef.current.forEach((mat) => {
-                mat.uniforms.uDissolveProgress.value = progress;
-                mat.uniforms.uTime.value = (Date.now() - startTime) / 1000;
-            });
-
-            if (t < 1) {
-                requestAnimationFrame(animate);
-            } else {
-                // Once fully visible, call onComplete callback
-                if (onComplete) onComplete();
-            }
-        }
-
-        animate();
-    }
-
-
-    function setDissolveMaterials() {
-        let i = 0
-        robot.scene.traverse((child) => {
-            if (child.isMesh) {
-                console.log("applied dissolve material");
-
-                child.material = dissolveMaterialsRef.current[i]
-                i++
-            }
-        })
-    }
-
-    function revertMaterials() {
-        // Swap back to the original materials if you only want a brief effect
-        let i = 0
-        robot.scene.traverse((child) => {
-            if (child.isMesh) {
-                child.material = originalMaterialsRef.current[i]
-                i++
-            }
-        })
-    }
 
     return (
         <>
