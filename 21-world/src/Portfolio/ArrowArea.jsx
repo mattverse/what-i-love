@@ -80,7 +80,7 @@ const BorderPlane = () => {
 
     return (
         <mesh
-            position={[-6.2, 0.37, 1.9]}
+            position={[-6.2, 0.37, 2.8]}
             rotation={[-Math.PI / 2, 0, 0]}
         >
             <planeGeometry args={size} />
@@ -174,7 +174,7 @@ const Fence = ({ active }) => {
     return (
         <mesh
             ref={meshRef}
-            position={[-6.2, 1., 1.9]} // Start at ground level
+            position={[-6.2, 1., 2.8]} // Start at ground level
             visible={visible}  // Add visibility control
 
         >
@@ -184,10 +184,18 @@ const Fence = ({ active }) => {
     )
 }
 
-export const ArrowArea = ({ characterRef, onSpacePressed }) => {
+export const ArrowArea = ({
+    position,
+    link,
+    text,
+    textPosition,
+    textAfterImage,
+    isInstructionBox,
+    characterRef
+}) => {
     const [isActive, setIsActive] = useState(false)
     const instructionRef = useRef()
-    const offset = useMemo(() => new THREE.Vector3(0, 2.5, 0), [])
+    const offset = useMemo(() => new THREE.Vector3(0, 2.9, 0), [])
 
     // Update the instruction box position (existing code)
     useFrame(() => {
@@ -201,21 +209,21 @@ export const ArrowArea = ({ characterRef, onSpacePressed }) => {
     useEffect(() => {
         const handleKeyDown = (e) => {
             if (e.code === 'Space' && isActive) {
-                onSpacePressed()  // Tell the parent to change the camera mode
+                window.open(link, '_blank')
             }
         }
         window.addEventListener('keydown', handleKeyDown)
         return () => window.removeEventListener('keydown', handleKeyDown)
-    }, [isActive, onSpacePressed])
+    }, [isActive])
 
     return (
-        <group>
+        <group position={position}>
             <BorderPlane />
 
             <RigidBody type="fixed" sensor>
                 <CuboidCollider
                     args={[1.45, 0.2, 0.25]}
-                    position={[-6.2, 1.4, 1.9]}
+                    position={[-6.2, 1.4, 2.8]}
                     onIntersectionEnter={() => setIsActive(true)}
                     onIntersectionExit={() => setIsActive(false)}
                 />
@@ -229,17 +237,17 @@ export const ArrowArea = ({ characterRef, onSpacePressed }) => {
                 lineHeight={0.8}
                 fontSize={0.3}
                 rotation={[-Math.PI / 2, 0, 0]}
-                position={[-6.7, 0.38, 2.1]}
+                position={textPosition}
             >
-                {"VIEW PORTFOLIO"}
+                {text}
             </Text>
 
             {
-                isActive &&
+                isActive && isInstructionBox &&
                 <InstructionBox
                     ref={instructionRef}
                     textBeforeImage="Press "
-                    textAfterImage=" to enter"
+                    textAfterImage={textAfterImage}
                     image={{ url: './spaceBar.png' }}
                     imagePosition="inline"
                     canvasWidth={220}

@@ -38,6 +38,7 @@ export default function PathRocks() {
             <OsmosisRiiidPath geometry={rocksGeometryArray} material={rockMaterial} />
             <RiiidAwakePath geometry={rocksGeometryArray} material={rockMaterial} />
             <PortfolioPath geometry={rocksGeometryArray} material={rockMaterial} />
+            <PublicSpeakingPath geometry={rocksGeometryArray} material={rockMaterial} />
         </>
     );
 }
@@ -73,6 +74,17 @@ function PortfolioPath({ geometry, material }) {
             <mesh geometry={geometry[1]} material={material} scale={0.14} position={[-1.7, 0.4, 2.8]} rotation={[0, -Math.PI / 2, 0]} />
             <mesh geometry={geometry[2]} material={material} scale={0.14} position={[-2.4, 0.4, 2.8]} rotation={[0, -Math.PI / 2, 0]} />
             <mesh geometry={geometry[0]} material={material} scale={0.14} position={[-3.2, 0.4, 2.85]} rotation={[0, -Math.PI / 2, 0]} />
+
+        </>
+    )
+}
+
+function PublicSpeakingPath({ geometry, material }) {
+    return (
+        <>
+            <mesh geometry={geometry[1]} material={material} scale={0.14} position={[-8.9, 0.4, 2.9]} rotation={[0, -Math.PI / 2, 0]} />
+            <mesh geometry={geometry[2]} material={material} scale={0.14} position={[-9.6, 0.4, 2.85]} rotation={[0, -Math.PI / 2, 0]} />
+            <mesh geometry={geometry[0]} material={material} scale={0.14} position={[-10.33, 0.4, 2.85]} rotation={[0, -Math.PI / 2, 0]} />
 
         </>
     )

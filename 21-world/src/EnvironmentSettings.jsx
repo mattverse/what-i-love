@@ -15,7 +15,8 @@ import Awake from './WorkExperience/Awake';
 import { ArrowArea } from './Portfolio/ArrowArea';
 
 import { Computer } from './Portfolio/Computer';
-import PortfolioCards from './Portfolio/PortfolioCards';
+import SingleSign from './Environment/SingleSign'
+import PublicSpeaking from './Portfolio/PublicSpeaking'
 
 export default function EnvironmentSettings({ characterRef, onSpacePressed }) {
     return (
@@ -27,12 +28,9 @@ export default function EnvironmentSettings({ characterRef, onSpacePressed }) {
             <Osmosis />
             <Riiid />
             <Awake />
-            <Computer />
-            <ArrowArea
-                characterRef={characterRef}
-                onSpacePressed={onSpacePressed}
-            />
-            {/* <PortfolioCards /> */}
+            <Computer characterRef={characterRef} />
+            <SingleSign />
+            <PublicSpeaking />
         </>
     );
 }
