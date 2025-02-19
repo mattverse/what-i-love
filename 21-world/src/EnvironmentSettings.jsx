@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react'
 // components
 import Ground from './Environment/Ground';
 import Grass from './Environment/Grass/Grass';
+import Trees from './Environment/Trees';
 import MattText from './Environment/Text/MattText'
 import Sign from './Environment/Sign';
 import PathRocks from './Environment/Rocks/PathRocks';
@@ -24,6 +25,7 @@ export default function EnvironmentSettings({ characterRef, onSpacePressed }) {
         <>
             <Bio characterRef={characterRef} />
             <Ground />
+            <Trees />
             <MattText />
             <Sign />
             <PathRocks />

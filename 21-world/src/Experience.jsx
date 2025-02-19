@@ -23,7 +23,7 @@ export default function Experience() {
 
     return <>
         <Background />
-        <OrbitControls makeDefault />
+        {/* <OrbitControls makeDefault /> */}
         <Lights />
         <Suspense >
             <Physics

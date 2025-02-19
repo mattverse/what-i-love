@@ -31,7 +31,6 @@ export const Me = forwardRef((props, ref) => {
     const startPositionRef = useRef(null)
 
 
-
     useEffect(() => {
         const timer = setTimeout(() => {
             setShowInstruction(false)
@@ -68,11 +67,12 @@ export const Me = forwardRef((props, ref) => {
 
         // Get current rigid body position
         const currentPosition = characterRigidBodyRef.current.translation()
-        const newPosition = new THREE.Vector3(
-            currentPosition.x + velocity.current.x,
+
+        const currentPos = new THREE.Vector3(
+            currentPosition.x,
             currentPosition.y,
-            currentPosition.z + velocity.current.z
-        )
+            currentPosition.z - 1.6
+        );
 
 
         // logic to keep robot from falling off 
@@ -89,8 +89,6 @@ export const Me = forwardRef((props, ref) => {
             z: velocity.current.z
         })
 
-
-
         // Handle animations
         if (movementDirection.current.length() > 0) {
             const action = run ? 'run' : 'Walk'
@@ -102,16 +100,7 @@ export const Me = forwardRef((props, ref) => {
             transitionToAction(robotAnimations, currentAction, 'idle')
             setCurrentAction('idle')
         }
-        // if (!isTeleporting && movementDirection.current.length() > 0) {
-        //     const action = run ? 'run' : 'Walk';
-        //     if (currentAction !== action) {
-        //         transitionToAction(robotAnimations, currentAction, action);
-        //         setCurrentAction(action);
-        //     }
-        // } else if (!isTeleporting && velocity.current.length() < 0.01) {
-        //     transitionToAction(robotAnimations, currentAction, 'idle');
-        //     setCurrentAction('idle');
-        // }
+
 
         // Camera follow logic
         // Rotate character mesh based on movement direction
@@ -119,17 +108,31 @@ export const Me = forwardRef((props, ref) => {
             const angle = Math.atan2(velocity.current.x, velocity.current.z)
             characterRef.current.rotation.y = angle
         }
+        const cameraOffset = new THREE.Vector3()
+        const baseCameraPosition = new THREE.Vector3(-2, 8, 8) // Normal camera offset
+        const elevatedCameraPosition = new THREE.Vector3(-0.2, 14, 6) // More elevated offset
+        // Smooth transition: when newPosition.x is between 4 and 6, blend from base to elevated
+        const startX = 10; // Start blending when X reaches 10
+        const endX = 14;   // Finish blending when X reaches 16
 
+        const cameraBlend = THREE.MathUtils.smoothstep(
+            (currentPos.x - startX) / (endX - startX),
+            0,
+            1
+        );
 
-        const cameraOffset = new THREE.Vector3(-2, 8, 8) // Fixed offset
-        const desiredCameraPosition = new THREE.Vector3().addVectors(newPosition, cameraOffset)
+        cameraOffset.copy(baseCameraPosition).lerp(elevatedCameraPosition, cameraBlend)
 
-        // Smoother target tracking
-        smoothedCameraTarget.lerp(newPosition, 0.25 * delta * 3)
-        smoothedCameraPosition.lerp(desiredCameraPosition, 0.25 * delta * 3)
+        // Use ACTUAL position for camera target
+        const desiredCameraPosition = currentPos.clone().add(cameraOffset)
+
+        // Smoother target tracking using ACTUAL position
+        smoothedCameraTarget.lerp(currentPos, 0.25 * delta * 40)
+        smoothedCameraPosition.lerp(desiredCameraPosition, 0.25 * delta * 40)
 
         state.camera.position.copy(smoothedCameraPosition)
         state.camera.lookAt(smoothedCameraTarget)
+
 
         if (startPositionRef.current === null) {
             // Set the initial position once
