@@ -2,6 +2,17 @@ import { ArrowArea } from './Portfolio/ArrowArea'
 import { Text, Text3D, useGLTF } from "@react-three/drei";
 
 export default function Bio({ characterRef }) {
+    const handleDownloadResume = () => {
+        // Create a temporary link element
+        const link = document.createElement('a');
+        link.href = './empty.pdf'; // Update this path
+        link.download = 'Matt(Chagnhyun)_Park_Resume.pdf'; // Set the filename
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+
     return (
         <group position={[-0.3, 0, 0.5]}>
             <SingleLineBio
@@ -21,12 +32,20 @@ export default function Bio({ characterRef }) {
                 enterancePosition={[11.5, 0.1, -2.6]}
                 characterRef={characterRef}
                 instructionBoxOffset={[-13.1, 2., 1.]}
+                onSpace={handleDownloadResume}
+
             />
         </group>
     )
 }
 
-function SingleLineBio({ bioName, bioNamePosition, enterancePosition, characterRef, instructionBoxOffset }) {
+function SingleLineBio({ bioName,
+    bioNamePosition,
+    enterancePosition,
+    characterRef,
+    instructionBoxOffset,
+    onSpace
+}) {
     return (
         <>
             <BioName name={bioName} position={bioNamePosition} />
@@ -34,6 +53,7 @@ function SingleLineBio({ bioName, bioNamePosition, enterancePosition, characterR
                 enterancePosition={enterancePosition}
                 characterRef={characterRef}
                 instructionBoxOffset={instructionBoxOffset}
+                onSpace={onSpace}
             />
         </>
     )
@@ -54,7 +74,7 @@ function BioName({ name, position }) {
     )
 }
 
-function BioEntrance({ enterancePosition, characterRef, instructionBoxOffset }) {
+function BioEntrance({ enterancePosition, characterRef, instructionBoxOffset, onSpace }) {
     return (
         <ArrowArea
             position={enterancePosition}
@@ -62,10 +82,10 @@ function BioEntrance({ enterancePosition, characterRef, instructionBoxOffset }) 
             fenceSize={[1.8, 2.0, 0.6]}
             borderWidthHorizontal={0.03}
             borderWidthVertical={0.1}
-            textAfterImage="to enter"
             isInstructionBox={true}
             instructionBoxOffset={instructionBoxOffset}
             characterRef={characterRef}
+            onSpace={onSpace}
         />
     )
 }
