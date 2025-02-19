@@ -6,20 +6,11 @@ import { useEffect } from "react";
 // ...
 
 export default function MattText() {
-    const matt = useGLTF('./mattText.glb')
+    const { nodes, materials } = useGLTF('/mattText.glb')
 
-
-    useEffect(() => {
-        matt.scene.traverse((child) => {
-            if (child.isMesh) {
-                child.castShadow = true;
-            }
-        });
-    }, [matt])
-
-    return <>
+    return <group position={[0, 0, 0.8]}>
         <RigidBody
-            colliders="hull"
+            colliders="cuboid"
             friction={0}
             restitution={0.2}
             canSleep={false}
@@ -27,22 +18,21 @@ export default function MattText() {
             angularDamping={4}
 
         >
-            <primitive
-                position={[-0.2, 0, -2]}
-                object={matt.scene}
-                rotation={[0, -Math.PI / 2, 0]}
-            />
+            <group rotation={[Math.PI / 2, 0, 0]} scale={[0.8, 0.6, 0.6]} position={[0.8, 1.2, -1.2]}>
+                <mesh geometry={nodes.Plane026.geometry} material={materials['Material.007']} />
+                <mesh geometry={nodes.Plane026_1.geometry} material={materials['smoke-white']} />
+            </group>
         </RigidBody>
 
         <Text
             font="./m6x11plus.ttf"
             color={"black"}
             lineHeight={0.8}
-            scale={0.7}
+            scale={0.6}
             rotation={[-Math.PI / 2, 0, 0]}
-            position={[2.9, 0.5, -0.4]}
+            position={[1., 0.5, -0.4]}
         >
             {"Creative\nDeveloper"}
         </Text>
-    </>
+    </group>
 }

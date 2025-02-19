@@ -189,7 +189,7 @@ export const DiceRoller = forwardRef((props, ref) => {
             <RigidBody
                 ref={dice1}
                 colliders="cuboid"
-                position={[-32., 2, 0]} // adjust starting positions as needed
+                position={[-32.6, 2, 0]} // adjust starting positions as needed
                 restitution={0.05}
                 rotation={[Math.PI / 2, 0, 0]}
                 friction={2.}
@@ -201,7 +201,7 @@ export const DiceRoller = forwardRef((props, ref) => {
                 ref={dice2}
                 colliders="cuboid"
                 position={[-31.1, 2, 0]}
-                rotation={[0.6, Math.PI / 2, Math.PI / 2]}
+                rotation={[0., Math.PI / 2, Math.PI / 2]}
                 restitution={0.05}
                 friction={2.}
             >

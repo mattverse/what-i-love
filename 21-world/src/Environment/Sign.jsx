@@ -17,7 +17,7 @@ export default function Sign({ position, scale }) {
             >
                 <primitive
                     object={sign.scene}
-                    position={[0.3, 1.2, 2]}
+                    position={[-2.1, 1.2, 2]}
                     rotation={[0, 0, 0]}
                     scale={0.15}
                 />

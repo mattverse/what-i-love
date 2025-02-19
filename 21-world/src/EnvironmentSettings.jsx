@@ -12,23 +12,26 @@ import PathRocks from './Environment/Rocks/PathRocks';
 import Osmosis from './WorkExperience/osmosis';
 import Riiid from './WorkExperience/Riiid';
 import Awake from './WorkExperience/Awake';
-import { ArrowArea } from './Portfolio/ArrowArea';
 
 import { Computer } from './Portfolio/Computer';
 import SingleSign from './Environment/SingleSign'
 import PublicSpeaking from './Portfolio/PublicSpeaking'
 import Dice from './Portfolio/Dice'
+import Bio from './Bio';
 
 export default function EnvironmentSettings({ characterRef, onSpacePressed }) {
     return (
         <>
+            <Bio characterRef={characterRef} />
             <Ground />
             <MattText />
             <Sign />
             <PathRocks />
-            <Osmosis />
-            <Riiid />
-            <Awake />
+            <group position={[2, 0, 0]}>
+                <Osmosis />
+                <Riiid />
+                <Awake />
+            </group>
             <Computer characterRef={characterRef} />
             <SingleSign />
             <PublicSpeaking />

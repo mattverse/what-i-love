@@ -2,7 +2,7 @@ import { forwardRef, useMemo, useEffect, useState, useRef } from 'react'
 import * as THREE from 'three'
 
 const InstructionBox = forwardRef(({
-    localOffset = [0.25, 2, -1.2],
+    localOffset = [-1.85, 2, -1.2],
     textBeforeImage = "",
     textAfterImage = "",
     image,

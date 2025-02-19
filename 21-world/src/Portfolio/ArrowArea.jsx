@@ -74,7 +74,7 @@ const FenceMaterial = forwardRef(({ time = 0, borderAlpha = 0.5, strikeAlpha = 0
     )
 })
 
-const BorderPlane = ({ size = [3, 0.8] }) => {
+const BorderPlane = ({ size = [3, 0.8], borderWidthHorizontal = 0.015, borderWidthVertical = 0.05 }) => {
     const materialRef = useRef()
     return (
         <mesh
@@ -89,8 +89,8 @@ const BorderPlane = ({ size = [3, 0.8] }) => {
                 side={THREE.DoubleSide}
                 uniforms={{
                     uBorderAlpha: { value: 0.8 },
-                    uBorderWidthHorizontal: { value: 0.015 }, // Left/right
-                    uBorderWidthVertical: { value: 0.05 }    // Top/bottom
+                    uBorderWidthHorizontal: { value: borderWidthHorizontal }, // Left/right
+                    uBorderWidthVertical: { value: borderWidthVertical }    // Top/bottom
                 }}
                 vertexShader={`
                     varying vec2 vUv;
@@ -190,13 +190,15 @@ export const ArrowArea = ({
     isInstructionBox,
     characterRef,
     onSpace,
-    colliderSize = [1.45, 0.2, 0.25], // Add new prop
     fenceSize = [3., 2.0, 0.8],      // Add new prop
-    borderPlaneSize = [3., 0.8]      // Add new prop
+    borderPlaneSize = [3., 0.8],      // Add new prop
+    borderWidthHorizontal,
+    borderWidthVertical,
+    instructionBoxOffset = [-1.9, 2.9, 0]
 }) => {
     const [isActive, setIsActive] = useState(false)
     const instructionRef = useRef()
-    const offset = useMemo(() => new THREE.Vector3(0, 2.9, 0), [])
+    const offset = useMemo(() => new THREE.Vector3(...instructionBoxOffset), [instructionBoxOffset])
 
     // Update the instruction box position (existing code)
     useFrame(() => {
@@ -221,7 +223,7 @@ export const ArrowArea = ({
 
     return (
         <group position={position}>
-            <BorderPlane size={borderPlaneSize} />
+            <BorderPlane size={borderPlaneSize} borderWidthHorizontal={borderWidthHorizontal} borderWidthVertical={borderWidthVertical} />
 
             <RigidBody type="fixed" sensor>
                 <CuboidCollider
@@ -245,6 +247,7 @@ export const ArrowArea = ({
                 {text}
             </Text>
 
+            {/* offset of the instruction box is set in useFrame */}
             {
                 isActive && isInstructionBox &&
                 <InstructionBox
@@ -257,7 +260,6 @@ export const ArrowArea = ({
                     canvasHeight={40}
                     imageSize={[60, 60]}
                 />
-
             }
         </group>
     )

@@ -158,14 +158,14 @@ export const Me = forwardRef((props, ref) => {
                 colliders={false}
                 lockRotations={true}
             >
-                <CuboidCollider args={[0.2, 0.5, 0.2]} position={[0.4, 0.9, -1.5]} />
+                <CuboidCollider args={[0.2, 0.5, 0.2]} position={[-1.9, 0.9, -1.5]} />
                 <group>
                     <primitive
                         ref={characterRef}
                         object={robot.scene}
                         scale={0.2}
                         castShadow
-                        position={[0.4, 1.1, -1.5]}
+                        position={[-1.9, 1.1, -1.5]}
                     />
                 </group>
                 {
