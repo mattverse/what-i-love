@@ -76,7 +76,6 @@ export const Me = forwardRef((props, ref) => {
 
 
         // logic to keep robot from falling off 
-        // is this better perf compared to using fixed transparent colliders?
         // const maxX = 4.5;  // Half of 10
         // const maxZ = 5;  // Half of 8
         // newPosition.x = THREE.MathUtils.clamp(newPosition.x, -maxX, maxX);
@@ -110,7 +109,7 @@ export const Me = forwardRef((props, ref) => {
         }
         const cameraOffset = new THREE.Vector3()
         const baseCameraPosition = new THREE.Vector3(-2, 8, 8) // Normal camera offset
-        const elevatedCameraPosition = new THREE.Vector3(-0.2, 14, 6) // More elevated offset
+        const elevatedCameraPosition = new THREE.Vector3(-0.1, 14, 6) // More elevated offset
         // Smooth transition: when newPosition.x is between 4 and 6, blend from base to elevated
         const startX = 10; // Start blending when X reaches 10
         const endX = 14;   // Finish blending when X reaches 16
@@ -145,6 +144,29 @@ export const Me = forwardRef((props, ref) => {
             if (distanceMoved > movementThreshold) {
                 setShowInstruction(false)
             }
+        }
+
+        const groundCenterX = 2.5
+        const groundCenterZ = 1.4
+        const groundHalfWidth = 81.5 / 2  // 40.75
+        const groundHalfDepth = 10 / 2    // 5.5
+
+        const minX = groundCenterX - groundHalfWidth
+        const maxX = groundCenterX + groundHalfWidth
+        const minZ = groundCenterZ - groundHalfDepth
+        const maxZ = groundCenterZ + groundHalfDepth
+
+        // Clamp current position
+        const clampedX = THREE.MathUtils.clamp(currentPosition.x, minX, maxX)
+        const clampedZ = THREE.MathUtils.clamp(currentPosition.z, minZ, maxZ)
+        if (clampedX !== currentPosition.x || clampedZ !== currentPosition.z) {
+            characterRigidBodyRef.current.setTranslation(
+                { x: clampedX, y: currentPosition.y, z: clampedZ },
+                true
+            )
+            // Optionally, zero out the horizontal velocity when clamped to prevent jitter.
+            velocity.current.x = 0
+            velocity.current.z = 0
         }
     })
 

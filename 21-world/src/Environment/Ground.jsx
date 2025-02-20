@@ -7,7 +7,7 @@ export default function Ground() {
     const stripeTexture = useTexture("./environment/grass/grass-stripes.png");
 
     // Mesh dimensions
-    const meshArgs = [120, 11, 0.7]; // [width, height, depth]
+    const meshArgs = [81.5, 11, 0.7]; // [width, height, depth]
     const textureScale = 10; // Adjust this to control texture density (lower = more repeats)
 
     useEffect(() => {
@@ -27,7 +27,7 @@ export default function Ground() {
 
     return (
         <RigidBody type="fixed" colliders="cuboid" friction={2}>
-            <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow position={[20, 0, 0]}>
+            <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow position={[1., 0, 0]}>
                 <boxGeometry args={meshArgs} />
                 <meshBasicMaterial
                     map={stripeTexture}
