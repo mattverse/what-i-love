@@ -23,13 +23,13 @@ export default function Experience() {
 
     return <>
         <Background />
-        {/* <OrbitControls makeDefault /> */}
+        <OrbitControls makeDefault />
         <Lights />
         <Suspense >
             <Physics
                 gravity={[0, -9.81, 0]}
                 timeStep={"vary"}
-                debug
+            // debug
             >
                 <EnvironmentSettings
                     characterRef={characterRef}

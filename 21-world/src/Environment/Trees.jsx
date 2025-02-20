@@ -20,7 +20,6 @@ export default function Trees({
         // 1.2  // y for tall tree
         1.18  // y for tall tree
     ];
-    const count = positions.length
 
     // Leva color controls
     const { lightGreen, darkGreen, treeTrunk } = useControls('Tree color', {

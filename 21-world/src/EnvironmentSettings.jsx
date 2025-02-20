@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 
 // components
 import Ground from './Environment/Ground';
-import Grass from './Environment/Grass/Grass';
+import Flowers from './Environment/Flowers';
 import Trees from './Environment/Trees';
 import MattText from './Environment/Text/MattText'
 import Sign from './Environment/Sign';
@@ -25,6 +25,7 @@ export default function EnvironmentSettings({ characterRef, onSpacePressed }) {
             <Bio characterRef={characterRef} />
             <Ground />
             <Trees />
+            <Flowers />
             <MattText />
             <Sign />
             <PathRocks />

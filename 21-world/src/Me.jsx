@@ -74,14 +74,6 @@ export const Me = forwardRef((props, ref) => {
             currentPosition.z - 1.6
         );
 
-
-        // logic to keep robot from falling off 
-        // const maxX = 4.5;  // Half of 10
-        // const maxZ = 5;  // Half of 8
-        // newPosition.x = THREE.MathUtils.clamp(newPosition.x, -maxX, maxX);
-        // newPosition.z = THREE.MathUtils.clamp(newPosition.z, -maxZ, maxZ);
-
-
         characterRigidBodyRef.current.setLinvel({
             x: velocity.current.x,
             y: characterRigidBodyRef.current.linvel().y, // Maintain Y velocity
