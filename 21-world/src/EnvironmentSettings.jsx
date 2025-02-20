@@ -1,4 +1,3 @@
-import { RigidBody, CuboidCollider } from '@react-three/rapier'
 import { useFrame } from '@react-three/fiber'
 import { useState, useEffect } from 'react'
 

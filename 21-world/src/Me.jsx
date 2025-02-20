@@ -164,9 +164,6 @@ export const Me = forwardRef((props, ref) => {
                 { x: clampedX, y: currentPosition.y, z: clampedZ },
                 true
             )
-            // Optionally, zero out the horizontal velocity when clamped to prevent jitter.
-            velocity.current.x = 0
-            velocity.current.z = 0
         }
     })
 

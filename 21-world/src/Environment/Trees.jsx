@@ -2,6 +2,8 @@ import { useMemo, useRef, useEffect } from 'react'
 import { useGLTF } from '@react-three/drei'
 import { useControls } from 'leva'
 import * as THREE from 'three'
+import { RigidBody, CuboidCollider } from '@react-three/rapier'
+
 
 export default function Trees({
     scale = 0.14
@@ -135,6 +137,7 @@ export default function Trees({
                             />
                         </group>
                         <Rocks />
+                        <TreeColliders />
                     </>
                 )
             })}
@@ -175,6 +178,42 @@ function Rocks({ positions = [
         />
     )
 }
+
+function TreeColliders() {
+    return (
+        <group>
+            <RigidBody
+                type="fixed"
+                colliders={false}
+                linearDamping={5}
+                angularDamping={5}
+            >
+                <CuboidCollider args={[16.4, 0.3, 1.2]} position={[-11.2, 0.9, -3.8]} />
+                {/* behind bowl */}
+                <CuboidCollider args={[3.6, 0.3, 0.3]} position={[-31.5, 0.9, -3.8]} />
+                <CuboidCollider args={[0.3, 0.3, 0.5]} position={[-34.5, 0.9, -3.]} />
+                <CuboidCollider args={[0.3, 0.3, 0.5]} position={[-35.3, 0.9, -2.1]} />
+                <CuboidCollider args={[0.3, 0.3, 0.5]} position={[-36.1, 0.9, -1.3]} />
+                <CuboidCollider args={[0.3, 0.3, 0.5]} position={[-36.9, 0.9, -0.2]} />
+                <CuboidCollider args={[0.3, 0.3, 1.5]} position={[-37.7, 0.9, 1.6]} />
+                <CuboidCollider args={[0.3, 0.3, 0.5]} position={[-36.9, 0.9, 3.8]} />
+                <CuboidCollider args={[0.3, 0.3, 0.5]} position={[-36.1, 0.9, 5.]} />
+
+                {/* right side of middle */}
+                <CuboidCollider args={[0.3, 0.3, 0.3]} position={[5.8, 0.9, -3.8]} />
+
+                {/* osmosis-riiid */}
+                <CuboidCollider args={[2.3, 0.3, 0.3]} position={[17.6, 0.9, -3.8]} />
+                <CuboidCollider args={[1.5, 0.3, 0.2]} position={[17.5, 0.9, -3.]} />
+
+                {/* riiid-awake */}
+                <CuboidCollider args={[1.9, 0.3, 0.3]} position={[29.5, 0.9, -3.8]} />
+                <CuboidCollider args={[1.2, 0.3, 0.2]} position={[29.5, 0.9, -3.]} />
+            </RigidBody>
+        </group>
+    )
+}
+
 function TreePositions() {
     return (
         [
