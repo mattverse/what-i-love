@@ -130,7 +130,7 @@ export const DiceRoller = forwardRef((props, ref) => {
                 if (total !== lastTotal.current) {
                     lastTotal.current = total
 
-                    if (total > 8) {
+                    if (total > 7) {
                         const source = context.createBufferSource()
                         source.buffer = buffer
                         source.connect(gain)
@@ -282,7 +282,7 @@ export default function Dice() {
                 rotation={[0, 0.3, 0]}
             >
 
-                {"ROLL 10 OR HIGHER\n (WITH SOUND ON)"}
+                {"ROLL 7 OR HIGHER\n (WITH SOUND ON)"}
             </Text>
 
         </>

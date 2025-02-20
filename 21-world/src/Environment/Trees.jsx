@@ -1,4 +1,4 @@
-import { useMemo, useRef, useEffect } from 'react'
+import { useMemo, useRef, useEffect, Fragment } from 'react'
 import { useGLTF } from '@react-three/drei'
 import { useControls } from 'leva'
 import * as THREE from 'three'
@@ -17,7 +17,6 @@ export default function Trees({
     const yOffsets = [
         .8, // y for short tree
         1., // y for medium tree
-        // 1.2  // y for tall tree
         1.18  // y for tall tree
     ];
 
@@ -120,8 +119,8 @@ export default function Trees({
                 if (count === 0) return null
 
                 return (
-                    <>
-                        <group key={modelIndex}>
+                    <Fragment key={modelIndex}>
+                        <group>
                             <instancedMesh
                                 ref={darkLeavesRefs[modelIndex]}
                                 args={[model.dark, materials.darkGreen, count]}
@@ -137,7 +136,7 @@ export default function Trees({
                         </group>
                         <Rocks />
                         <TreeColliders />
-                    </>
+                    </Fragment>
                 )
             })}
         </>

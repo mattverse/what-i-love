@@ -1,11 +1,29 @@
 import { useAnimations, useGLTF, useKeyboardControls } from '@react-three/drei'
-import { useEffect, useState, useRef, useMemo, useImperativeHandle, forwardRef } from 'react'
+import { useEffect, useState, useRef, useImperativeHandle, forwardRef } from 'react'
 import { useFrame, useThree } from "@react-three/fiber"
 import { RigidBody, CuboidCollider } from '@react-three/rapier'
 import * as THREE from 'three'
+import { suspend } from 'suspend-react'
+
 
 import { DissolveMaterialImpl } from './DissolveMaterial' // The custom material from above
 import InstructionBox from './InstructionBox' // Import the InstructionBox component
+
+const createAudio = async (url) => {
+    const res = await fetch(url)
+    const buffer = await res.arrayBuffer()
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)()
+    const source = audioContext.createBufferSource()
+    const gainNode = audioContext.createGain()
+    const audioBuffer = await audioContext.decodeAudioData(buffer)
+
+    source.buffer = audioBuffer
+    source.connect(gainNode)
+    gainNode.connect(audioContext.destination)
+
+    return { context: audioContext, gain: gainNode, buffer: audioBuffer }
+}
+
 
 export const Me = forwardRef((props, ref) => {
     const [subscribeKeys, getKeys] = useKeyboardControls()
@@ -31,6 +49,18 @@ export const Me = forwardRef((props, ref) => {
     const startPositionRef = useRef(null)
 
 
+    const { context, gain, buffer } = suspend(() => createAudio('./run.mp3'), ['run.mp3'])
+    const audioContextRef = useRef()
+    const soundSourceRef = useRef(null)
+    const [isMoving, setIsMoving] = useState(false)
+
+    useEffect(() => {
+        audioContextRef.current = context
+        return () => context.close()
+    }, [context])
+
+
+
     useEffect(() => {
         const timer = setTimeout(() => {
             setShowInstruction(false)
@@ -45,9 +75,36 @@ export const Me = forwardRef((props, ref) => {
         // getKeys returns boolean field
         const { forward, backward, leftward, rightward, run, teleport } = getKeys()
 
+        const wasMoving = isMoving
+        const nowMoving = forward || backward || leftward || rightward
+
+        // Handle audio context resume on first interaction
+        if (nowMoving && context.state === 'suspended') {
+            context.resume().catch(console.error)
+        }
+
+        // Update movement state
+        if (nowMoving !== wasMoving) {
+            setIsMoving(nowMoving)
+
+            if (nowMoving) {
+                // Start playing sound
+                soundSourceRef.current = context.createBufferSource()
+                soundSourceRef.current.buffer = buffer
+                soundSourceRef.current.connect(gain)
+                soundSourceRef.current.loop = true
+                soundSourceRef.current.start(0)
+            } else {
+                // Stop playing sound
+                if (soundSourceRef.current) {
+                    soundSourceRef.current.stop()
+                    soundSourceRef.current = null
+                }
+            }
+        }
 
 
-        let acceleration = run ? 1.5 : 5. // Increased from 0.2/0.1
+        let acceleration = run ? 7.5 : 5. // Increased from 0.2/0.1
         let friction = 0.69
 
         // Reset movement direction
@@ -57,7 +114,6 @@ export const Me = forwardRef((props, ref) => {
         if (backward) movementDirection.current.z += 1
         if (leftward) movementDirection.current.x -= 1
         if (rightward) movementDirection.current.x += 1
-
         if (movementDirection.current.length() > 0) {
             movementDirection.current.normalize().multiplyScalar(acceleration)
         }
@@ -82,7 +138,7 @@ export const Me = forwardRef((props, ref) => {
 
         // Handle animations
         if (movementDirection.current.length() > 0) {
-            const action = run ? 'run' : 'Walk'
+            const action = 'Walk'
             if (currentAction !== action) {
                 transitionToAction(robotAnimations, currentAction, action)
                 setCurrentAction(action)

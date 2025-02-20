@@ -8,7 +8,7 @@ export default function PathRocks() {
 
     // Use Leva to control the color
     const { color } = useControls('Path Rock', {
-        color: '#adadad'
+        color: '#a7a7a7'
     });
 
 
