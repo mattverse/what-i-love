@@ -84,8 +84,8 @@ export const DiceRoller = forwardRef((props, ref) => {
     const restingCounter = useRef(0)
     const lastTotal = useRef(0)
     const { context, gain, buffer } = suspend(
-        () => createAudio('./diceJackpot.mp3'),
-        ['diceJackpot.mp3']
+        () => createAudio('./dice-jackpot.mp3'),
+        ['dice-jackpot.mp3']
     )
     const audioContextRef = useRef()
 
@@ -213,7 +213,7 @@ export const DiceRoller = forwardRef((props, ref) => {
 
 
 export function DiceSign(props) {
-    const { nodes, materials } = useGLTF('/diceSign.glb')
+    const { nodes, materials } = useGLTF('/dice-sign.glb')
     return (
         <RigidBody
             colliders="cuboid"
@@ -229,7 +229,7 @@ export function DiceSign(props) {
     )
 }
 
-useGLTF.preload('/diceSign.glb')
+useGLTF.preload('/dice-sign.glb')
 
 
 export function Plate(props) {

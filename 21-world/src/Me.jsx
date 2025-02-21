@@ -1,9 +1,10 @@
 import { useAnimations, useGLTF, useKeyboardControls } from '@react-three/drei'
-import { useEffect, useState, useRef, useImperativeHandle, forwardRef } from 'react'
-import { useFrame, useThree } from "@react-three/fiber"
+import { useEffect, useState, useRef, useImperativeHandle, forwardRef, useMemo } from 'react'
+import { useFrame, useGraph } from "@react-three/fiber"
 import { RigidBody, CuboidCollider } from '@react-three/rapier'
 import * as THREE from 'three'
 import { suspend } from 'suspend-react'
+import { SkeletonUtils } from 'three-stdlib'
 
 
 import { DissolveMaterialImpl } from './DissolveMaterial' // The custom material from above
@@ -27,10 +28,19 @@ const createAudio = async (url) => {
 
 export const Me = forwardRef((props, ref) => {
     const [subscribeKeys, getKeys] = useKeyboardControls()
-    const robot = useGLTF('./robot-3.glb')
-    const robotAnimations = useAnimations(robot.animations, robot.scene)
+
+    const { scene, animations } = useGLTF('./robot-4-transformed.glb')
+
+    const spring = useGLTF('/spring.glb')
+
+    const clone = useMemo(() => SkeletonUtils.clone(scene), [scene])
+    const { nodes, materials } = useGraph(clone)
+
+
+    // const robotAnimations = useAnimations(animations, scene)
     const [currentAction, setCurrentAction] = useState(null)
     const characterRef = useRef()
+    const robotAnimations = useAnimations(animations, characterRef)
     const characterRigidBodyRef = useRef()
     useImperativeHandle(ref, () => characterRigidBodyRef.current)
 
@@ -53,6 +63,7 @@ export const Me = forwardRef((props, ref) => {
     const audioContextRef = useRef()
     const soundSourceRef = useRef(null)
     const [isMoving, setIsMoving] = useState(false)
+
 
     useEffect(() => {
         audioContextRef.current = context
@@ -138,14 +149,17 @@ export const Me = forwardRef((props, ref) => {
 
         // Handle animations
         if (movementDirection.current.length() > 0) {
-            const action = 'Walk'
+            const action = 'Walk';
             if (currentAction !== action) {
-                transitionToAction(robotAnimations, currentAction, action)
-                setCurrentAction(action)
+                transitionToAction(robotAnimations, currentAction, action);
+                setCurrentAction(action);
             }
-        } else if (velocity.current.length() < 0.01) {
-            transitionToAction(robotAnimations, currentAction, 'idle')
-            setCurrentAction('idle')
+        } else {
+            // Only transition to Idle if it's not already playing.
+            if (currentAction !== 'Idle') {
+                transitionToAction(robotAnimations, currentAction, 'Idle');
+                setCurrentAction('Idle');
+            }
         }
 
 
@@ -194,6 +208,8 @@ export const Me = forwardRef((props, ref) => {
             }
         }
 
+
+
         const groundCenterX = 2.5
         const groundCenterZ = 1.4
         const groundHalfWidth = 81.5 / 2  // 40.75
@@ -229,14 +245,21 @@ export const Me = forwardRef((props, ref) => {
                 lockRotations={true}
             >
                 <CuboidCollider args={[0.2, 0.5, 0.2]} position={[-1.9, 0.9, -1.5]} />
-                <group>
-                    <primitive
-                        ref={characterRef}
-                        object={robot.scene}
-                        scale={0.2}
-                        castShadow
-                        position={[-1.9, 1.1, -1.5]}
-                    />
+                <group ref={characterRef} scale={0.2} position={[-1.9, 1.1, -1.5]} dispose={null}>
+                    <group name="Scene">
+                        <group name="Armature">
+                            <primitive object={nodes.Body} />
+                            <primitive object={nodes.Body001} />
+                            <primitive object={nodes.Body004} />
+                        </group>
+
+                        <group name="Cube010">
+                            <skinnedMesh name="Cube003" geometry={nodes.Cube003.geometry} material={materials['char-7-body']} skeleton={nodes.Cube003.skeleton} />
+                            <skinnedMesh name="Cube003_1" geometry={nodes.Cube003_1.geometry} material={materials['char-7-dark']} skeleton={nodes.Cube003_1.skeleton} />
+                            <skinnedMesh name="Cube003_2" geometry={nodes.Cube003_2.geometry} material={materials['smoke-white']} skeleton={nodes.Cube003_2.skeleton} />
+                            <skinnedMesh name="Cube003_3" geometry={nodes.Cube003_3.geometry} material={materials['char-7-red']} skeleton={nodes.Cube003_3.skeleton} />
+                        </group>
+                    </group>
                 </group>
                 {
                     showInstruction &&
@@ -262,3 +285,6 @@ function transitionToAction(robotAnimations, currentAction, newActionName) {
         newAction.timeScale = 2
     }
 }
+
+useGLTF.preload('/spring.glb')
+useGLTF.preload('/robot.glb')

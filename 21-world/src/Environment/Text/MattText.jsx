@@ -6,7 +6,7 @@ import { useEffect } from "react";
 // ...
 
 export default function MattText() {
-    const { nodes, materials } = useGLTF('/mattText.glb')
+    const { nodes, materials } = useGLTF('/matt-park-text.glb')
 
     return <group position={[0, 0, 0.8]}>
         <RigidBody
@@ -36,3 +36,5 @@ export default function MattText() {
         </Text>
     </group>
 }
+
+useGLTF.preload('/matt-park-text.glb')
