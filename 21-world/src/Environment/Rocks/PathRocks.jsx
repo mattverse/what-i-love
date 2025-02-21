@@ -4,7 +4,7 @@ import * as THREE from 'three'
 import { useControls } from 'leva';
 
 export default function PathRocks() {
-    const { nodes } = useGLTF('./environment/rock/rocks.glb'); // Load as a mesh
+    const { nodes } = useGLTF('./environment/rocks/rocks.glb'); // Load as a mesh
 
     // Use Leva to control the color
     const { color } = useControls('Path Rock', {

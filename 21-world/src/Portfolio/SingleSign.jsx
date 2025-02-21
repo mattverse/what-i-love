@@ -5,7 +5,7 @@ import { CuboidCollider, RigidBody } from "@react-three/rapier";
 
 
 export default function SingleSign(props) {
-    const { nodes, materials } = useGLTF('./environment/single-sign.glb')
+    const { nodes, materials } = useGLTF('./environment/signs/sign-public-speaking.glb')
     return (
         <>
             <RigidBody
@@ -23,7 +23,7 @@ export default function SingleSign(props) {
                         <mesh geometry={nodes.Sign1_2.geometry} material={materials.wood} />
                     </group>
                     <Text
-                        font="./m6x11plus.ttf"
+                        font="./fonts/m6x11plus.ttf"
                         fontSize={0.2}
                         color="black"
                         position={[-0.3, 1.45, 0.06]}
@@ -40,4 +40,4 @@ export default function SingleSign(props) {
     )
 }
 
-useGLTF.preload('./environment/single-sign.glb')
+useGLTF.preload('./environment/signs/sign-public-speaking.glb')

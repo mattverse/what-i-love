@@ -10,6 +10,6 @@ body,
 }
 
 @font-face {
-    font-family: 'm6x11plus';
-    src: url('./m6x11plus.ttf') format('truetype');
+    font-family: 'fonts/m6x11plus';
+    src: url('./fonts/m6x11plus.ttf') format('truetype');
 }

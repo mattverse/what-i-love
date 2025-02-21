@@ -18,7 +18,7 @@ export default function FloatingText() {
     return (
         <Text
             ref={textRef}
-            font="./m6x11plus.ttf"
+            font="./fonts/m6x11plus.ttf"
             fontSize={9}
             color="black"
             position={[0, 1, 0]}

@@ -21,7 +21,7 @@ export default function Riiid() {
 
 
 function RiiidTextMesh() {
-    const { nodes, materials } = useGLTF('./workExperience/riiid/riiidText.glb')
+    const { nodes, materials } = useGLTF('./workExperience/riiid/riiid-text.glb')
     return (
         <group
             dispose={null}
@@ -33,10 +33,10 @@ function RiiidTextMesh() {
         </group>
     )
 }
-useGLTF.preload('./workExperience/riiid/riiidText.glb')
+useGLTF.preload('./workExperience/riiid/riiid-text.glb')
 
 function RiiidLogo() {
-    const { nodes, materials } = useGLTF('./workExperience/riiid/riiidLogo.glb')
+    const { nodes, materials } = useGLTF('./workExperience/riiid/riiid-logo.glb')
     return (
         <group dispose={null} scale={0.13} position={[20.3, 2, -3.45]}>
             <group rotation={[Math.PI / 2, 0, 0]} scale={2.817}>
@@ -46,13 +46,13 @@ function RiiidLogo() {
         </group>
     )
 }
-useGLTF.preload('./workExperience/riiid/riiidLogo.glb')
+useGLTF.preload('./workExperience/riiid/riiid-logo.glb')
 
 
 
 function RiiidSoftWareEngineerText() {
     return <Text
-        font="./m6x11plus.ttf"
+        font="./fonts/m6x11plus.ttf"
         color={"black"}
         lineHeight={0.8}
         scale={0.6}
@@ -65,7 +65,7 @@ function RiiidSoftWareEngineerText() {
 
 function RiiidDateText() {
     return <Text
-        font="./m6x11plus.ttf"
+        font="./fonts/m6x11plus.ttf"
         color={"black"}
         lineHeight={0.8}
         scale={0.35}
@@ -78,7 +78,7 @@ function RiiidDateText() {
 
 function RiiidExplanationText() {
     return <Text
-        font="./m6x11plus.ttf"
+        font="./fonts/m6x11plus.ttf"
         color={"black"}
         lineHeight={1}
         scale={0.25}
@@ -94,7 +94,7 @@ solutions, specializing in adaptive test prep and educational analytics.
 
 function RiiidExperienceText() {
     return <Text
-        font="./m6x11plus.ttf"
+        font="./fonts/m6x11plus.ttf"
         color={"black"}
         lineHeight={1}
         scale={0.3}

@@ -1,17 +1,32 @@
 import { Physics } from '@react-three/rapier'
 
-import Lights from './Lights.jsx'
-import { Me } from './Me.jsx'
-import EnvironmentSettings from './EnvironmentSettings.jsx'
+import Lights from './WorldSettings/Lights.jsx'
+import { Robot } from './Character/Robot.jsx'
 import * as THREE from 'three'
 import { Suspense, useState, useRef } from 'react'
 import { Canvas, extend, useFrame } from '@react-three/fiber';
 
 
-import Background from './Background.jsx'
+import Background from './WorldSettings/Background.jsx'
 import { Computer } from './Portfolio/Computer.jsx'
 
 import { OrbitControls } from '@react-three/drei'
+
+// components
+import Ground from './Environment/Ground';
+import Flowers from './Environment/Flowers';
+import Trees from './Environment/Trees';
+import MattText from './AboutMe/MattText'
+import Sign from './AboutMe/Sign';
+import PathRocks from './Environment/Rocks/PathRocks';
+import Osmosis from './WorkExperience/osmosis';
+import Riiid from './WorkExperience/Riiid';
+import Awake from './WorkExperience/Awake';
+import Bio from './AboutMe/Bio.jsx'
+
+import SingleSign from './Portfolio/SingleSign'
+import PublicSpeaking from './Portfolio/PublicSpeaking'
+import Dice from './Dice/Dice'
 
 export default function Experience() {
     const [showPortfolio, setShowPortfolio] = useState(false)
@@ -31,11 +46,23 @@ export default function Experience() {
                 timeStep={"vary"}
             // debug
             >
-                <EnvironmentSettings
-                    characterRef={characterRef}
-                    onSpacePressed={() => setCameraMode('portfolio')}
-                />
-                <Me ref={characterRef} />
+                <Bio characterRef={characterRef} />
+                <Ground />
+                <Trees />
+                <Flowers />
+                <MattText />
+                <Sign />
+                <PathRocks />
+                <group position={[2, 0, 0]}>
+                    <Osmosis />
+                    <Riiid />
+                    <Awake />
+                </group>
+                <Computer characterRef={characterRef} />
+                <SingleSign />
+                <PublicSpeaking />
+                <Dice />
+                <Robot ref={characterRef} />
             </Physics>
         </Suspense>
 

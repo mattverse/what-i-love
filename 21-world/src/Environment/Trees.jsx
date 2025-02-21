@@ -10,9 +10,9 @@ export default function Trees({
 }) {
     const positions = TreePositions()
     // Load all three tree models
-    const short = useGLTF('./environment/tree-short.glb')
-    const medium = useGLTF('./environment/tree-medium.glb')
-    const tall = useGLTF('./environment/tree-tall.glb')
+    const short = useGLTF('./environment/trees/tree-short.glb')
+    const medium = useGLTF('./environment/trees/tree-medium.glb')
+    const tall = useGLTF('./environment/trees/tree-tall.glb')
 
     const yOffsets = [
         .8, // y for short tree
@@ -149,7 +149,7 @@ function Rocks({ positions = [
     [18.8, -3],
     [-28.9, -4],
 ], y = .6, rockScale = 0.15, ...props }) {
-    const { nodes, materials } = useGLTF('./environment/rock/square-rock.glb')
+    const { nodes, materials } = useGLTF('./environment/rocks/square-rock.glb')
     const count = positions.length
     const meshRef = useRef()
 

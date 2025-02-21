@@ -1,11 +1,11 @@
-import { ArrowArea } from './Portfolio/ArrowArea'
+import { ArrowArea } from '../Portfolio/ArrowArea'
 import { Text, Text3D, useGLTF } from "@react-three/drei";
 
 export default function Bio({ characterRef }) {
     const handleDownloadResume = () => {
         // Create a temporary link element
         const link = document.createElement('a');
-        link.href = './empty.pdf'; // Update this path
+        link.href = './about-me/resume.pdf'; // Update this path
         link.download = 'Matt(Chagnhyun)_Park_Resume.pdf'; // Set the filename
         document.body.appendChild(link);
         link.click();
@@ -62,7 +62,7 @@ function SingleLineBio({ bioName,
 function BioName({ name, position }) {
     return (
         <Text
-            font="./m6x11plus.ttf"
+            font="./fonts/m6x11plus.ttf"
             color={"black"}
             lineHeight={0.8}
             scale={0.3}

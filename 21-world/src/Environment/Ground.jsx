@@ -4,7 +4,7 @@ import { useGLTF, useTexture } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
 
 export default function Ground() {
-    const stripeTexture = useTexture("./environment/grass/grass-stripes.png");
+    const stripeTexture = useTexture("./environment/grass-stripes.png");
 
     // Mesh dimensions
     const meshArgs = [81.5, 11, 0.7]; // [width, height, depth]

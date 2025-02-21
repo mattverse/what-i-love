@@ -4,7 +4,7 @@ import { useState, useRef, forwardRef, useMemo, useEffect } from 'react'
 import { Text } from "@react-three/drei";
 import * as THREE from 'three'
 
-import InstructionBox from "../InstructionBox.jsx"
+import InstructionBox from "../Character/InstructionBox.jsx"
 
 const FenceMaterial = forwardRef(({ time = 0, borderAlpha = 0.5, strikeAlpha = 0.25, opacity = 1 }, ref) => {
     const uniforms = useMemo(() => ({
@@ -237,7 +237,7 @@ export const ArrowArea = ({
             <Fence active={isActive} size={fenceSize} />
 
             <Text
-                font="./m6x11plus.ttf"
+                font="./fonts/m6x11plus.ttf"
                 color={"black"}
                 lineHeight={0.8}
                 fontSize={0.3}
@@ -254,7 +254,7 @@ export const ArrowArea = ({
                     ref={instructionRef}
                     textBeforeImage="Press "
                     textAfterImage={textAfterImage}
-                    image={{ url: './spaceBar.png' }}
+                    image={{ url: './character/spaceBar.png' }}
                     imagePosition="inline"
                     canvasWidth={220}
                     canvasHeight={40}

@@ -26,7 +26,7 @@ export function Osmocon({ }) {
                     videoLink={"./portfolio/osmocon.mov"}
                 />
                 <Text
-                    font="./m6x11plus.ttf"
+                    font="./fonts/m6x11plus.ttf"
                     color={"black"}
                     lineHeight={0.8}
                     fontSize={0.5}
@@ -36,7 +36,7 @@ export function Osmocon({ }) {
                     {"OSMOCON 2023"}
                 </Text>
                 <Text
-                    font="./m6x11plus.ttf"
+                    font="./fonts/m6x11plus.ttf"
                     color={"black"}
                     fontSize={0.3}
                     rotation={[-Math.PI / 2, 0, 0]}
@@ -70,7 +70,7 @@ export function Gophercon({ }) {
                     videoLink={"./portfolio/gophercon.mov"}
                 />
                 <Text
-                    font="./m6x11plus.ttf"
+                    font="./fonts/m6x11plus.ttf"
                     color={"black"}
                     lineHeight={0.8}
                     fontSize={0.5}
@@ -80,7 +80,7 @@ export function Gophercon({ }) {
                     {"GOPHERCON KOREA 2023"}
                 </Text>
                 <Text
-                    font="./m6x11plus.ttf"
+                    font="./fonts/m6x11plus.ttf"
                     color={"black"}
                     fontSize={0.3}
                     rotation={[-Math.PI / 2, 0, 0]}
@@ -114,7 +114,7 @@ export function IBCSummit({ }) {
                     videoLink={"./portfolio/ibc-summit.mov"}
                 />
                 <Text
-                    font="./m6x11plus.ttf"
+                    font="./fonts/m6x11plus.ttf"
                     color={"black"}
                     lineHeight={0.8}
                     fontSize={0.5}
@@ -124,7 +124,7 @@ export function IBCSummit({ }) {
                     {"IBC SUMMIT 2022"}
                 </Text>
                 <Text
-                    font="./m6x11plus.ttf"
+                    font="./fonts/m6x11plus.ttf"
                     color={"black"}
                     fontSize={0.3}
                     rotation={[-Math.PI / 2, 0, 0]}

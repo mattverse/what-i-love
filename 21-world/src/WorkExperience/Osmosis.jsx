@@ -20,7 +20,7 @@ export default function Osmosis() {
 
 
 function OsmosisTextMesh() {
-    const { nodes, materials } = useGLTF('./workExperience/osmosis/osmosisText.glb')
+    const { nodes, materials } = useGLTF('./workExperience/osmosis/osmosis-text.glb')
     return (
         <group
             dispose={null}
@@ -32,10 +32,10 @@ function OsmosisTextMesh() {
         </group>
     )
 }
-useGLTF.preload('./workExperience/osmosis/osmosisText.glb')
+useGLTF.preload('./workExperience/osmosis/osmosis-text.glb')
 
 function Potion() {
-    const { nodes, materials } = useGLTF('./workExperience/osmosis/potion.glb')
+    const { nodes, materials } = useGLTF('./workExperience/osmosis/osmosis-logo.glb')
     return (
         <group
             scale={0.15}
@@ -48,13 +48,13 @@ function Potion() {
         </group>
     )
 }
-useGLTF.preload('./workExperience/osmosis/potion.glb')
+useGLTF.preload('./workExperience/osmosis/osmosis-logo.glb')
 
 
 
 function OsmosisSoftWareEngineerText() {
     return <Text
-        font="./m6x11plus.ttf"
+        font="./fonts/m6x11plus.ttf"
         color={"black"}
         lineHeight={0.8}
         scale={0.6}
@@ -67,7 +67,7 @@ function OsmosisSoftWareEngineerText() {
 
 function OsmosisDateText() {
     return <Text
-        font="./m6x11plus.ttf"
+        font="./fonts/m6x11plus.ttf"
         color={"black"}
         lineHeight={0.8}
         scale={0.35}
@@ -80,7 +80,7 @@ function OsmosisDateText() {
 
 function OsmosisExplanationText() {
     return <Text
-        font="./m6x11plus.ttf"
+        font="./fonts/m6x11plus.ttf"
         color={"black"}
         lineHeight={1}
         scale={0.25}
@@ -95,7 +95,7 @@ facilitating cross-chain liquidity via IBC with over $100M in total value locked
 
 function OsmosisExperienceText() {
     return <Text
-        font="./m6x11plus.ttf"
+        font="./fonts/m6x11plus.ttf"
         color={"black"}
         lineHeight={1}
         scale={0.3}

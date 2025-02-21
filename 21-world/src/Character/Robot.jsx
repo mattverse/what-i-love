@@ -7,7 +7,7 @@ import { suspend } from 'suspend-react'
 import { SkeletonUtils } from 'three-stdlib'
 
 
-import { DissolveMaterialImpl } from './DissolveMaterial' // The custom material from above
+import { DissolveMaterialImpl } from '../DissolveMaterial' // The custom material from above
 import InstructionBox from './InstructionBox' // Import the InstructionBox component
 
 const createAudio = async (url) => {
@@ -26,12 +26,10 @@ const createAudio = async (url) => {
 }
 
 
-export const Me = forwardRef((props, ref) => {
+export const Robot = forwardRef((props, ref) => {
     const [subscribeKeys, getKeys] = useKeyboardControls()
 
-    const { scene, animations } = useGLTF('./robot-4-transformed.glb')
-
-    const spring = useGLTF('/spring.glb')
+    const { scene, animations } = useGLTF('./character/robot.glb')
 
     const clone = useMemo(() => SkeletonUtils.clone(scene), [scene])
     const { nodes, materials } = useGraph(clone)
@@ -59,7 +57,7 @@ export const Me = forwardRef((props, ref) => {
     const startPositionRef = useRef(null)
 
 
-    const { context, gain, buffer } = suspend(() => createAudio('./run.mp3'), ['run.mp3'])
+    const { context, gain, buffer } = suspend(() => createAudio('./character/run.mp3'), ['character/run.mp3'])
     const audioContextRef = useRef()
     const soundSourceRef = useRef(null)
     const [isMoving, setIsMoving] = useState(false)
@@ -191,8 +189,8 @@ export const Me = forwardRef((props, ref) => {
         smoothedCameraTarget.lerp(currentPos, 0.25 * delta * 40)
         smoothedCameraPosition.lerp(desiredCameraPosition, 0.25 * delta * 40)
 
-        state.camera.position.copy(smoothedCameraPosition)
-        state.camera.lookAt(smoothedCameraTarget)
+        // state.camera.position.copy(smoothedCameraPosition)
+        // state.camera.lookAt(smoothedCameraTarget)
 
 
         if (startPositionRef.current === null) {
@@ -286,5 +284,4 @@ function transitionToAction(robotAnimations, currentAction, newActionName) {
     }
 }
 
-useGLTF.preload('/spring.glb')
-useGLTF.preload('/robot.glb')
+useGLTF.preload('/character/robot.glb')
