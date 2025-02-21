@@ -18,7 +18,7 @@ import Flowers from './Environment/Flowers';
 import Trees from './Environment/Trees';
 import MattText from './AboutMe/MattText'
 import Sign from './AboutMe/Sign';
-import PathRocks from './Environment/Rocks/PathRocks';
+import PathRocks from './Environment/PathRocks.jsx';
 import Osmosis from './WorkExperience/osmosis';
 import Riiid from './WorkExperience/Riiid';
 import Awake from './WorkExperience/Awake';

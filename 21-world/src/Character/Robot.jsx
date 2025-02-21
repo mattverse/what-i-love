@@ -5,9 +5,8 @@ import { RigidBody, CuboidCollider } from '@react-three/rapier'
 import * as THREE from 'three'
 import { suspend } from 'suspend-react'
 import { SkeletonUtils } from 'three-stdlib'
+import { useControls } from 'leva'
 
-
-import { DissolveMaterialImpl } from '../DissolveMaterial' // The custom material from above
 import InstructionBox from './InstructionBox' // Import the InstructionBox component
 
 const createAudio = async (url) => {
@@ -62,6 +61,14 @@ export const Robot = forwardRef((props, ref) => {
     const soundSourceRef = useRef(null)
     const [isMoving, setIsMoving] = useState(false)
 
+    const { characterBody, characterAntena } = useControls('Character', {
+        characterBody: '#898989',
+        characterAntena: '#a73737'
+    });
+
+    const characterBodyMaterial = new THREE.MeshStandardMaterial({ color: characterBody })
+    const characterAntenaMaterial = new THREE.MeshStandardMaterial({ color: characterAntena })
+    const characterEyeMaterial = new THREE.MeshStandardMaterial({ color: '#f5f5f5' })
 
     useEffect(() => {
         audioContextRef.current = context
@@ -189,8 +196,8 @@ export const Robot = forwardRef((props, ref) => {
         smoothedCameraTarget.lerp(currentPos, 0.25 * delta * 40)
         smoothedCameraPosition.lerp(desiredCameraPosition, 0.25 * delta * 40)
 
-        // state.camera.position.copy(smoothedCameraPosition)
-        // state.camera.lookAt(smoothedCameraTarget)
+        state.camera.position.copy(smoothedCameraPosition)
+        state.camera.lookAt(smoothedCameraTarget)
 
 
         if (startPositionRef.current === null) {
@@ -252,10 +259,10 @@ export const Robot = forwardRef((props, ref) => {
                         </group>
 
                         <group name="Cube010">
-                            <skinnedMesh name="Cube003" geometry={nodes.Cube003.geometry} material={materials['char-7-body']} skeleton={nodes.Cube003.skeleton} />
+                            <skinnedMesh name="Cube003" geometry={nodes.Cube003.geometry} material={characterBodyMaterial} skeleton={nodes.Cube003.skeleton} />
                             <skinnedMesh name="Cube003_1" geometry={nodes.Cube003_1.geometry} material={materials['char-7-dark']} skeleton={nodes.Cube003_1.skeleton} />
-                            <skinnedMesh name="Cube003_2" geometry={nodes.Cube003_2.geometry} material={materials['smoke-white']} skeleton={nodes.Cube003_2.skeleton} />
-                            <skinnedMesh name="Cube003_3" geometry={nodes.Cube003_3.geometry} material={materials['char-7-red']} skeleton={nodes.Cube003_3.skeleton} />
+                            <skinnedMesh name="Cube003_2" geometry={nodes.Cube003_2.geometry} material={characterEyeMaterial} skeleton={nodes.Cube003_2.skeleton} />
+                            <skinnedMesh name="Cube003_3" geometry={nodes.Cube003_3.geometry} material={characterAntenaMaterial} skeleton={nodes.Cube003_3.skeleton} />
                         </group>
                     </group>
                 </group>

@@ -24,7 +24,7 @@ export default function Awake() {
 
 
 function AwakeTextMesh() {
-    const { nodes, materials } = useGLTF('./workExperience/awake/awake-text.glb')
+    const { nodes, materials } = useGLTF('./work-experience/awake/awake-text.glb')
     return (
         <group position={[31, 2, -3.7]} dispose={null} scale={0.2}>
             <mesh geometry={nodes.Plane004.geometry} material={materials['Material.007']} />
@@ -32,10 +32,10 @@ function AwakeTextMesh() {
         </group>
     )
 }
-useGLTF.preload('./workExperience/awake/awake-text.glb')
+useGLTF.preload('./work-experience/awake/awake-text.glb')
 
 function AwakeLogo() {
-    const { nodes, materials } = useGLTF('./workExperience/awake/awake-logo.glb')
+    const { nodes, materials } = useGLTF('./work-experience/awake/awake-logo.glb')
     return (
         <group dispose={null} scale={0.015} position={[32.5, 2, -3.3]}>
             <group rotation={[-Math.PI / 2, 0, -Math.PI / 2]}>
@@ -46,7 +46,7 @@ function AwakeLogo() {
         </group>
     )
 }
-useGLTF.preload('./workExperience/awake/awake-logo.glb')
+useGLTF.preload('./work-experience/awake/awake-logo.glb')
 
 
 
