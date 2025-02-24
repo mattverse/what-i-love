@@ -25,7 +25,7 @@ function OsmosisTextMesh() {
         <group
             dispose={null}
             scale={0.2}
-            position={[7.5, 0.9, -3.5]}
+            position={[7.5, 2, -3.5]}
         >
             <mesh geometry={nodes.Plane003.geometry} material={materials['Material.007']} />
             <mesh geometry={nodes.Plane003_1.geometry} material={materials['smoke-white']} />
@@ -40,7 +40,7 @@ function Potion() {
         <group
             scale={0.15}
             dispose={null}
-            position={[9.5, 1, -3.5]}
+            position={[9.5, 2, -3.5]}
         >
             <mesh geometry={nodes.mesh2068853349.geometry} material={materials.mat24} />
             <mesh geometry={nodes.mesh2068853349_1.geometry} material={materials.mat2} />

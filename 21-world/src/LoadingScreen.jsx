@@ -33,14 +33,14 @@ export default function LoadingScreen() {
             zIndex: 1000,
             opacity: 1,
             transition: 'opacity 0.5s',
-            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"'
+            fontFamily: 'm6x11plus' // Use your custom font here
         }}>
             <h1 style={{
                 fontSize: '4rem',
                 margin: 0,
                 color: '#ffffff',
                 fontWeight: 700,
-                letterSpacing: '-0.05em'
+                letterSpacing: '0.1em'
             }}>
                 LOADING
             </h1>
@@ -49,7 +49,7 @@ export default function LoadingScreen() {
                 margin: '1rem 0',
                 color: 'rgba(255, 255, 255, 0.8)',
                 fontWeight: 400,
-                letterSpacing: '-0.02em'
+                letterSpacing: '0.05em'
             }}>
                 {Math.round(progress)}%
             </p>

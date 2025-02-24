@@ -25,7 +25,7 @@ function RiiidTextMesh() {
         <group
             dispose={null}
             scale={0.2}
-            position={[19, 0.9, -3.7]}
+            position={[19, 2., -3.7]}
         >
             <mesh geometry={nodes.Plane003.geometry} material={materials['Material.007']} />
             <mesh geometry={nodes.Plane003_1.geometry} material={materials['smoke-white']} />
