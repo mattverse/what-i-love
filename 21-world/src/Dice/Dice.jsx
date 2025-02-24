@@ -4,16 +4,15 @@ Command: npx gltfjsx@6.5.3 21-world/public/dice/dice.glb --transform --simplify
 Files: 21-world/public/dice/dice.glb [776.58KB] > /Users/matt/Desktop/code/what-i-love/dice-transformed.glb [42.16KB] (95%)
 */
 
-import React, {
+import {
     useRef,
     useImperativeHandle,
     forwardRef,
     useEffect,
-    useMemo,
     useState
 } from 'react'
 import { useGLTF, Text } from '@react-three/drei'
-import { RigidBody, CuboidCollider } from '@react-three/rapier'
+import { RigidBody } from '@react-three/rapier'
 import { useFrame, useLoader } from '@react-three/fiber'
 import * as THREE from 'three'
 import { ArrowArea } from '../Portfolio/ArrowArea'
@@ -88,11 +87,21 @@ export const DiceRoller = forwardRef((props, ref) => {
         ['dice/dice-jackpot.mp3']
     )
     const audioContextRef = useRef()
+    const rollSourceRef = useRef(null);
+
+    const { context: rollContext, gain: rollGain, buffer: rollBuffer } = suspend(
+        () => createAudio('./dice/dice-roll.mp3'),
+        ['dice/dice-roll.mp3']
+    );
+
 
     useEffect(() => {
-        audioContextRef.current = context
-        return () => context.close()
-    }, [context])
+        audioContextRef.current = context;
+        return () => {
+            context.close();
+            rollContext.close();
+        }
+    }, [context, rollContext]);
     // Velocity check parameters
     const VELOCITY_THRESHOLD = 0.1
     const ANGULAR_THRESHOLD = 0.1
@@ -150,6 +159,20 @@ export const DiceRoller = forwardRef((props, ref) => {
             if (audioContextRef.current?.state === 'suspended') {
                 audioContextRef.current.resume()
             }
+            // Stop any existing rolling sound
+            if (rollSourceRef.current) {
+                rollSourceRef.current.stop();
+                rollSourceRef.current = null;
+            }
+
+            // Play new rolling sound
+            const source = rollContext.createBufferSource();
+            source.buffer = rollBuffer;
+            source.connect(rollGain);
+            source.start(0);
+            rollSourceRef.current = source;
+
+
             restingCounter.current = 0
             setIsResting(false)
             lastTotal.current = 0

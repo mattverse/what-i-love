@@ -5,11 +5,10 @@ Files: what-i-love/21-world/public/portfolio/computer.glb [27.58KB] > /Users/mat
 */
 
 import * as THREE from 'three'
-import { React, useRef } from 'react'
-import { useGLTF, Merged, RenderTexture, PerspectiveCamera, Text } from '@react-three/drei'
-import { useFrame } from "@react-three/fiber"
-import { EffectComposer, Bloom, Select, ToneMapping } from '@react-three/postprocessing'
-import { RigidBody, CuboidCollider } from '@react-three/rapier'
+import { React } from 'react'
+import { useGLTF, RenderTexture, PerspectiveCamera, Text } from '@react-three/drei'
+import { EffectComposer, Bloom, ToneMapping } from '@react-three/postprocessing'
+import { RigidBody } from '@react-three/rapier'
 
 import { ToneMappingMode } from 'postprocessing'
 import FloatingText from './GlowingText'
@@ -23,12 +22,13 @@ export function Computer({ characterRef, ...props }) {
     <>
       <ArrowArea
         characterRef={characterRef}
-        position={[0, 0, 0]}
+        // position={[0, 0, 0]}
         link="portfolio.com"
         text="VIEW PORTFOLIO"
         textAfterImage="to enter"
         isInstructionBox={true}
         textPosition={[-6.7, 0.38, 3.]}
+        instructionBoxOffset={[-1.8, 2.8, -1]}
       />
       <RigidBody
         type="fixed"

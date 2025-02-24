@@ -1,5 +1,4 @@
-import * as THREE from 'three'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Text, useGLTF } from '@react-three/drei'
 import { CuboidCollider, RigidBody } from '@react-three/rapier'
 

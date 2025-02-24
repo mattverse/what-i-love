@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { useLayoutEffect, useRef, useState } from 'react';
-import { Canvas, extend, useFrame } from '@react-three/fiber';
-import { Image, ScrollControls, useScroll, Billboard, Text } from '@react-three/drei';
+import { extend, useFrame } from '@react-three/fiber';
+import { Image, Billboard } from '@react-three/drei';
 import { easing, geometry } from 'maath';
 import './util'
 
@@ -14,7 +14,6 @@ const PortfolioCards = () => (
 
 function Scene(props) {
     const ref = useRef();
-    const scroll = useScroll();
     const [hovered, setHovered] = useState(null);
 
 
@@ -65,21 +64,6 @@ function Card({ url, ...props }) {
         </Image>
     )
 }
-
-// function Card({ url, active, hovered, ...props }) {
-//     const ref = useRef();
-//     useFrame((_, delta) => {
-//         const f = hovered ? 1.4 : active ? 1.25 : 1;
-//         easing.damp3(ref.current.position, [0, hovered ? 0.25 : 0, 0], 0.1, delta);
-//         easing.damp3(ref.current.scale, [1.618 * f, 1 * f, 1], 0.15, delta);
-//     });
-
-//     return (
-//         <group {...props}>
-//             <Image ref={ref} transparent radius={0.075} url={url} scale={[1.618, 1, 1]} side={THREE.DoubleSide} />
-//         </group>
-//     );
-// }
 
 function ActiveCard({ hovered }) {
     const ref = useRef();

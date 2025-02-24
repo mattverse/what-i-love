@@ -1,7 +1,7 @@
 import { Suspense } from 'react'
 import YoutubeSign from './YoutubeSign'
 import { ArrowArea } from './ArrowArea'
-import { useAspect, useVideoTexture, useTexture, Text } from '@react-three/drei'
+import { useVideoTexture, useTexture, Text } from '@react-three/drei'
 
 
 export default function PublicSpeaking({ }) {

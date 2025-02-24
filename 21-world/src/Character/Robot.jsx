@@ -249,8 +249,8 @@ export const Robot = forwardRef((props, ref) => {
                 colliders={false}
                 lockRotations={true}
             >
-                <CuboidCollider args={[0.2, 0.5, 0.2]} position={[-1.9, 0.9, -1.5]} />
-                <group ref={characterRef} scale={0.2} position={[-1.9, 1.1, -1.5]} dispose={null}>
+                <CuboidCollider args={[0.2, 0.5, 0.2]} position={[-1.9, 1.3, -1.5]} />
+                <group ref={characterRef} scale={0.2} position={[-1.9, 1.5, -1.5]} dispose={null}>
                     <group name="Scene">
                         <group name="Armature">
                             <primitive object={nodes.Body} />

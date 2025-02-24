@@ -1,5 +1,5 @@
 import { ArrowArea } from '../Portfolio/ArrowArea'
-import { Text, Text3D, useGLTF } from "@react-three/drei";
+import { Text } from "@react-three/drei";
 
 export default function Bio({ characterRef }) {
     const handleDownloadResume = () => {
@@ -19,19 +19,19 @@ export default function Bio({ characterRef }) {
                 bioName={"GitHub"} bioNamePosition={[3.5, 0.4, -2.]}
                 enterancePosition={[11.5, 0.1, -4.8]}
                 characterRef={characterRef}
-                instructionBoxOffset={[-13.1, 2., 3.]}
+                instructionBoxOffset={[-13.1, 2.5, 3.]}
             />
             <SingleLineBio
                 bioName={"LinkedIn"} bioNamePosition={[3.6, 0.4, -1.]}
                 enterancePosition={[11.5, 0.1, -3.7]}
                 characterRef={characterRef}
-                instructionBoxOffset={[-13.1, 2., 2.]}
+                instructionBoxOffset={[-13.1, 2.5, 2.]}
             />
             <SingleLineBio
                 bioName={"Download\nResume"} bioNamePosition={[3.65, 0.4, 0]}
                 enterancePosition={[11.5, 0.1, -2.6]}
                 characterRef={characterRef}
-                instructionBoxOffset={[-13.1, 2., 1.]}
+                instructionBoxOffset={[-13.1, 2.5, 1.]}
                 onSpace={handleDownloadResume}
 
             />

@@ -1,8 +1,5 @@
 import { useGLTF, Text } from '@react-three/drei';
-import { useEffect, useRef } from 'react';
-import { CuboidCollider, RigidBody } from "@react-three/rapier";
-import * as THREE from 'three';
-import { useControls } from 'leva';
+import { RigidBody } from "@react-three/rapier";
 
 export default function Sign(props) {
     const { nodes, materials } = useGLTF('./environment/signs/sign-main.glb')

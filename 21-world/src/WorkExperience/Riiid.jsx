@@ -1,4 +1,3 @@
-import * as THREE from 'three'
 import React from 'react'
 import { Text, useGLTF } from '@react-three/drei'
 import { RigidBody } from '@react-three/rapier'

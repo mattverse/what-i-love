@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import * as THREE from "three";
-import { useGLTF, useTexture } from "@react-three/drei";
+import { useTexture } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
 
 export default function Ground() {

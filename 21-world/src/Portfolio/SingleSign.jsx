@@ -15,8 +15,6 @@ export default function SingleSign(props) {
                 angularDamping={5}
             >
                 <CuboidCollider args={[0.1, 0.5, 0.1]} position={[-9.9, 0.9, 1.9]} />
-
-
                 <group {...props} dispose={null} position={[-10, 0, 2]}>
                     <group scale={1.2}>
                         <mesh geometry={nodes.Sign1_1.geometry} material={materials['Dark Wood.001']} />
