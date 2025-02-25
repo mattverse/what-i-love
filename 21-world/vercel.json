@@ -1,0 +1,8 @@
+{
+    "rewrites": [
+        {
+            "source": "/portfolio/:path*",
+            "destination": "https://what-i-love.vercel.app/:path*"
+        }
+    ]
+}
