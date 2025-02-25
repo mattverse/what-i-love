@@ -8,8 +8,8 @@ import { useControls } from 'leva'
 
 
 export default function Experience() {
-    const [textColor, setTextColor] = useState("#FE5D27") // default color is midnight purple
-    const [backgroundColor, setBackgroundColor] = useState('#2A0241') // default color is midnight purple
+    const [textColor, setTextColor] = useState("#BCFD55") // default color is midnight purple
+    const [backgroundColor, setBackgroundColor] = useState('#FE5D27') // default color is midnight purple
 
     const ribbon = useRef()
     const ribbon2 = useRef()
@@ -27,7 +27,6 @@ export default function Experience() {
 
         <Lights />
         <ambientLight />
-
 
         <Ribbon ref={ribbon} position={[10, 4, -10]} textColor={textColor} backgroundColor={backgroundColor} />
         <Ribbon ref={ribbon2} position={[10, 1, -10]} />
@@ -70,19 +69,13 @@ const Ribbon = forwardRef(({ textColor, backgroundColor, ...props }, ref) => {
     return <group dispose={null} scale={[0.8, 0.8, 0.8]}  {...props} ref={ref}>
         <group scale={[6, 1, 1]}>
             <mesh
-                castShadow
-                receiveShadow
                 geometry={nodes.Cube001.geometry}
             // material={materials.Base}
             >
                 <MeshTransmissionMaterial
-                    background={materials.Base.color}
-                    // background={new THREE.Color(config.bg)}
-                    // use 10 in prod
-                    // samples={1}
+                    // background={materials.Base.color}
+                    background={new THREE.Color(config.bg)}
                     samples={10}
-                    // use 2048 in prod
-                    // resolution={128}
                     resolution={2048}
                     transmission={1}
 
@@ -102,7 +95,7 @@ const Ribbon = forwardRef(({ textColor, backgroundColor, ...props }, ref) => {
 
 const Button = ({ setTextColor, setBackgroundColor }) => {
     return <Html>
-        <button onClick={() => {
+        {/* <button onClick={() => {
             setTextColor("#FE5D27")
             setBackgroundColor("#2A0241")
 
@@ -129,7 +122,7 @@ const Button = ({ setTextColor, setBackgroundColor }) => {
         }
         } >
             Orange
-        </button>
+        </button> */}
     </Html>
 }
 

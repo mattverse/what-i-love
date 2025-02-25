@@ -4,7 +4,7 @@ const Overlay = () => {
     return (
 
         <div className="overlay">
-            <h1 className="headline">Love it if we made it</h1>
+            <h1 className="headline">LOVE IT IF WE MADE IT</h1>
         </div>
     );
 };

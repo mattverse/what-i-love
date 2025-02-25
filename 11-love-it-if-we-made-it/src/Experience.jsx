@@ -1,11 +1,11 @@
 import * as THREE from 'three'
 import { useRef, useState, useMemo, useEffect, Suspense } from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
+import { useFrame } from '@react-three/fiber'
 import { Billboard, Text, TrackballControls } from '@react-three/drei'
 
 export default function Experience() {
     return <>
-        <fog attach="fog" args={['#252324', 70, 120]} />
+        <fog attach="fog" args={['#252324', -10, 90]} />
 
         <Suspense fallback={null}>
             <group
@@ -24,6 +24,7 @@ export default function Experience() {
 
 const disappearing = ['information', 'honesty', 'books', 'conversation', 'tears', 'happiness', 'depth', 'repetition', 'trust'];
 const appearing = ['religion', 'masturbation', 'dopamine', 'pandemic', 'individualism', 'degradation', 'controversion', 'heroin', 'racism', 'shorts', 'reels'];
+
 function World({ count = 4, radius = 20 }) {
     const words = useMemo(() => {
         const combinedWords = [...disappearing.map(word => ({ word, type: 'disappearing' })), ...appearing.map(word => ({ word, type: 'appearing' }))];

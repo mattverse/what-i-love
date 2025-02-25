@@ -82,7 +82,7 @@ export default function Experience() {
                     <holographicMaterial
                         ref={holographicMaterial}
                         transparent={true}
-                        sidde={THREE.DoubleSide}
+                        side={THREE.DoubleSide}
                         depthWrite={false}
                         blending={THREE.AdditiveBlending}
 

@@ -2,7 +2,6 @@ import { Text, Html, ContactShadows, PresentationControls, Float, Environment, u
 import { useFrame, useThree } from '@react-three/fiber';
 import { useRef, forwardRef } from 'react';
 import * as THREE from 'three'
-import { RectAreaLightHelper } from 'three/addons/helpers/RectAreaLightHelper.js';
 
 
 const rsqw = (t, delta = 0.1, a = 1, f = 1 / (2 * Math.PI)) => (a / Math.atan(1 / delta)) * Math.atan(Math.sin(2 * Math.PI * t * f) / delta)

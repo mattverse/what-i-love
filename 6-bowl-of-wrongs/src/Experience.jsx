@@ -54,7 +54,7 @@ export default function Experience() {
 
             window.setTimeout(() => {
                 setSceneReady(true)
-            }, 2000)
+            }, 1000)
         },
 
         // Progress
@@ -106,7 +106,7 @@ export default function Experience() {
 
                 <directionalLight castShadow position={[1, 2, 3]} intensity={4.5} />
                 <ambientLight intensity={1.5} />
-                <Physics gravity={[0, -19.81, 0]} debug >
+                <Physics gravity={[0, -19.81, 0]}  >
                     {/* Objects */}
                     {envMaps.map((envMap, index) => (
                         <Fragment key={index}>

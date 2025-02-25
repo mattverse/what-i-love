@@ -14,7 +14,7 @@ root.render(
             fov: 45,
             near: 0.1,
             far: 2000,
-            position: [-3, 1.5, 4]
+            position: [-3, 1.5, 6]
         }}
     >
         <ScrollControls >

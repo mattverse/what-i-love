@@ -4,7 +4,6 @@ import Cat from './Cat.jsx'
 
 export default function Experience() {
     return <>
-        <OrbitControls makeDefault />
         <Cat />
     </>
 }

@@ -8,10 +8,10 @@ const Overlay = () => {
                 Death is not an event in life: we do not live to experience death. If we take eternity to mean not infinite temporal duration but timelessness,
             </div> */}
             <div className='topRightContent'>
-                <div className='date-container'>
+                {/* <div className='date-container'>
                     <div className='header'> DATE </div>
                     <div className='content'> Sat Mar 2</div>
-                </div>
+                </div> */}
                 <div className='memorial-container'>
                     <div className='header'>MEMORIAL OF</div>
                     <div className='content'>Wittgenstein</div>

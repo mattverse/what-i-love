@@ -6,7 +6,6 @@ import Rain from './Rain.jsx'
 
 export default function () {
     return <>
-        <OrbitControls makeDefault />
         <Lights />
         <Flower />
         <Rain />

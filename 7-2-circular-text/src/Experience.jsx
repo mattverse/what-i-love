@@ -139,26 +139,26 @@ export default function Experience() {
                     geometry={nodes.Torus.geometry}
                 >
                     <MeshTransmissionMaterial
-                        // background={new THREE.Color('#000000')} // bg color
-                        // meshPhysicalMaterial={false}
-                        // transmissionSampler={false}
-                        // backside={false}
-                        // samples={10}
-                        // resolution={2048}
-                        // transmission={1}
-                        // roughness={0}
-                        // thickness={0.90}
-                        // ior={1.068}
-                        // chromaticAberration={0}
-                        // anisotropy={0}
-                        // distortion={0.5}
-                        // distortionScale={0.5}
-                        // temporalDistortion={0.5}
-                        // clearcoat={1}
-                        // attenuationDistance={0.5}
-                        // attenuationColor={'#ffffff'}
-                        // color={'#b4a6ff'}
-                        // rotation={[0.026, 0.195, -10.334]}
+                        background={new THREE.Color('#000000')} // bg color
+                        meshPhysicalMaterial={false}
+                        transmissionSampler={false}
+                        backside={false}
+                        samples={10}
+                        resolution={2048}
+                        transmission={1}
+                        roughness={0}
+                        thickness={0.90}
+                        ior={1.068}
+                        chromaticAberration={0}
+                        anisotropy={0}
+                        distortion={0.5}
+                        distortionScale={0.5}
+                        temporalDistortion={0.5}
+                        clearcoat={1}
+                        attenuationDistance={0.5}
+                        attenuationColor={'#ffffff'}
+                        color={'#b4a6ff'}
+                        rotation={[0.026, 0.195, -10.334]}
                         ref={transmissionMaterial}
                     />
                 </ mesh>

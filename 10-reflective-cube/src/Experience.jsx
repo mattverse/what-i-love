@@ -1,9 +1,10 @@
 
 import { useLoader, useFrame } from '@react-three/fiber';
 import { Suspense, useEffect, useRef } from 'react';
-import { Environment, Center, MeshTransmissionMaterial, Text, } from '@react-three/drei'
+import { Environment, Center, MeshTransmissionMaterial, Text, RoundedBox } from '@react-three/drei'
 import { EffectComposer, Bloom } from '@react-three/postprocessing'
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
+import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js'
 
 
 export default function Experience() {
@@ -73,6 +74,9 @@ function FBXModel({ url, position, rotation }) {
         modelRef.current.rotation.x = -y * Math.PI;
     })
 
+    const geometry = new RoundedBoxGeometry(1, 1, 1, 16, 0.2);
+
+
 
     // This function will be called for each mesh in the FBX model
     const applyMaterial = (child) => {
@@ -83,8 +87,9 @@ function FBXModel({ url, position, rotation }) {
                         ref={modelRef}
                         key={child.id}
                         scale={[0.035, 0.035, 0.035]}
+                        geometry={geometry}
                     >
-                        <boxGeometry />
+
                         <MeshTransmissionMaterial
                             roughness={0}
                             transmission={1}

@@ -26,8 +26,8 @@ void main() {
     float borderY = max(smoothstep(width + prec, width - prec, vUv.y), smoothstep(width + prec, width - prec, 1. - vUv.y));
     float border = max(borderX, borderY);
 
-    float baseColor = 0.2;
-    float saturationOffset = .5;
+    float baseColor = 0.89;
+    float saturationOffset = 1.6;
     float noise = snoise(vec4(vInstancePosition, 8.9));
 
     // the greater noise factor is, the more variety we have in color range
