@@ -23,7 +23,7 @@ export default function Flowers() {
     // }, [flowerLeaves, flowerLeavesMaterial]);
 
     const flowerMiddleMaterial = new THREE.MeshBasicMaterial({ color: "#e8c900" })
-    const flowerLeavesMaterial = new THREE.MeshBasicMaterial({ color: "#ffffff  " })
+    const flowerLeavesMaterial = new THREE.MeshBasicMaterial({ color: "#ffffff" })
 
     // Define flower positions (add more entries for additional flowers)
     const flowerPositions = useMemo(() => [
