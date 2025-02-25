@@ -21,18 +21,21 @@ export default function Trees({
     ];
 
     // Leva color controls
-    const { lightGreen, darkGreen, treeTrunk } = useControls('Tree color', {
-        lightGreen: '#789d00',
-        darkGreen: '#8ead00',
-        treeTrunk: '#73523b'
-    })
+    // const { lightGreen, darkGreen, treeTrunk } = useControls('Tree color', {
+    //     lightGreen: '#789d00',
+    //     darkGreen: '#8ead00',
+    //     treeTrunk: '#73523b'
+    // })
 
-    // Create materials
-    const materials = useMemo(() => ({
-        darkGreen: new THREE.MeshStandardMaterial({ color: darkGreen }),
-        lightGreen: new THREE.MeshStandardMaterial({ color: lightGreen }),
-        trunk: new THREE.MeshStandardMaterial({ color: treeTrunk })
-    }), [darkGreen, lightGreen, treeTrunk])
+    // // Create materials
+    // const materials = useMemo(() => ({
+    //     darkGreen: new THREE.MeshStandardMaterial({ color: darkGreen }),
+    //     lightGreen: new THREE.MeshStandardMaterial({ color: lightGreen }),
+    //     trunk: new THREE.MeshStandardMaterial({ color: treeTrunk })
+    // }), [darkGreen, lightGreen, treeTrunk])
+    const darkGreen = new THREE.MeshStandardMaterial({ color: "#8ead00" })
+    const lightGreen = new THREE.MeshStandardMaterial({ color: "#789d00" })
+    const trunk = new THREE.MeshStandardMaterial({ color: "#73523b" })
 
     // Create refs at the top level (fixes Hook violation)
     const darkLeavesRefs = [useRef(), useRef(), useRef()]
@@ -123,15 +126,15 @@ export default function Trees({
                         <group>
                             <instancedMesh
                                 ref={darkLeavesRefs[modelIndex]}
-                                args={[model.dark, materials.darkGreen, count]}
+                                args={[model.dark, darkGreen, count]}
                             />
                             <instancedMesh
                                 ref={lightLeavesRefs[modelIndex]}
-                                args={[model.light, materials.lightGreen, count]}
+                                args={[model.light, lightGreen, count]}
                             />
                             <instancedMesh
                                 ref={trunksRefs[modelIndex]}
-                                args={[model.trunk, materials.trunk, count]}
+                                args={[model.trunk, trunk, count]}
                             />
                         </group>
                         <Rocks />

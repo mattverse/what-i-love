@@ -5,13 +5,14 @@ import { useControls } from 'leva'
 
 export default function PathRocks() {
     const { nodes } = useGLTF('./environment/rocks/rocks.glb')
-    const { color } = useControls('Path Rock', { color: '#a7a7a7' })
+    // const { color } = useControls('Path Rock', { color: '#a7a7a7' })
 
-    const rockMaterial = useMemo(
-        () => new THREE.MeshStandardMaterial({ color, roughness: 1 }),
-        [color]
-    )
+    // const rockMaterial = useMemo(
+    //     () => new THREE.MeshStandardMaterial({ color, roughness: 1 }),
+    //     [color]
+    // )
 
+    const rockMaterial = new THREE.MeshStandardMaterial({ color: "#a7a7a7", roughness: 1 })
     const rocksGeometryArray = Array.from({ length: 5 }, (_, i) => nodes[`rock-${i + 1}`].geometry)
 
     // Collect all rock instances

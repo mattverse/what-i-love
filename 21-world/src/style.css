@@ -11,7 +11,7 @@ body,
 }
 
 @font-face {
-    font-family: 'fonts/m6x11plus';
+    font-family: 'm6x11plus';
     src: url('./fonts/m6x11plus.ttf') format('truetype');
 }
 

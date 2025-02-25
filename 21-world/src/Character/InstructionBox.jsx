@@ -41,7 +41,7 @@ const InstructionBox = forwardRef(({
 
             // Set text style
             context.fillStyle = 'white'
-            context.font = `${fontSize}px "fonts/m6x11plus"`
+            context.font = `${fontSize}px "m6x11plus"`
             context.textAlign = 'center'
             context.textBaseline = 'middle'
 

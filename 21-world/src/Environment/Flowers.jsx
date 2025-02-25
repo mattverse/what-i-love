@@ -4,23 +4,26 @@ import { useMemo, useEffect, useRef } from 'react';
 
 export default function Flowers() {
     // Leva controls for color customization
-    const { flowerLeaves, middleFlower } = useControls('flower color', {
-        flowerLeaves: '#ffffff',
-        middleFlower: '#e8c900',
-    });
+    // const { flowerLeaves, middleFlower } = useControls('flower color', {
+    //     flowerLeaves: '#ffffff',
+    //     middleFlower: '#e8c900',
+    // });
 
-    // Materials with dynamic color updates
-    const flowerMiddleMaterial = useMemo(() => new THREE.MeshBasicMaterial(), []);
-    const flowerLeavesMaterial = useMemo(() => new THREE.MeshBasicMaterial(), []);
+    // // Materials with dynamic color updates
+    // const flowerMiddleMaterial = useMemo(() => new THREE.MeshBasicMaterial(), []);
+    // const flowerLeavesMaterial = useMemo(() => new THREE.MeshBasicMaterial(), []);
 
-    // Update material colors when Leva controls change
-    useEffect(() => {
-        flowerMiddleMaterial.color.set(middleFlower);
-    }, [middleFlower, flowerMiddleMaterial]);
+    // // Update material colors when Leva controls change
+    // useEffect(() => {
+    //     flowerMiddleMaterial.color.set('#e8c900');
+    // }, [middleFlower, flowerMiddleMaterial]);
 
-    useEffect(() => {
-        flowerLeavesMaterial.color.set(flowerLeaves);
-    }, [flowerLeaves, flowerLeavesMaterial]);
+    // useEffect(() => {
+    //     flowerLeavesMaterial.color.set('#ffffff');
+    // }, [flowerLeaves, flowerLeavesMaterial]);
+
+    const flowerMiddleMaterial = new THREE.MeshBasicMaterial({ color: "#e8c900" })
+    const flowerLeavesMaterial = new THREE.MeshBasicMaterial({ color: "#ffffff  " })
 
     // Define flower positions (add more entries for additional flowers)
     const flowerPositions = useMemo(() => [

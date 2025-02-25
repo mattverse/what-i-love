@@ -61,13 +61,13 @@ export const Robot = forwardRef((props, ref) => {
     const soundSourceRef = useRef(null)
     const [isMoving, setIsMoving] = useState(false)
 
-    const { characterBody, characterAntena } = useControls('Character', {
-        characterBody: '#898989',
-        characterAntena: '#a73737'
-    });
+    // const { characterBody, characterAntena } = useControls('Character', {
+    //     characterBody: '#898989',
+    //     characterAntena: '#a73737'
+    // });
 
-    const characterBodyMaterial = new THREE.MeshStandardMaterial({ color: characterBody })
-    const characterAntenaMaterial = new THREE.MeshStandardMaterial({ color: characterAntena })
+    const characterBodyMaterial = new THREE.MeshStandardMaterial({ color: "#898989" })
+    const characterAntenaMaterial = new THREE.MeshStandardMaterial({ color: "#a73737" })
     const characterEyeMaterial = new THREE.MeshStandardMaterial({ color: '#f5f5f5' })
 
     useEffect(() => {
