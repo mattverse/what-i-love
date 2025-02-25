@@ -1,0 +1,58 @@
+html,
+body,
+#root {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+}
+
+@font-face {
+    font-family: 'm6x11plus';
+    /* Remove path from name */
+    src: url('./fonts/m6x11plus.ttf') format('truetype');
+    /* Verify this path */
+}
+
+
+
+.container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.title {
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: whitesmoke;
+    font-family: 'm6x11plus', Arial, sans-serif;
+    /* Single declaration */
+    font-size: 3em;
+    letter-spacing: 4px;
+    font-weight: bold;
+    margin: 0;
+    pointer-events: auto;
+}
+
+.sub {
+    position: absolute;
+    top: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: whitesmoke;
+    font-family: 'm6x11plus', Arial, sans-serif;
+    /* Single declaration */
+    font-size: 2em;
+    letter-spacing: 4px;
+    margin: 0;
+    pointer-events: auto;
+}
