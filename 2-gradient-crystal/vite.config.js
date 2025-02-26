@@ -13,6 +13,6 @@ export default {
     {
         outDir: "../dist",
         emptyOutDir: true,
-        sourcemap: true
+        sourcemap: false
     }
 }

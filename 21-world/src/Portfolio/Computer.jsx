@@ -23,7 +23,7 @@ export function Computer({ characterRef, ...props }) {
       <ArrowArea
         characterRef={characterRef}
         // position={[0, 0, 0]}
-        link="portfolio.com"
+        link="https://portfolio.mattparkarchive.xyz/"
         text="VIEW PORTFOLIO"
         textAfterImage="to enter"
         isInstructionBox={true}

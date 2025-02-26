@@ -1,3 +1,5 @@
+@import url('https://db.onlinewebfonts.com/c/4bd53afef5b90dfbb963f9d327a9284b?family=m6x11plus');
+
 html,
 body,
 #root {
@@ -8,11 +10,6 @@ body,
     width: 100%;
     height: 100%;
     background: white;
-}
-
-@font-face {
-    font-family: 'm6x11plus';
-    src: url('./fonts/m6x11plus.ttf') format('truetype');
 }
 
 body {

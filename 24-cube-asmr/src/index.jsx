@@ -3,18 +3,42 @@ import ReactDOM from 'react-dom/client'
 import { Canvas } from '@react-three/fiber'
 import Experience from './Experience.jsx'
 
-const root = ReactDOM.createRoot(document.querySelector('#root'))
+import LoadingScreen from './LoadingScreen'
 
-root.render(
-    <Canvas
-        shadows
-        camera={{
-            fov: 45,
-            near: 0.1,
-            far: 200,
-            position: [10.5, 10, 6]
-        }}
-    >
-        <Experience />
-    </Canvas>
-)
+import { useViewport } from './Mobile/useViewport.js'
+import MobileExperience from './Mobile/MobileExperience'
+
+
+function App() {
+    const isMobile = useViewport()
+
+    return (
+        <>
+            {isMobile ? (
+                <MobileExperience />
+            ) : (
+                <>
+                    <LoadingScreen />
+                    <Canvas
+                        shadows
+                        camera={{
+                            fov: 45,
+                            near: 0.1,
+                            far: 200,
+                            position: [10.5, 10, 6]
+                        }}
+                    >
+                        <Experience />
+                    </Canvas>
+                </>
+            )}
+        </>
+    )
+}
+
+
+const root = ReactDOM.createRoot(document.querySelector('#root'))
+root.render(<App />)
+
+
+
