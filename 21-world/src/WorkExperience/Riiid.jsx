@@ -98,19 +98,18 @@ function RiiidExperienceText() {
         lineHeight={1}
         scale={0.3}
         rotation={[-Math.PI / 2, 0, 0]}
-        position={[22.1, 0.5, 1.5]}>
-        {`- Led end-to-end development of a flagship investor relations
-  (IR) portal showcasing company products and metrics, collaborating with
-  C-suite stakeholders to align design with strategic goals. The platform
-  became the primary tool for securing investments and onboarding
-  institutional partners.
+        position={[21.8, 0.5, 1.3]}>
+        {`-  Frontend Development: Led end-to-end development of a
+    flagship investor relations (IR) portal showcasing company products
+    and metrics. Primarily used React, Next.js, and Typescript.
 
-- Pioneered gRPC adoption for inter-service communication, leveraging
-  protocol buffers and HTTP/2 to streamline data workflows, achieving
-  5% faster transmission speeds and 3% lower latency vs. RESTful APIs.
+-  gRPC & High-Performance APIs: Pioneered gRPC adoption for 
+   inter-service communication, leveragingprotocol buffers and HTTP/2 
+   to streamline data workflows, achieving 5% faster transmission 
+   speeds and 3% lower latency vs. RESTful APIs.
 
-- Engineered a Redis-based distributed caching layer, reducing AI
-  inference latency by 15% and accelerating real-time user interactions
-  for 500K+ monthly active users.`}
+-  Optimization: Engineered a Redis-based distributed caching layer,
+   reducing AI inference latency by 15% and accelerating real-time 
+   user interactions for 500K+ monthly active users.`}
     </Text>
 }

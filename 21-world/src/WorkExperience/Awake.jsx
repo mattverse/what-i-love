@@ -84,7 +84,7 @@ function AwakeExplanationText() {
         rotation={[-Math.PI / 2, 0, 0]}
         position={[34.1, 0.5, -2.1]}
     >
-        {`Awake Corporation develops SaaS solutions that empower creators with business automation,d
+        {`Awake Corporation develops SaaS solutions that empower creators with business automation,
 data analytics, aand scalable monetization tools.
 `}
     </Text>
@@ -98,19 +98,20 @@ function AwakeExperienceText() {
         lineHeight={1}
         scale={0.3}
         rotation={[-Math.PI / 2, 0, 0]}
-        position={[33.9, 0.5, 1.5]}>
-        {`- Spearheaded end-to-end development and launch of a data analytics SaaS
-  platform for Instagram influencers, enabling real-time audience
-  demographics tracking, engagement trend prediction, and content ROI
-  analysis.
+        position={[33.7, 0.5, 1.2]}>
+        {`-   System Architecture & Development: Spearheaded end-to-end
+    development and launch of a data analytics SaaS platform for 
+    Instagram influencers, enabling real-time audience demographics 
+    tracking, engagement trend prediction, and content ROI analysis.
 
-- Architected scalable backend infrastructure using MongoDB, Express, and
-  Node.js, designing RESTful APIs to handle 50+ concurrent requests/sec,
-  and built an interactive frontend with React, Redux, and D3.js for
-  real-time data visualization.
+-   Data Visualization & Backend Engineering: Architected scalable backend
+    infrastructure using MongoDB, Express, and Node.js, designing 
+    RESTful APIs to handle 50+ concurrent requests/sec, and built an
+    interactive frontend with React, Redux, and D3.js for 
+    real-time data visualization.
 
-- Drove platform adoption to 3,000+ registered users within 3 months of
-  launch, optimizing PostgreSQL query performance to sustain 500ms latency
-  during traffic spikes.`}
+-   Optimization: Drove platform adoption to 3,000+ registered users
+    within 3 months of launch, optimizing PostgreSQL query performance
+    to sustain 500ms latency during traffic spikes.`}
     </Text>
 }

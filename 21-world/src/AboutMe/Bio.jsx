@@ -5,7 +5,7 @@ export default function Bio({ characterRef }) {
     const handleDownloadResume = () => {
         // Create a temporary link element
         const link = document.createElement('a');
-        link.href = './about-me/resume.pdf'; // Update this path
+        link.href = './about-me/ChanghyunPark_Resume.pdf'; // Update this path
         link.download = 'Matt(Chagnhyun)_Park_Resume.pdf'; // Set the filename
         document.body.appendChild(link);
         link.click();
@@ -20,12 +20,14 @@ export default function Bio({ characterRef }) {
                 enterancePosition={[11.5, 0.1, -4.8]}
                 characterRef={characterRef}
                 instructionBoxOffset={[-13.1, 2.5, 3.]}
+                link={"https://github.com/mattverse"}
             />
             <SingleLineBio
-                bioName={"LinkedIn"} bioNamePosition={[3.6, 0.4, -1.]}
+                bioName={"X (Twitter)"} bioNamePosition={[3.6, 0.4, -1.]}
                 enterancePosition={[11.5, 0.1, -3.7]}
                 characterRef={characterRef}
                 instructionBoxOffset={[-13.1, 2.5, 2.]}
+                link={"https://x.com/mattparkarchive"}
             />
             <SingleLineBio
                 bioName={"Download\nResume"} bioNamePosition={[3.65, 0.4, 0]}
@@ -44,7 +46,8 @@ function SingleLineBio({ bioName,
     enterancePosition,
     characterRef,
     instructionBoxOffset,
-    onSpace
+    onSpace,
+    link
 }) {
     return (
         <>
@@ -54,6 +57,7 @@ function SingleLineBio({ bioName,
                 characterRef={characterRef}
                 instructionBoxOffset={instructionBoxOffset}
                 onSpace={onSpace}
+                link={link}
             />
         </>
     )
@@ -74,9 +78,10 @@ function BioName({ name, position }) {
     )
 }
 
-function BioEntrance({ enterancePosition, characterRef, instructionBoxOffset, onSpace }) {
+function BioEntrance({ enterancePosition, characterRef, instructionBoxOffset, onSpace, link }) {
     return (
         <ArrowArea
+            link={link}
             position={enterancePosition}
             borderPlaneSize={[1.8, 0.6]}
             fenceSize={[1.8, 2.0, 0.6]}

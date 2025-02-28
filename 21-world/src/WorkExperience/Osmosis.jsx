@@ -101,25 +101,24 @@ function OsmosisExperienceText() {
         scale={0.3}
         rotation={[-Math.PI / 2, 0, 0]}
         position={[9.7, 0.5, 1.5]}>
-        {`- Implemented the Concentrated Liquidity module using Golang and
-  Cosmos SDK, enhancing capital efficiency for traders and liquidity
-  providers. This implementation had up to 4,000% greater capital
-  efficiency, now a cornerstone of Osmosis' decentralized exchange.
+        {`-   Rust & WebAssembly: Pioneered ICNS (Interchain Name Service)
+    by adapting DNS infrastructure in Rust and CosmWasm, simplifying
+    cross-chain user interactions. Drove adoption to 52,000+ registered
+    domains within 3 months of launch.
 
-- Pioneered ICNS (Interchain Name Service) by adapting DNS
-  infrastructure in Rust and CosmWasm, simplifying cross-chain user
-  interactions. Drove adoption to 52,000+ registered domains 
-  within 3 months of launch. 
+-   Performance & Optimization: Delivered cross-system performance 
+    optimizations, 400% performance speedup in IAVL database,74% 
+    reduced SDK operation time, and 24% shorter Next.js builds via 
+    Webpack/SWC integration, enhancing network speed and application
+    efficiency.
 
-- Optimization Improvements: Delivered cross-system performance
-  optimizations: 400% performance speedup in IAVL database,
-  74% reduced SDK operation time, and 24% shorter Next.js builds
-  via Webpack/SWC integration, enhancing network speed
-  and application efficiency.
- 
-- Core contributor to open-sourced Osmosis codebase: Spearheaded 
-  cross-functional feature development, performed
-  code reviews for 1000+ PRs.`}
+-   GoLang & System Architecture: Architected high-performance network
+    with Golang and Cosmos SDK, focusing on efficiency improvements
+    that enhanced network speed and application responsiveness.
+
+-   Open Source Contribution: Core contributor to open-sourced Osmosis
+    codebase. Spearheaded cross-functional feature development,
+    contribution and codereviews for 1000+ PRs.`}
 
     </Text>
 }
