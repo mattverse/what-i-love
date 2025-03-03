@@ -24,6 +24,8 @@ const createAudio = async (url) => {
     return { context: audioContext, gain: gainNode, buffer: audioBuffer }
 }
 
+const SAFE_SPAWN = new THREE.Vector3(0, 2, 0); // High above ground
+
 
 export const Robot = forwardRef((props, ref) => {
     const [subscribeKeys, getKeys] = useKeyboardControls()
@@ -140,6 +142,17 @@ export const Robot = forwardRef((props, ref) => {
         // Get current rigid body position
         const currentPosition = characterRigidBodyRef.current.translation()
 
+        // Fallback position check
+        if (currentPosition.y < -5) {  // If character falls below -5 units on Y
+            const validStartPos = startPositionRef.current.y > 0.5
+                ? startPositionRef.current
+                : SAFE_SPAWN;
+
+            characterRigidBodyRef.current.setTranslation(validStartPos, true);
+            characterRigidBodyRef.current.setLinvel({ x: 0, y: 0, z: 0 });
+            velocity.current.set(0, 0, 0);
+        }
+
         const currentPos = new THREE.Vector3(
             currentPosition.x,
             currentPosition.y,
@@ -201,8 +214,21 @@ export const Robot = forwardRef((props, ref) => {
 
 
         if (startPositionRef.current === null) {
-            // Set the initial position once
-            startPositionRef.current = new THREE.Vector3(currentPosition.x, currentPosition.y, currentPosition.z)
+            const initialY = currentPosition.y;
+
+            // Validate initial position 
+            if (initialY < 0.5) {
+                startPositionRef.current = SAFE_SPAWN.clone();
+                characterRigidBodyRef.current.setTranslation(SAFE_SPAWN, true);
+            } else {
+                startPositionRef.current = new THREE.Vector3(
+                    currentPosition.x,
+                    currentPosition.y,
+                    currentPosition.z
+                );
+            }
+            // // Set the initial position once
+            // startPositionRef.current = new THREE.Vector3(currentPosition.x, currentPosition.y, currentPosition.z)
         } else {
             // Calculate the distance moved from the starting position
             const currentPosVec = new THREE.Vector3(currentPosition.x, currentPosition.y, currentPosition.z)

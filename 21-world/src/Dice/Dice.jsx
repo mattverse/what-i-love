@@ -9,7 +9,8 @@ import {
     useImperativeHandle,
     forwardRef,
     useEffect,
-    useState
+    useState,
+    useMemo
 } from 'react'
 import { useGLTF, Text } from '@react-three/drei'
 import { RigidBody } from '@react-three/rapier'
@@ -95,6 +96,11 @@ export const DiceRoller = forwardRef((props, ref) => {
     );
 
 
+    // Define safe spawn positions outside the component for better control
+    const SAFE_SPAWN1 = useMemo(() => new THREE.Vector3(-32.6, 2, 0), [])
+    const SAFE_SPAWN2 = useMemo(() => new THREE.Vector3(-31.1, 2, 0), [])
+
+
     useEffect(() => {
         audioContextRef.current = context;
         return () => {
@@ -114,7 +120,13 @@ export const DiceRoller = forwardRef((props, ref) => {
 
     useFrame(() => {
         if (!dice1.current || !dice2.current) return
-
+        const resetDiePosition = (dieRef, safePosition) => {
+            if (dieRef.current.translation().y < -5) {
+                dieRef.current.setTranslation(safePosition, true)
+                dieRef.current.setLinvel({ x: 0, y: 0, z: 0 })
+                dieRef.current.setAngvel({ x: 0, y: 0, z: 0 })
+            }
+        }
         // Get current velocities
         const linvel1 = dice1.current.linvel()
         const angvel1 = dice1.current.angvel()
@@ -139,7 +151,7 @@ export const DiceRoller = forwardRef((props, ref) => {
                 if (total !== lastTotal.current) {
                     lastTotal.current = total
 
-                    if (total > 7) {
+                    if (total > 8) {
                         const source = context.createBufferSource()
                         source.buffer = buffer
                         source.connect(gain)
@@ -152,6 +164,10 @@ export const DiceRoller = forwardRef((props, ref) => {
             restingCounter.current = 0
             setIsResting(false)
         }
+
+        resetDiePosition(dice1, SAFE_SPAWN1)
+        resetDiePosition(dice2, SAFE_SPAWN2)
+
     })
 
     useImperativeHandle(ref, () => ({
@@ -179,9 +195,9 @@ export const DiceRoller = forwardRef((props, ref) => {
 
             // Replace the original impulse/torque definitions with these:
             const impulse1 = new THREE.Vector3(
-                THREE.MathUtils.randFloatSpread(0.2),  // Horizontal impulse: from -0.1 to 0.1
+                THREE.MathUtils.randFloatSpread(0.1),  // Horizontal impulse: from -0.1 to 0.1
                 THREE.MathUtils.randFloat(0.2, 0.4),     // Vertical impulse: between 0.2 and 0.3
-                THREE.MathUtils.randFloatSpread(0.2)
+                THREE.MathUtils.randFloatSpread(0.1)
             )
             const torque1 = new THREE.Vector3(
                 THREE.MathUtils.randFloatSpread(0.1),
@@ -189,9 +205,9 @@ export const DiceRoller = forwardRef((props, ref) => {
                 THREE.MathUtils.randFloatSpread(0.1)
             )
             const impulse2 = new THREE.Vector3(
-                THREE.MathUtils.randFloatSpread(0.2),
+                THREE.MathUtils.randFloatSpread(0.1),
                 THREE.MathUtils.randFloat(0.2, 0.4),
-                THREE.MathUtils.randFloatSpread(0.2)
+                THREE.MathUtils.randFloatSpread(0.1)
             )
             const torque2 = new THREE.Vector3(
                 THREE.MathUtils.randFloatSpread(0.1),
@@ -305,7 +321,7 @@ export default function Dice() {
                 rotation={[0, 0.3, 0]}
             >
 
-                {"ROLL 7 OR HIGHER\n (WITH SOUND ON)"}
+                {"ROLL 8 OR HIGHER\n (WITH SOUND ON)"}
             </Text>
 
         </>

@@ -36,7 +36,7 @@ export default function MattText() {
                 <ToneMapping mode={ToneMappingMode.ACES_FILMIC} />
                 <Bloom
                     luminanceThreshold={0.5}
-                    intensity={0.4}
+                    intensity={1.2}
                     mipmapBlur
                 />
                 <Glitch
