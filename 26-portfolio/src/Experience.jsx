@@ -46,6 +46,7 @@ function PortfolioItems() {
                         position={position}
                         texture={texture}
                         aspect={aspect}
+                        column={col}
                         {...websiteData[i]}
                     />
                 )
@@ -53,31 +54,113 @@ function PortfolioItems() {
         </>
     )
 }
-function Item({ position, texture, aspect, url, labels }) {
+
+// Custom hook for responsive values
+function useResponsive() {
+    const [state, setState] = useState({
+        width: typeof window !== 'undefined' ? window.innerWidth : 1200,
+        height: typeof window !== 'undefined' ? window.innerHeight : 800,
+        dpr: typeof window !== 'undefined' ? window.devicePixelRatio : 1,
+        isMobile: false,
+        isTablet: false
+    })
+
+    useEffect(() => {
+        const handleResize = () => {
+            const width = window.innerWidth
+            const height = window.innerHeight
+            setState({
+                width,
+                height,
+                dpr: window.devicePixelRatio,
+                isMobile: width < 640,
+                isTablet: width >= 640 && width < 1024
+            })
+        }
+
+        handleResize()
+        window.addEventListener('resize', handleResize)
+        return () => window.removeEventListener('resize', handleResize)
+    }, [])
+
+    return state
+}
+
+function Item({ position, texture, aspect, url, labels, column }) {
     const meshRef = useRef()
+    const labelRef = useRef()
+    const { width, isMobile, isTablet } = useResponsive()
 
     const [active, setActive] = useState(false)
+    const [hovered, setHovered] = useState(false)
+    const [showLabels, setShowLabels] = useState(true)
+
     useCursor(active, "pointer")
 
     const baseWidth = 2.3
     const labelY = -(baseWidth * aspect / 2 + 0.1)
-    // Use baseWidth to determine a constant offset
-    const labelOffset = baseWidth / 2
 
+    const columnOffsets = {
+        0: 0.55,   // Left-most column
+        1: 0.57,
+        2: 0.58,
+        3: 0.59   // Right-most column
+    }
+
+    // Adjusted labelOffset to move labels more to the left
+    const labelOffset = baseWidth * columnOffsets[column] // Changed from baseWidth/2 to move labels left
+
+    // Responsive label configuration with increased base size
+    const labelScale = useMemo(() => {
+        if (isMobile) return 0.8    // Increased from 0.65
+        if (isTablet) return 0.9    // Increased from 0.75
+        return 1.0                  // Increased from 0.85
+    }, [isMobile, isTablet])
+
+    // Helper to calculate viewport-based sizes
+    const vw = (percentage) => (percentage * width) / 100
+
+    // Animation for labels
+    const { labelOpacity, labelY: animatedLabelY } = useSpring({
+        labelOpacity: (active || hovered || !isMobile) ? 1 : 0,
+        labelY: active ? labelY - 0.05 : labelY,
+        config: { mass: 1, tension: 280, friction: 60 }
+    })
+
+    // Item scale animation
     const { scale } = useSpring({
         scale: active
             ? [baseWidth * 1.15, baseWidth * aspect * 1.15, 1]
             : [baseWidth, baseWidth * aspect, 1],
-        config: { mass: 1, tension: 500, friction: 50 },
+        config: { mass: 1, tension: 280, friction: 60 },
     })
+
+    // Measure the label width after rendering
+    useEffect(() => {
+        if (labelRef.current) {
+            // You could add logic here to measure and adjust based on actual rendered size
+            // This would use labelRef.current.clientWidth etc.
+        }
+    }, [labels, width])
+
+    // Handle very small screens by hiding labels on mobile until hover
+    useEffect(() => {
+        setShowLabels(!isMobile || active || hovered)
+    }, [isMobile, active, hovered])
 
     return (
         <group position={position}>
             <a.mesh
                 ref={meshRef}
                 scale={scale}
-                onPointerOver={() => setActive(true)}
-                onPointerOut={() => setActive(false)}
+                onPointerOver={() => {
+                    setActive(true)
+                    setHovered(true)
+                }}
+                onPointerOut={() => {
+                    setActive(false)
+                    setHovered(false)
+                }}
                 onClick={(e) => {
                     e.stopPropagation()
                     window.open(url, '_blank')
@@ -88,59 +171,79 @@ function Item({ position, texture, aspect, url, labels }) {
             </a.mesh>
 
             <Html
-                position={[-labelOffset * 1.18, labelY, 0.1]}
+                ref={labelRef}
+                position={[-labelOffset, labelY, 0.1]}
                 distanceFactor={7}
                 transform={false}
+                occlude={[meshRef]}
                 wrapperClass="label-wrapper"
                 style={{
-                    display: 'flex',
-                    gap: '8px',
-                    overflowX: 'auto',
-                    scrollbarWidth: 'none',
-                    msOverflowStyle: 'none',
-                    justifyContent: 'flex-start',
-                    // Use baseWidth here to avoid dynamic movement on hover
-                    transform: `translateX(${baseWidth * 17}px)`,
+                    display: showLabels ? 'flex' : 'none',
+                    flexDirection: isMobile ? 'column' : 'row',
+                    flexWrap: 'nowrap',
+                    gap: isMobile ? '4px' : isTablet ? '5px' : '7px', // Increased spacing
+                    pointerEvents: 'none',
+                    opacity: isMobile ? labelOpacity : 1,
+                    transform: `translateX(${baseWidth * (isMobile ? 10 : 12)}px) scale(${labelScale})`, // Adjusted translateX to move labels left
+                    transformOrigin: 'left center',
                 }}
             >
-                <style>{`.label-wrapper::-webkit-scrollbar { display: none }`}</style>
+                <style>{`
+                    .label-wrapper::-webkit-scrollbar { display: none }
+                    .label-wrapper {
+                        scrollbar-width: none;
+                        -ms-overflow-style: none;
+                        z-index: 10;
+                    }
+                    @media (max-width: 640px) {
+                        .label-wrapper {
+                            transition: opacity 0.2s ease;
+                        }
+                    }
+                `}</style>
 
                 {labels?.map((label, index) => (
-                    <div key={index} style={labelStyle}>
-                        <div style={{ ...colorDot, background: label.color }} />
-                        <span style={labelText}>{label.category}</span>
+                    <div
+                        key={index}
+                        style={{
+                            background: '#2a2a2a',
+                            borderRadius: '25px',
+                            padding: isMobile ? '3px 7px' : isTablet ? '4px 9px' : '5px 11px', // Increased padding
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: isMobile ? '5px' : '7px', // Increased gap
+                            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.15)',
+                            flexShrink: 0,
+                            backdropFilter: 'blur(5px)',
+                            WebkitBackdropFilter: 'blur(5px)',
+                            border: '1px solid rgba(255, 255, 255, 0.1)',
+                        }}
+                    >
+                        <div
+                            style={{
+                                width: isMobile ? '9px' : isTablet ? '11px' : '13px', // Increased dot size
+                                height: isMobile ? '9px' : isTablet ? '11px' : '13px', // Increased dot size
+                                borderRadius: '50%',
+                                background: label.color,
+                                flexShrink: 0
+                            }}
+                        />
+                        <span
+                            style={{
+                                color: 'white',
+                                fontFamily: 'Arial, sans-serif',
+                                fontSize: isMobile ? '0.7rem' : isTablet ? '0.8rem' : '0.85rem', // Increased font size
+                                fontWeight: '500',
+                                whiteSpace: 'nowrap'
+                            }}
+                        >
+                            {label.category}
+                        </span>
                     </div>
                 ))}
             </Html>
         </group>
     )
-}
-
-// Style constants for cleaner code
-const labelStyle = {
-    background: '#2a2a2a',
-    borderRadius: '25px',
-    padding: '8px 15px',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '10px',
-    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-    flexShrink: 0
-}
-
-const colorDot = {
-    width: '16px',
-    height: '16px',
-    borderRadius: '50%',
-    flexShrink: 0
-}
-
-const labelText = {
-    color: 'white',
-    fontFamily: 'Arial, sans-serif',
-    fontSize: '0.9rem',
-    fontWeight: '500',
-    whiteSpace: 'nowrap'
 }
 
 // Updated data structure with multiple labels
