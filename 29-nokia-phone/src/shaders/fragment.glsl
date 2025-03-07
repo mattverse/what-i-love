@@ -5,7 +5,7 @@ uniform vec2 uResolution;
 
 vec3 dither(in vec2 uv, in float lum) {
     vec3 ditheredColor = vec3(1.0);
-    if(lum < 0.5) {
+    if(lum < 0.6) {
         ditheredColor = vec3(0.);
     } else {
         ditheredColor = vec3(0.549, 0.647, 0.412);
@@ -14,8 +14,8 @@ vec3 dither(in vec2 uv, in float lum) {
     return ditheredColor;
 }
 
-const float PIXEL_SIZE = 8.0;
-const float BORDER_SIZE = 1.;
+const float PIXEL_SIZE = 14.0;
+const float BORDER_SIZE = 2.;
 
 void main() {
     // vec4 texture = texture2D(uTexture, vUv);
@@ -29,7 +29,6 @@ void main() {
     // get luminence of the input buffer
     float lum = dot(vec3(0.2126, 0.7152, 0.0722), color.rgb);
 
-    // TODO:  add borders at the end
     vec3 resultingColor = dither(vUv, lum);
     color.rgb = resultingColor;
 
