@@ -5,33 +5,33 @@ import { EffectComposer, wrapEffect } from '@react-three/postprocessing'
 import { Effect } from 'postprocessing'
 
 import Lights from './Lights.jsx'
+
 import fragmentShader from './shaders/fragment.glsl'
+import vertexShader from './shaders/vertex.glsl'
 
-class DitherEffectImpl extends Effect {
-    constructor() {
-        const uniforms = new Map([])
-        super("DitherEffect", fragmentShader, uniforms)
-        this.uniforms = uniforms
-    }
-}
-
-const DitherEffect = wrapEffect(DitherEffectImpl)
 
 function DitheredPlane() {
+    const { size, gl } = useThree() // gets canvas size
+    const pixelRatio = gl.getPixelRatio()
+
     const texture = useLoader(THREE.TextureLoader, "./hands_of_adam.jpg")
+
     return (
         <mesh >
             <planeGeometry args={[5, 5]} />
-            <meshStandardMaterial map={texture} />
-        </mesh >
-    )
-}
+            <shaderMaterial
+                vertexShader={vertexShader}
+                fragmentShader={fragmentShader}
+                uniforms={{
+                    uTexture: new THREE.Uniform(texture),
+                    uResolution: new THREE.Uniform(
+                        new THREE.Vector2(size.width, size.height)
+                        // new THREE.Vector2(size.width * pixelRatio, size.height * pixelRatio)
+                    )
 
-function Effects() {
-    return (
-        <EffectComposer>
-            <DitherEffect />
-        </EffectComposer>
+                }}
+            />
+        </mesh >
     )
 }
 
@@ -42,8 +42,6 @@ export default function Experience() {
             <Lights />
 
             <DitheredPlane />
-
-            <Effects />
 
             {/* <mesh scale>
                 <meshBasicMaterial />
