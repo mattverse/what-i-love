@@ -3,12 +3,13 @@ varying vec2 vUv;
 uniform sampler2D uTexture;
 uniform vec2 uResolution;
 
+const float LUMINENCE_MULTIPLIER = 1.4;
 vec3 dither(in vec2 uv, in float lum) {
     vec3 ditheredColor = vec3(1.0);
     if(lum < 0.6) {
         ditheredColor = vec3(0.);
     } else {
-        ditheredColor = vec3(0.549, 0.647, 0.412);
+        ditheredColor = vec3(0.549, 0.647, 0.412) * LUMINENCE_MULTIPLIER;
     }
 
     return ditheredColor;
@@ -16,9 +17,14 @@ vec3 dither(in vec2 uv, in float lum) {
 
 const float PIXEL_SIZE = 14.0;
 const float BORDER_SIZE = 2.;
+const float CURVE = 0.35;
 
 void main() {
-    // vec4 texture = texture2D(uTexture, vUv);
+    vec2 curveUV = vUv * 2.0 - 1.;
+    vec2 offset = curveUV.yx * CURVE;
+    curveUV += curveUV * offset * offset;
+    curveUV = curveUV * 0.5 + 0.5;
+
     vec2 coord = vUv * uResolution;
 
     vec2 normalizedPixelSize = PIXEL_SIZE / uResolution;
@@ -40,7 +46,9 @@ void main() {
         color.rgb = vec3(0.549, 0.647, 0.412);
     } 
 
-    // then we add it to the final color
+    // add curved edge 
+    vec2 edge = smoothstep(0., 0.02, curveUV) * (1. - smoothstep(1. - 0.02, 1., curveUV));
+    color.rgb *= edge.x * edge.y;
 
     gl_FragColor = color;
 
