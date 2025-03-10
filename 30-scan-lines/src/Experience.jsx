@@ -6,7 +6,6 @@ import { wrapEffect, EffectComposer, Bloom } from '@react-three/postprocessing'
 import fragmentShader from './shaders/fragment.glsl'
 
 // TODO
-// 1. Add Bloom
 // 2. pass in uniform mouse position 
 
 class ScanlineEffectImpl extends Effect {
@@ -22,12 +21,23 @@ const ScanlineEffect = wrapEffect(ScanlineEffectImpl)
 
 function MainText() {
     return (
-        <Text
-            color="white"
-            font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
-        >
-            GOOD
-        </Text>
+        <group>
+            <Text
+                position={[-1.3, 0, 0]}
+                color="red"
+                font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
+            >
+                GOOD
+            </Text>
+            <Text
+                position={[1.3, 0, 0]}
+                color="white"
+                font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
+            >
+                TIME
+            </Text>
+        </group>
+
     )
 }
 
@@ -43,11 +53,11 @@ export default function Experience() {
         <EffectComposer >
             <ScanlineEffect />
             <Bloom
-                intensity={1.} // The bloom intensity.
+                intensity={0.6} // The bloom intensity.
                 luminanceThreshold={0.1} // luminance threshold. Raise this value to mask out darker elements in the scene.
                 luminanceSmoothing={0.025} // smoothness of the luminance threshold. Range is [0, 1]
                 mipmapBlur={true}         // Enable for better quality
-                radius={0.5}             // Increase bloom spread
+                radius={0.8}             // Increase bloom spread
             />
         </EffectComposer>
     </>

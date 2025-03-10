@@ -1,18 +1,19 @@
-const float SCANLINE_WIDTH = 5.0;
-const float DISPLAY_WIDTH = 7.0;
+const float SCANLINE_WIDTH = 8.0;
 
 void mainImage(const in vec4 inputColor, const in vec2 uv, out vec4 outputColor) {
-    vec2 coord = uv * resolution;
-    vec4 color = texture2D(inputBuffer, uv);
+    vec2 normalizedPixelSize = 10.0 / resolution;
+    vec2 uvPixel = normalizedPixelSize * floor(uv / normalizedPixelSize);
 
-    float unitSize = SCANLINE_WIDTH + DISPLAY_WIDTH;
-    float linePosition = mod(coord.y, unitSize);
+    vec2 pixelPos = uv * resolution;
+    vec2 coord = pixelPos / SCANLINE_WIDTH;
 
-    if(linePosition > DISPLAY_WIDTH) {
-        color.rgb = vec3(0.);
-    }
+    vec2 cellUvCoord = fract(coord) * 2.0 - 1.0;
+    vec2 border = 1.0 - cellUvCoord * cellUvCoord * SCANLINE_WIDTH;
 
-    color.rgb *= 4.0;
+    vec4 color = texture2D(inputBuffer, uvPixel);
+    color.rgb *= border.y;
+
+    // for brightness
+    color.rgb *= 10.0;
     outputColor = color;
-
 }
