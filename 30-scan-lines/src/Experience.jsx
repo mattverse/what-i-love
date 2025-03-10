@@ -1,16 +1,19 @@
+import * as THREE from 'three'
 import { OrbitControls, Text } from '@react-three/drei'
+import { useFrame } from '@react-three/fiber'
 import Lights from './Lights.jsx'
 import { Effect } from 'postprocessing'
+import { useRef } from 'react'
 import { wrapEffect, EffectComposer, Bloom } from '@react-three/postprocessing'
 
 import fragmentShader from './shaders/fragment.glsl'
 
-// TODO
-// 2. pass in uniform mouse position 
-
 class ScanlineEffectImpl extends Effect {
     constructor() {
-        const uniforms = new Map([])
+        const uniforms = new Map([
+            ["uPointer", { value: new THREE.Vector2(0, 0) }]
+
+        ])
         super("ScanlineEffect", fragmentShader, {
             uniforms
         })
@@ -43,6 +46,17 @@ function MainText() {
 
 
 export default function Experience() {
+    const scanlineRef = useRef()
+
+    useFrame((state) => {
+        if (!scanlineRef.current) return
+        scanlineRef.current.uniforms.get("uPointer").value.set(
+            state.pointer.x,
+            state.pointer.y
+        )
+    })
+
+
     return <>
         <color args={["black"]} attach={"background"} />
         <OrbitControls makeDefault />
@@ -51,14 +65,8 @@ export default function Experience() {
         <MainText />
 
         <EffectComposer >
-            <ScanlineEffect />
-            <Bloom
-                intensity={0.6} // The bloom intensity.
-                luminanceThreshold={0.1} // luminance threshold. Raise this value to mask out darker elements in the scene.
-                luminanceSmoothing={0.025} // smoothness of the luminance threshold. Range is [0, 1]
-                mipmapBlur={true}         // Enable for better quality
-                radius={0.8}             // Increase bloom spread
-            />
+            <ScanlineEffect ref={scanlineRef} />
+
         </EffectComposer>
     </>
 }
