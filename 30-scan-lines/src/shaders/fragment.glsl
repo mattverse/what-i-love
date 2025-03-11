@@ -2,6 +2,9 @@ uniform vec2 uPointer;
 
 const float SCANLINE_WIDTH = 8.0;
 
+#include ./includes/noise.glsl
+
+const float DISTORTION = 0.33;
 void mainImage(const in vec4 inputColor, const in vec2 uv, out vec4 outputColor) {
     // pointer pos scales from -1 ~ 1 so we need to normalize it to 0~1 range. 
     vec2 normalizedPointerPos = uPointer * 0.5 + 0.5;
@@ -19,13 +22,18 @@ void mainImage(const in vec4 inputColor, const in vec2 uv, out vec4 outputColor)
     vec2 coord = pixelPos / SCANLINE_WIDTH;
 
     vec2 cellUvCoord = fract(coord) * 2.0 - 1.0;
-    vec2 border = 1.0 - cellUvCoord * cellUvCoord * SCANLINE_WIDTH;
 
-    vec4 color = texture2D(inputBuffer, uvPixel);
-    color.rgb *= border.y;
+    float noise = max(0.0, snoise(vec2(time, uv.y * 0.3)) - 0.3) * DISTORTION;
+    noise += (snoise(vec2(time * 10.0, uv.y * 2.4)) - 0.5) * 0.05;
+    float xpos = uvPixel.x - noise * noise * 0.15;
 
-    float lines = sin(uv.y * 700.0 + time * 100.);
-    color *= lines + 1.8;
+    vec4 color = texture2D(inputBuffer, vec2(xpos, uvPixel.y));
+
+    color.rgb = mix(color.rgb, vec3(0.0), noise * 3.3);
+
+    if(floor(mod(pixelPos.y * 0.25, 2.0)) == 0.0) {
+        color *= 1.0 - (0.15);
+    }
 
     // for brightness
     color.rgb *= 10.0;

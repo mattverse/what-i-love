@@ -66,7 +66,6 @@ export default function Experience() {
 
         <EffectComposer >
             <ScanlineEffect ref={scanlineRef} />
-
         </EffectComposer>
     </>
 }
