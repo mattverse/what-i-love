@@ -1,4 +1,4 @@
-import { OrbitControls, useVideoTexture } from '@react-three/drei'
+import { useVideoTexture } from '@react-three/drei'
 import Lights from './Lights.jsx'
 import { Effect } from 'postprocessing'
 import { wrapEffect, EffectComposer } from '@react-three/postprocessing'
@@ -20,7 +20,6 @@ const HalftoneEffect = wrapEffect(HalftoneEffectImpl)
 export default function Experience() {
     return <>
         <color args={["black"]} attach="background" />
-        <OrbitControls makeDefault />
         <Lights />
         <VideoPlayer />
         <EffectComposer>
