@@ -1,11 +1,10 @@
-import { OrbitControls } from '@react-three/drei'
-import { useFrame } from '@react-three/fiber'
+import { OrbitControls, useVideoTexture } from '@react-three/drei'
 import Lights from './Lights.jsx'
 import { Effect } from 'postprocessing'
 import { wrapEffect, EffectComposer } from '@react-three/postprocessing'
 
 import fragmentShader from './shaders/fragment.glsl'
-import { useRef } from 'react'
+import { Suspense } from 'react'
 
 class HalftoneEffectImpl extends Effect {
     constructor() {
@@ -19,22 +18,25 @@ class HalftoneEffectImpl extends Effect {
 const HalftoneEffect = wrapEffect(HalftoneEffectImpl)
 
 export default function Experience() {
-    const cubeRef = useRef()
-    useFrame((state, delta) => {
-        cubeRef.current.rotation.y += delta
-    })
     return <>
         <color args={["black"]} attach="background" />
         <OrbitControls makeDefault />
         <Lights />
-
-        <mesh ref={cubeRef}>
-            <boxGeometry args={[1, 1, 1]} />
-            <meshStandardMaterial />
-        </mesh>
-
+        <VideoPlayer />
         <EffectComposer>
             <HalftoneEffect />
         </EffectComposer>
     </>
+}
+
+export function VideoPlayer() {
+    const texture = useVideoTexture("./moon.mp4")
+    return (
+        <mesh>
+            <planeGeometry />
+            <Suspense>
+                <meshBasicMaterial map={texture} toneMapped={false} />
+            </Suspense>
+        </mesh>
+    )
 }
