@@ -31,7 +31,7 @@ const PixelEffect = wrapEffect(PixelEffectImpl)
 export default function Experience() {
     const effect = useRef()
     const pattern = useTexture('./patterns.png')
-    const cow = useTexture('./cow.png')
+    const cow = useTexture('./eye.png')
 
     useFrame(() => {
         effect.current.pattern = pattern
@@ -41,13 +41,13 @@ export default function Experience() {
         <Lights />
         <PresentationControls
             global
-            polar={[-0.4, 0.2]}
-            azimuth={[-1, 0.75]}
-            config={{ mass: 2, tension: 400 }}
-            snap={{ mass: 4, tension: 400 }}
+            polar={[-0.1, 0.1]}
+            azimuth={[-0.05, 0.05]}
+            config={{ mass: 2, tension: 200 }}
+            snap={{ mass: 4, tension: 100 }}
         >
             <mesh>
-                <planeGeometry args={[2., 1.3]} />
+                <planeGeometry args={[2.9, 1.67]} />
                 <meshBasicMaterial
                     map={cow}
                 />
