@@ -1,6 +1,6 @@
 uniform sampler2D pattern;
 
-const float pixelSize = 50.0;
+const float pixelSize = 70.0;
 const float textureNum = 22.0;
 const float noiseSpeed = 0.1; // Speed of pattern changes
 const float shiftChance = 0.1; // Probability of shifting (0-1)
