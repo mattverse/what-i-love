@@ -79,13 +79,6 @@ export const Robot = forwardRef((props, ref) => {
 
 
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setShowInstruction(false)
-        }, 5000)
-        return () => clearTimeout(timer)
-    }, [])
-
 
     useFrame((state, delta) => {
         if (!characterRigidBodyRef.current) return;
@@ -296,8 +289,10 @@ export const Robot = forwardRef((props, ref) => {
                     showInstruction &&
                     <InstructionBox
                         textBeforeImage={"Use WASD to move"}
-                        canvasWidth={192}
-                        canvasHeight={32}
+                        textAfterImage={"to interact"}
+                        image={{ url: './character/spaceBar.png' }}
+                        canvasWidth={180}
+                        canvasHeight={70}
                     />
                 }
             </RigidBody>

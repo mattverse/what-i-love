@@ -247,20 +247,6 @@ export const ArrowArea = ({
                 {text}
             </Text>
 
-            {/* offset of the instruction box is set in useFrame */}
-            {
-                isActive && isInstructionBox &&
-                <InstructionBox
-                    ref={instructionRef}
-                    textBeforeImage="Press "
-                    textAfterImage={textAfterImage}
-                    image={{ url: './character/spaceBar.png' }}
-                    imagePosition="inline"
-                    canvasWidth={220}
-                    canvasHeight={40}
-                    imageSize={[60, 60]}
-                />
-            }
         </group>
     )
 }

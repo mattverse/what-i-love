@@ -2,7 +2,7 @@ import { forwardRef, useMemo, useEffect, useState, useRef } from 'react'
 import * as THREE from 'three'
 
 const InstructionBox = forwardRef(({
-    localOffset = [-1.85, 2.4, -1.2],
+    localOffset = [-1.85, 2.6, -1.2],
     textBeforeImage = "",
     textAfterImage = "",
     image,
@@ -47,30 +47,47 @@ const InstructionBox = forwardRef(({
 
             if (image?.url && img) {
                 if (imagePosition === 'inline') {
-                    // Calculate positions for inline layout
-                    const textBeforeWidth = context.measureText(textBeforeImage).width
-                    const textAfterWidth = context.measureText(textAfterImage).width
-                    const totalWidth = textBeforeWidth + imageSize[0] + textAfterWidth
+                    // Split text into lines
+                    const beforeLines = textBeforeImage.split('\n');
+                    const afterLines = textAfterImage.split('\n');
 
-                    let xPosition = (canvas.width - totalWidth) / 2
+                    // Set up left alignment parameters
+                    const leftMargin = 20;
+                    const lineHeight = fontSize * 1.2;
 
-                    // Draw text before image
-                    context.fillText(textBeforeImage, xPosition + textBeforeWidth / 2, canvas.height / 2)
-                    xPosition += textBeforeWidth
+                    // Reset alignment properties for left-aligned layout
+                    context.textAlign = 'left';
+                    context.textBaseline = 'top'; // Changed from 'middle'
+                    const topPadding = 15; // Added padding to push first line down
 
-                    // Draw image
-                    context.drawImage(
-                        img,
-                        xPosition,
-                        (canvas.height - imageSize[1]) / 2,
-                        imageSize[0],
-                        imageSize[1]
-                    )
-                    xPosition += imageSize[0]
+                    // Calculate vertical start position
+                    let yPosition = ((canvas.height -
+                        (beforeLines.length * lineHeight + imageSize[1])) / 2 + topPadding);
 
-                    // Draw text after image
-                    context.fillText(textAfterImage, xPosition + textAfterWidth / 2, canvas.height / 2)
-                } else {
+                    // Draw textBefore lines
+                    beforeLines.forEach((line, i) => {
+                        context.fillText(
+                            line,
+                            leftMargin,
+                            yPosition + (i * lineHeight)
+                        );
+                    });
+
+                    // Update Y position for image+text line
+                    yPosition += beforeLines.length * lineHeight;
+
+                    // Draw image (moved up slightly)
+                    const imageY = yPosition - 19; // Adjust this value to move image up/down
+                    context.drawImage(img, leftMargin - 13, imageY, imageSize[0], imageSize[1]);
+
+                    // Draw textAfter (positioned relative to image)
+                    context.fillText(
+                        afterLines.join(' '),
+                        leftMargin + imageSize[0] - 12,
+                        imageY + imageSize[1] / 3.5  // Adjust these values for fine-tuning
+                    );
+                }
+                else {
                     // Block layout (image above text)
                     const totalHeight = imageSize[1] + fontSize + 10
                     let yPosition = (canvas.height - totalHeight) / 2
