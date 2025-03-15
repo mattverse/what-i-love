@@ -58,20 +58,12 @@ export default function Experience() {
 
     return <>
         <color args={["black"]} attach="background" />
-        <PresentationControls
-            global
-            // rotation={[-0.23, 0.1, 0]}
-            polar={[-0.4, 0.2]}
-            azimuth={[-1, 0.75]}
-            config={{ mass: 10, tension: 400 }}
-            snap={{ mass: 4, tension: 400 }}
-        >
-            <instancedMesh
-                ref={meshRef}
-                args={[geometry, material, count ** 2]}
-            />
+        <OrbitControls />
 
-        </PresentationControls>
+        <instancedMesh
+            ref={meshRef}
+            args={[geometry, material, count ** 2]}
+        />
 
         <Lights />
     </>
