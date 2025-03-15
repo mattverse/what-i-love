@@ -1,6 +1,22 @@
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { useEffect, useState, useRef } from 'react'
 import * as THREE from 'three'
+import { Effect } from 'postprocessing'
+import { wrapEffect, EffectComposer } from '@react-three/postprocessing'
+
+import fragmentShader from './shaders/fragment.glsl'
+
+class HalftoneEffectImpl extends Effect {
+    constructor() {
+        const uniforms = new Map([])
+        super("HalftoneEffect", fragmentShader, {
+            uniforms
+        })
+    }
+}
+
+const HalftoneEffect = wrapEffect(HalftoneEffectImpl)
+
 
 function VideoPlane() {
     const meshRef = useRef()
@@ -72,5 +88,8 @@ function VideoPlane() {
 export default function Experience() {
     return <>
         <VideoPlane />
+        <EffectComposer>
+            <HalftoneEffect />
+        </EffectComposer>
     </>
 }
