@@ -1,0 +1,112 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "./asymmetrical-grid.css";
+
+:root {
+  --background: 240 10% 10%;
+  --foreground: 240 100% 91%;
+  --card: 240 10% 15%;
+  --card-foreground: 240 100% 91%;
+  --popover: 240 10% 10%;
+  --popover-foreground: 240 100% 91%;
+  --primary: 240 100% 91%;
+  --primary-foreground: 240 10% 10%;
+  --secondary: 240 10% 15%;
+  --secondary-foreground: 240 100% 91%;
+  --muted: 240 10% 15%;
+  --muted-foreground: 240 50% 80%;
+  --accent: 240 10% 15%;
+  --accent-foreground: 240 100% 91%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 240 100% 91%;
+  --border: 240 10% 20%;
+  --input: 240 10% 20%;
+  --ring: 240 100% 91%;
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: 240 10% 10%;
+  --foreground: 240 100% 91%;
+  --card: 240 10% 15%;
+  --card-foreground: 240 100% 91%;
+  --popover: 240 10% 10%;
+  --popover-foreground: 240 100% 91%;
+  --primary: 240 100% 91%;
+  --primary-foreground: 240 10% 10%;
+  --secondary: 240 10% 15%;
+  --secondary-foreground: 240 100% 91%;
+  --muted: 240 10% 15%;
+  --muted-foreground: 240 50% 80%;
+  --accent: 240 10% 15%;
+  --accent-foreground: 240 100% 91%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 240 100% 91%;
+  --border: 240 10% 20%;
+  --input: 240 10% 20%;
+  --ring: 240 100% 91%;
+}
+
+body {
+  @apply bg-background text-foreground;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+}
+
+@layer components {
+  .header-1 {
+    font-family: "grad", serif;
+    font-size: 60px;
+    font-style: normal;
+    font-weight: 100;
+    letter-spacing: normal;
+    line-height: 1;
+    text-transform: none;
+  }
+
+  @media (min-width: 768px) {
+    .header-1 {
+      font-size: 120px;
+      line-height: 120px;
+    }
+  }
+
+  .content-1 {
+    font-family: "ibm-plex-sans", sans-serif;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 200;
+    letter-spacing: normal;
+    line-height: 30px;
+    text-transform: none;
+  }
+
+  @media (min-width: 768px) {
+    .content-1 {
+      font-size: 26px;
+      line-height: 36px;
+    }
+  }
+
+  .section-title {
+    font-family: "grad", serif;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: 1.2;
+    text-transform: none;
+  }
+
+  @media (min-width: 768px) {
+    .section-title {
+      font-size: 48px;
+      line-height: 1.1;
+    }
+  }
+}
