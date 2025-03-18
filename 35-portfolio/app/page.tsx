@@ -6,47 +6,46 @@ export default function Home() {
       <div className="container mx-auto px-4 py-16">
         {/* Hero Section */}
         <section className="mb-24 text-center">
-          <h1 className="header-1 mb-6 text-[#D2D2FF]">Creative Portfolio</h1>
-          <p className="content-1 mx-auto max-w-2xl text-[#D2D2FF]">
-            Showcasing a collection of creative works across various disciplines and techniques.
+          <h1 className="header-1 mb-6 text-[#D2D2FF]">Matt Park Archive</h1>
+          <p className="content-1 mx-auto max-w-3xl text-[#D2D2FF]">
+            Hi, I'm Matt Changhyun Park, Software engineer with 6 years of experience in high-performance systems development and software engineering.<br /><br />
+            I am passionate about performance optimizations, creative coding, and real-time 3D graphics.
           </p>
         </section>
 
+        {/* New Featured Project Section */}
         <section className="mb-24 text-center">
-          <h2 className="section-title mb-6 text-[#D2D2FF]">Web is my playground.</h2>
+          <h2 className="section-title mb-6 text-[#D2D2FF]">Web is my playground</h2>
           <div className="mb-10 mx-auto max-w-3xl">
             <p className="content-1 text-[#D2D2FF]">
-              There was a moment in life where I realized I felt nostalgic towards my past: to the moments where I could really be fully present and truly savor each and every moment.
-
-              I've noticed that this nostalgia fades when I'm building. The web is my playground: a space where I experiment, learn, sometimes get a little silly, and genuinely enjoy the process.I invite you to step into my playground - take a moment to explore, play around and catch a glimpse of who I am.
+              There was a moment in life where I realized I felt nostalgic towards my past: to the moments where I could really be fully present and truly savor each and every moment. I've noticed that this nostalgia fades when I'm building. The web is my playground: a space where I experiment, learn, sometimes get a little silly, and genuinely enjoy the process. <br /><br />
+              I invite you to step into my playground - take a moment to explore, play around and catch a glimpse of who I am.
             </p>
           </div>
 
           <div className="max-w-2xl mx-auto">
             <div className="relative group bg-[#1E1E27] rounded-lg overflow-hidden">
               <a
-                href="https://gradient-cat.mattparkarchive.xyz/"
-                className="block h-full"
+                href="https://www.mattparkarchive.xyz/"
+                className="block w-full h-full"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <div className="aspect-video bg-[#252532] relative">
+                <div className="w-full h-full aspect-video bg-[#252532]">
                   <video
                     className="w-full h-full object-cover"
                     poster="/placeholder.svg?height=400&width=600&text=Featured+Project"
                     muted
                     loop
+                    autoPlay
                   >
-                    <source src="#" type="video/mp4" />
+                    <source src="/mattparkarchive.mp4" type="video/mp4" />
                   </video>
-                  <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
-                    <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
-                  </div>
                 </div>
-                <div className="p-4 h-16 flex justify-between items-center text-left">
-                  <span className="text-[#D2D2FF] font-ibm-plex-sans">Featured Project</span>
-                  <span className="text-sm text-[#A5A5E0] font-ibm-plex-sans">03.2025</span>
+                <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
+                  <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
                 </div>
+
               </a>
             </div>
           </div>
@@ -54,45 +53,158 @@ export default function Home() {
 
         {/* Post-Processing Section */}
         <section className="mb-24 text-center">
-          <h2 className="section-title mb-6 text-[#D2D2FF]">Creative freedom with post-processing</h2>
+          <h2 className="section-title mb-6 text-[#D2D2FF]">Pixel Level Expression</h2>
           <div className="mb-10 mx-auto max-w-3xl">
             <p className="content-1 text-[#D2D2FF]">
-              Whether it's to achieve a specific style or make your scene go from good to great, adding a dash of
-              post-processing can make all the difference. I spent the better part of 2024 experimenting with several
-              effects like
-              <span className="font-medium"> dithering</span>, <span className="font-medium">color quantization</span>,
-              <span className="font-medium"> outlines</span>, and many others that also power the intro scene of this
-              portfolio.
+              My recent works explore the essence of pixels—the tiny building blocks that shape your experience.
+              Every image, every scene, is woven together in these delicate units of light and color. The ability to craft and control at the pixel level allows me to sculpt a world where precision meets imagination.
             </p>
           </div>
 
-          {/* Add max-w-5xl (1024px) and center it */}
-          <div className="grid grid-cols-12 gap-4 max-w-5xl mx-auto">
-            {/* Top row */}
-            <div className="col-span-8 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
+          {/* Asymmetrical Grid Layout */}
+          <div className="grid grid-cols-12 gap-4 max-w-3xl mx-auto">
+            {/* Top row - FIXED HEIGHT */}
+            <div className="col-span-9 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
               <a
                 href="https://gradient-cat.mattparkarchive.xyz/"
-                className="block h-12"
+                className="block w-full h-full"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <div className="aspect-[2/1] bg-[#252532] relative">
+                <div className="w-full h-full aspect-[5/1] bg-[#252532]">
                   <video
                     className="w-full h-full object-cover"
-                    poster="/placeholder.svg?height=400&width=800&text=GPGPU+Particles"
+                    poster="/placeholder.svg?height=200&width=1000&text=GPGPU+Particles"
                     muted
-                    autoPlay
                     loop
+                    autoPlay
                   >
-                    <source src="/a.mp4" type="video/mp4" />
+                    <source src="/good-time.mp4" type="video/mp4" />
                   </video>
+                </div>
+                <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
+                  <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
+                </div>
+
+              </a>
+            </div>
+
+            <div className="col-span-3 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
+              <a
+                href="https://gradient-cat.mattparkarchive.xyz/"
+                className="block w-full h-full"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className="w-full h-full aspect-square bg-[#252532]">
+                  <video
+                    className="w-full h-full object-cover"
+                    poster="/placeholder.svg?height=200&width=200&text=Moebius+shader"
+                    muted
+                    loop
+                    autoPlay
+                  >
+                    <source src="/monalisa.mp4" type="video/mp4" />
+                  </video>
+                </div>
+                <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
+                  <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
+                </div>
+              </a>
+            </div>
+
+            {/* Middle row */}
+            <div className="col-span-6 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
+              <a
+                href="https://gradient-cat.mattparkarchive.xyz/"
+                className="block w-full h-full"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className="w-full h-full aspect-[3/4] bg-[#252532]">
+                  <video
+                    className="w-full h-full object-cover"
+                    poster="/placeholder.svg?height=400&width=300&text=Dithered+Waves"
+                    muted
+                    loop
+                    autoPlay
+                  >
+                    <source src="/nokia.mp4" type="video/mp4" />
+                  </video>
+                </div>
+                <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
+                  <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
+                </div>
+              </a>
+            </div>
+
+            <div className="col-span-6 grid grid-cols-8 gap-4">
+              <div className="col-span-8 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
+                <a
+                  href="https://gradient-cat.mattparkarchive.xyz/"
+                  className="block w-full h-full"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div className="w-full h-full aspect-[16/7] bg-[#252532]">
+                    <video
+                      className="w-full h-full object-cover"
+                      poster="/placeholder.svg?height=220&width=500&text=Pixel+Art+Generator"
+                      muted
+                      loop
+                      autoPlay
+                    >
+                      <source src="/eye.mp4" type="video/mp4" />
+                    </video>
+                  </div>
                   <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
                     <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
                   </div>
+                </a>
+              </div>
+
+              <div className="col-span-8 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
+                <a
+                  href="https://gradient-cat.mattparkarchive.xyz/"
+                  className="block w-full h-full"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div className="w-full h-full aspect-[16/7] bg-[#252532]">
+                    <img
+                      src="/cow.png"
+                      alt="Cow pixel art"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
+                    <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            {/* Bottom row */}
+            <div className="col-span-8 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
+              <a
+                href="https://gradient-cat.mattparkarchive.xyz/"
+                className="block w-full h-full"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className="w-full h-full aspect-[2/1] bg-[#252532]">
+                  <video
+                    className="w-full h-full object-cover"
+                    poster="/placeholder.svg?height=400&width=800&text=Dithering+Portraits"
+                    muted
+                    loop
+                    autoPlay
+                  >
+                    <source src="/halftone.mp4" type="video/mp4" />
+                  </video>
                 </div>
-                <div className="p-4 h-16 flex justify-between items-center text-left">
-                  <span className="text-[#D2D2FF] font-ibm-plex-sans">GPGPU Particles & DOF</span>
-                  <span className="text-sm text-[#A5A5E0] font-ibm-plex-sans">03.2024</span>
+                <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
+                  <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
                 </div>
               </a>
             </div>
@@ -100,303 +212,383 @@ export default function Home() {
             <div className="col-span-4 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
               <a
                 href="https://gradient-cat.mattparkarchive.xyz/"
-                className="block h-full"
+                className="block w-full h-full"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <div className="h-[calc(100%-64px)] bg-[#252532] relative">
+                <div className="w-full h-full aspect-video bg-[#252532]">
                   <video
                     className="w-full h-full object-cover"
-                    poster="/placeholder.svg?height=400&width=400&text=Moebius+shader"
+                    poster="/placeholder.svg?height=300&width=500&text=Raymarching+Experiment"
                     muted
                     loop
+                    autoPlay
                   >
-                    <source src="#" type="video/mp4" />
+                    <source src="/moon.mp4" type="video/mp4" />
                   </video>
-                  <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
-                    <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
-                  </div>
                 </div>
-                <div className="p-4 h-16 flex justify-between items-center text-left">
-                  <span className="text-[#D2D2FF] font-ibm-plex-sans">Moebius shader</span>
-                  <span className="text-sm text-[#A5A5E0] font-ibm-plex-sans">03.2024</span>
-                </div>
-              </a>
-            </div>
-
-            {/* Middle row */}
-            <div className="col-span-5 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
-              <a
-                href="https://gradient-cat.mattparkarchive.xyz/"
-                className="block h-full"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <div className="h-[calc(100%-64px)] bg-[#252532] relative">
-                  <video
-                    className="w-full h-full object-cover"
-                    poster="/placeholder.svg?height=600&width=450&text=Dithered+Waves"
-                    muted
-                    loop
-                  >
-                    <source src="#" type="video/mp4" />
-                  </video>
-                  <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
-                    <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
-                  </div>
-                </div>
-                <div className="p-4 h-16 flex justify-between items-center text-left">
-                  <span className="text-[#D2D2FF] font-ibm-plex-sans">Dithered Waves</span>
-                  <span className="text-sm text-[#A5A5E0] font-ibm-plex-sans">07.2024</span>
-                </div>
-              </a>
-            </div>
-
-            <div className="col-span-7 grid grid-cols-7 gap-4">
-              <div className="col-span-7 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
-                <a
-                  href="https://gradient-cat.mattparkarchive.xyz/"
-                  className="block h-full"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <div className="aspect-[16/9] bg-[#252532] relative">
-                    <video
-                      className="w-full h-full object-cover"
-                      poster="/placeholder.svg?height=300&width=500&text=Pixel+Art+Generator"
-                      muted
-                      loop
-                    >
-                      <source src="#" type="video/mp4" />
-                    </video>
-                    <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
-                      <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
-                    </div>
-                  </div>
-                  <div className="p-4 h-16 flex justify-between items-center text-left">
-                    <span className="text-[#D2D2FF] font-ibm-plex-sans">Pixel Art Generator</span>
-                    <span className="text-sm text-[#A5A5E0] font-ibm-plex-sans">05.2024</span>
-                  </div>
-                </a>
-              </div>
-
-              <div className="col-span-7 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
-                <a
-                  href="https://gradient-cat.mattparkarchive.xyz/"
-                  className="block h-full"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <div className="aspect-[16/9] bg-[#252532] relative">
-                    <video
-                      className="w-full h-full object-cover"
-                      poster="/placeholder.svg?height=300&width=500&text=Color+Quantization"
-                      muted
-                      loop
-                    >
-                      <source src="#" type="video/mp4" />
-                    </video>
-                    <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
-                      <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
-                    </div>
-                  </div>
-                  <div className="p-4 h-16 flex justify-between items-center text-left">
-                    <span className="text-[#D2D2FF] font-ibm-plex-sans">Color Quantization</span>
-                    <span className="text-sm text-[#A5A5E0] font-ibm-plex-sans">06.2024</span>
-                  </div>
-                </a>
-              </div>
-            </div>
-
-            {/* Bottom row */}
-            <div className="col-span-6 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
-              <a
-                href="https://gradient-cat.mattparkarchive.xyz/"
-                className="block h-full"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <div className="aspect-[4/3] bg-[#252532] relative">
-                  <video
-                    className="w-full h-full object-cover"
-                    poster="/placeholder.svg?height=400&width=500&text=Dithering+Portraits"
-                    muted
-                    loop
-                  >
-                    <source src="#" type="video/mp4" />
-                  </video>
-                  <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
-                    <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
-                  </div>
-                </div>
-                <div className="p-4 h-16 flex justify-between items-center text-left">
-                  <span className="text-[#D2D2FF] font-ibm-plex-sans">Dithering Portraits</span>
-                  <span className="text-sm text-[#A5A5E0] font-ibm-plex-sans">08.2024</span>
-                </div>
-              </a>
-            </div>
-
-            <div className="col-span-6 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
-              <a
-                href="https://gradient-cat.mattparkarchive.xyz/"
-                className="block h-full"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <div className="aspect-[4/3] bg-[#252532] relative">
-                  <video
-                    className="w-full h-full object-cover"
-                    poster="/placeholder.svg?height=400&width=500&text=Raymarching+Experiment"
-                    muted
-                    loop
-                  >
-                    <source src="#" type="video/mp4" />
-                  </video>
-                  <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
-                    <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
-                  </div>
-                </div>
-                <div className="p-4 h-16 flex justify-between items-center text-left">
-                  <span className="text-[#D2D2FF] font-ibm-plex-sans">Raymarching Experiment</span>
-                  <span className="text-sm text-[#A5A5E0] font-ibm-plex-sans">09.2024</span>
+                <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
+                  <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
                 </div>
               </a>
             </div>
           </div>
         </section>
 
-        {/* 3D Modeling Section - Keep the original grid layout for other sections */}
+        {/* 3D Modeling Section */}
         <section className="mb-24 text-center">
-          <h2 className="section-title mb-6 text-[#D2D2FF]">3D Modeling & Animation</h2>
+          <h2 className="section-title mb-6 text-[#D2D2FF]">3D Modeling & Materials</h2>
           <div className="mb-10 mx-auto max-w-3xl">
             <p className="content-1 text-[#D2D2FF]">
-              Creating immersive 3D worlds and characters has been a passion of mine for years. These projects showcase
-              various techniques in modeling, texturing, and animation that bring digital creations to life.
+              I want to be someone who brings value to the world, someone who creates.
+              The value that no one else can bring, the one that only I can offer, is "beauty."<br /><br />
+
+              With my own colors, my own eyes, and my unique perspective, I want to present visual beauty— a beauty that allows people to experience a sense of catharsis or even just a fleeting smile.
             </p>
           </div>
 
-          {/* Add max-w-5xl and center it */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-            <div className="relative group bg-[#1E1E27] rounded-lg overflow-hidden">
+          <div className="grid grid-cols-12 gap-4 max-w-3xl mx-auto">
+            {/* First row - Same ratio as Dithering Portraits and Raymarching Experiment */}
+            <div className="col-span-8 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
               <a
                 href="https://gradient-cat.mattparkarchive.xyz/"
-                className="block h-full"
+                className="block w-full h-full"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <div className="aspect-video bg-[#252532] relative">
+                <div className="w-full h-full aspect-[2/1] bg-[#252532]">
                   <video
                     className="w-full h-full object-cover"
-                    poster="/placeholder.svg?height=400&width=600&text=Character+Animation"
+                    poster="/placeholder.svg?height=400&width=800&text=Character+Animation"
                     muted
                     loop
+                    autoPlay
                   >
-                    <source src="#" type="video/mp4" />
+                    <source src="/reflective-cube.mp4" type="video/mp4" />
                   </video>
-                  <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
-                    <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
-                  </div>
                 </div>
-                <div className="p-4 h-16 flex justify-between items-center text-left">
-                  <span className="text-[#D2D2FF] font-ibm-plex-sans">Character Animation</span>
-                  <span className="text-sm text-[#A5A5E0] font-ibm-plex-sans">05.2024</span>
+                <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
+                  <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
                 </div>
               </a>
             </div>
 
-            <div className="relative group bg-[#1E1E27] rounded-lg overflow-hidden">
+            <div className="col-span-4 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
               <a
                 href="https://gradient-cat.mattparkarchive.xyz/"
-                className="block h-full"
+                className="block w-full h-full"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <div className="aspect-video bg-[#252532] relative">
+                <div className="w-full h-full aspect-video bg-[#252532]">
                   <video
                     className="w-full h-full object-cover"
-                    poster="/placeholder.svg?height=400&width=600&text=Environment+Design"
+                    poster="/placeholder.svg?height=300&width=500&text=Environment+Design"
                     muted
                     loop
+                    autoPlay
                   >
-                    <source src="#" type="video/mp4" />
+                    <source src="/space.mp4" type="video/mp4" />
                   </video>
-                  <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
-                    <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
-                  </div>
                 </div>
-                <div className="p-4 h-16 flex justify-between items-center text-left">
-                  <span className="text-[#D2D2FF] font-ibm-plex-sans">Environment Design</span>
-                  <span className="text-sm text-[#A5A5E0] font-ibm-plex-sans">06.2024</span>
+                <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
+                  <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
+                </div>
+              </a>
+            </div>
+
+            {/* Second row - Square first, then rectangular */}
+            <div className="col-span-4 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
+              <a
+                href="https://gradient-cat.mattparkarchive.xyz/"
+                className="block w-full h-full"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className="w-full h-full aspect-square bg-[#252532]">
+                  <video
+                    className="w-full h-full object-cover"
+                    poster="/placeholder.svg?height=400&width=400&text=3D+Modeling"
+                    muted
+                    loop
+                    autoPlay
+                  >
+                    <source src="/torus.mp4" type="video/mp4" />
+                  </video>
+                </div>
+                <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
+                  <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
+                </div>
+              </a>
+            </div>
+
+            <div className="col-span-8 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
+              <a
+                href="https://gradient-cat.mattparkarchive.xyz/"
+                className="block w-full h-full"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className="w-full h-full aspect-video bg-[#252532]">
+                  <video
+                    className="w-full h-full object-cover"
+                    poster="/placeholder.svg?height=300&width=600&text=Texture+Painting"
+                    muted
+                    loop
+                    autoPlay
+                  >
+                    <source src="/bar.mp4" type="video/mp4" />
+                  </video>
+                </div>
+                <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
+                  <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
                 </div>
               </a>
             </div>
           </div>
         </section>
 
-        {/* Interactive Experiences Section */}
+        {/* Interactive Experiences Section - ADDED THIRD ROW */}
         <section className="mb-24 text-center">
           <h2 className="section-title mb-6 text-[#D2D2FF]">Interactive Experiences</h2>
           <div className="mb-10 mx-auto max-w-3xl">
             <p className="content-1 text-[#D2D2FF]">
-              Pushing the boundaries of what's possible with web technologies and real-time graphics. These projects
-              focus on creating engaging, interactive experiences that respond to user input and create memorable
-              moments.
+              While my work speaks for itself, each piece is designed with a purpose—for you. These are some of the works I build in order to create an experience between you and me together.
             </p>
           </div>
 
-          {/* Add max-w-5xl and center it */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-            <div className="relative group bg-[#1E1E27] rounded-lg overflow-hidden">
+          <div className="grid grid-cols-12 gap-4 max-w-3xl mx-auto">
+            {/* First row */}
+            <div className="col-span-6 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
               <a
                 href="https://gradient-cat.mattparkarchive.xyz/"
-                className="block h-full"
+                className="block w-full h-full"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <div className="aspect-video bg-[#252532] relative">
+                <div className="w-full h-full aspect-video bg-[#252532]">
                   <video
                     className="w-full h-full object-cover"
                     poster="/placeholder.svg?height=400&width=600&text=WebGL+Experience"
                     muted
                     loop
+                    autoPlay
                   >
-                    <source src="#" type="video/mp4" />
+                    <source src="/hands.mp4" type="video/mp4" />
                   </video>
-                  <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
-                    <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
-                  </div>
                 </div>
-                <div className="p-4 h-16 flex justify-between items-center text-left">
-                  <span className="text-[#D2D2FF] font-ibm-plex-sans">WebGL Experience</span>
-                  <span className="text-sm text-[#A5A5E0] font-ibm-plex-sans">09.2024</span>
+                <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
+                  <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
                 </div>
               </a>
             </div>
 
-            <div className="relative group bg-[#1E1E27] rounded-lg overflow-hidden">
+            <div className="col-span-6 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
               <a
                 href="https://gradient-cat.mattparkarchive.xyz/"
-                className="block h-full"
+                className="block w-full h-full"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <div className="aspect-video bg-[#252532] relative">
+                <div className="w-full h-full aspect-video bg-[#252532]">
                   <video
                     className="w-full h-full object-cover"
                     poster="/placeholder.svg?height=400&width=600&text=Interactive+Installation"
                     muted
                     loop
+                    autoPlay
                   >
-                    <source src="#" type="video/mp4" />
+                    <source src="/light.mp4" type="video/mp4" />
                   </video>
+                </div>
+                <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
+                  <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
+                </div>
+              </a>
+            </div>
+
+            {/* Second row (new) - same ratio as first row */}
+            <div className="col-span-6 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
+              <a
+                href="https://gradient-cat.mattparkarchive.xyz/"
+                className="block w-full h-full"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className="w-full h-full aspect-video bg-[#252532]">
+                  <video
+                    className="w-full h-full object-cover"
+                    poster="/placeholder.svg?height=400&width=600&text=AR+Experience"
+                    muted
+                    loop
+                    autoPlay
+                  >
+                    <source src="/particles.mp4" type="video/mp4" />
+                  </video>
+                </div>
+                <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
+                  <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
+                </div>
+              </a>
+            </div>
+
+            <div className="col-span-6 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
+              <a
+                href="https://gradient-cat.mattparkarchive.xyz/"
+                className="block w-full h-full"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className="w-full h-full aspect-video bg-[#252532]">
+                  <video
+                    className="w-full h-full object-cover"
+                    poster="/placeholder.svg?height=400&width=600&text=VR+Prototype"
+                    muted
+                    loop
+                    autoPlay
+                  >
+                    <source src="/mac.mp4" type="video/mp4" />
+                  </video>
+                </div>
+                <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
+                  <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
+                </div>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* NEW Gradient Section */}
+        <section className="mb-24 text-center">
+          <h2 className="section-title mb-6 text-[#D2D2FF]">Gradient Experiments</h2>
+          <div className="mb-10 mx-auto max-w-3xl">
+            <p className="content-1 text-[#D2D2FF]">
+              Gradients represent the seamless flow of colors, the transition between emotions, and the depth of perception. To me, gradients are more than just a visual technique—they are a language of harmony, where different shades blend into something entirely new. <br /><br />
+
+              In my work, I try to use gradients to guide the eye, evoke feelings, and create immersive atmospheres. Whether subtle or bold, each gradient is carefully crafted to enhance the experience, adding dimension and emotion to every piece.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-12 gap-4 max-w-3xl mx-auto">
+            {/* Thinner tall rectangular card on the left */}
+            <div className="col-span-4 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
+              <a
+                href="https://gradient-cat.mattparkarchive.xyz/"
+                className="block w-full h-full"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className="w-full h-full aspect-[3/4] bg-[#252532]">
+                  <video
+                    className="w-full h-full object-cover"
+                    poster="/placeholder.svg?height=800&width=600&text=Gradient+Flow"
+                    muted
+                    loop
+                    autoPlay
+                  >
+                    <source src="/cat.mp4" type="video/mp4" />
+                  </video>
+                </div>
+                <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
+                  <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
+                </div>
+              </a>
+            </div>
+
+            {/* Wider long rectangular cards on the right, stacked vertically */}
+            <div className="col-span-8 grid grid-cols-8 gap-4">
+              <div className="col-span-8 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
+                <a
+                  href="https://gradient-cat.mattparkarchive.xyz/"
+                  className="block w-full h-full"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div className="w-full h-full aspect-[16/7] bg-[#252532]">
+                    <video
+                      className="w-full h-full object-cover"
+                      poster="/placeholder.svg?height=220&width=500&text=Color+Transitions"
+                      muted
+                      loop
+                      autoPlay
+                    >
+                      <source src="/spiral.mp4" type="video/mp4" />
+                    </video>
+                  </div>
                   <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
                     <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
                   </div>
-                </div>
-                <div className="p-4 h-16 flex justify-between items-center text-left">
-                  <span className="text-[#D2D2FF] font-ibm-plex-sans">Interactive Installation</span>
-                  <span className="text-sm text-[#A5A5E0] font-ibm-plex-sans">10.2024</span>
-                </div>
+                </a>
+              </div>
+
+              <div className="col-span-8 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
+                <a
+                  href="https://gradient-cat.mattparkarchive.xyz/"
+                  className="block w-full h-full"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div className="w-full h-full aspect-[16/7] bg-[#252532]">
+                    <video
+                      className="w-full h-full object-cover"
+                      poster="/placeholder.svg?height=220&width=500&text=Gradient+Mesh"
+                      muted
+                      loop
+                      autoPlay
+                    >
+                      <source src="/cone.mp4" type="video/mp4" />
+                    </video>
+                  </div>
+                  <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
+                    <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Contact Me Section */}
+        <section className="mb-24 text-center">
+          <h2 className="section-title mb-6 text-[#D2D2FF]">Contact Me</h2>
+          <div className="mb-10 mx-auto max-w-3xl">
+            <p className="content-1 text-[#D2D2FF]">
+              Interested in collaborating or have questions about my work? Feel free to connect with me on social media.
+            </p>
+          </div>
+
+          <div className="max-w-2xl mx-auto">
+            <div className="flex justify-center space-x-8">
+              {/* Twitter/X Icon */}
+              <a href="#" className="text-[#A5A5E0] hover:text-[#D2D2FF] transition-colors duration-300">
+                <span className="sr-only">Twitter</span>
+                <svg className="h-8 w-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+                </svg>
+              </a>
+
+              {/* GitHub Icon */}
+              <a href="#" className="text-[#A5A5E0] hover:text-[#D2D2FF] transition-colors duration-300">
+                <span className="sr-only">GitHub</span>
+                <svg className="h-8 w-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd"></path>
+                </svg>
+              </a>
+
+              {/* LinkedIn Icon */}
+              <a href="#" className="text-[#A5A5E0] hover:text-[#D2D2FF] transition-colors duration-300">
+                <span className="sr-only">LinkedIn</span>
+                <svg className="h-8 w-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"></path>
+                </svg>
+              </a>
+
+              {/* Instagram Icon */}
+              <a href="#" className="text-[#A5A5E0] hover:text-[#D2D2FF] transition-colors duration-300">
+                <span className="sr-only">Instagram</span>
+                <svg className="h-8 w-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path fillRule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clipRule="evenodd"></path>
+                </svg>
               </a>
             </div>
           </div>

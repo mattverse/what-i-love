@@ -63,7 +63,7 @@ body {
     font-family: "grad", serif;
     font-size: 60px;
     font-style: normal;
-    font-weight: 100;
+    font-weight: 400;
     letter-spacing: normal;
     line-height: 1;
     text-transform: none;
@@ -71,16 +71,16 @@ body {
 
   @media (min-width: 768px) {
     .header-1 {
-      font-size: 120px;
+      font-size: 80px;
       line-height: 120px;
     }
   }
 
   .content-1 {
     font-family: "ibm-plex-sans", sans-serif;
-    font-size: 10px;
+    font-size: 30px;
     font-style: normal;
-    font-weight: 200;
+    font-weight: 300;
     letter-spacing: normal;
     line-height: 30px;
     text-transform: none;
@@ -88,8 +88,8 @@ body {
 
   @media (min-width: 768px) {
     .content-1 {
-      font-size: 26px;
-      line-height: 36px;
+      font-size: 22px;
+      line-height: 35px;
     }
   }
 
@@ -105,7 +105,7 @@ body {
 
   @media (min-width: 768px) {
     .section-title {
-      font-size: 48px;
+      font-size: 40px;
       line-height: 1.1;
     }
   }
