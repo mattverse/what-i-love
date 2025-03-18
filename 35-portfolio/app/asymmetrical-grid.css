@@ -1,13 +1,24 @@
 /* Additional styles for the asymmetrical grid if needed */
 @media (max-width: 768px) {
+
   /* Make the grid stack nicely on mobile */
-  .grid-cols-12 > div {
+  .grid-cols-12>div {
     grid-column: span 12 !important;
   }
 
-  .grid-cols-7 > div {
+  .grid-cols-7>div {
     grid-column: span 7 !important;
   }
+}
+
+/* Make all cards slightly smaller while maintaining aspect ratios */
+.grid-cols-12 {
+  padding: 0.5rem;
+}
+
+/* Increase spacing between grid items */
+.gap-5 {
+  margin-bottom: 0.5rem;
 }
 
 /* Hover effects for the grid items */
@@ -16,12 +27,8 @@
 }
 
 .group:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 /* Fix for the Dithered Waves card to ensure consistent height */
-.h-[calc(100%-64px)] {
-  min-height: 300px;
-}
-
