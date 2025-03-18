@@ -6,7 +6,7 @@ export default function Home() {
       <div className="container mx-auto px-4 py-16">
         {/* Hero Section */}
         <section className="mb-24 text-center">
-          <h1 className="header-1 mb-6 text-[#D2D2FF]">Matt Park</h1>
+          <h1 className="header-1 mb-6 text-[#D2D2FF]">Works of Matt Park</h1>
           <p className="content-1 mx-auto max-w-3xl text-[#D2D2FF]">
             Hi, I'm Matt Changhyun Park, Software engineer with 6 years of experience in high-performance systems development and software engineering.<br /><br />
             I am passionate about performance optimizations, creative coding, and real-time 3D graphics.
@@ -26,7 +26,7 @@ export default function Home() {
           <div className="max-w-2xl mx-auto">
             <div className="relative group bg-[#1E1E27] rounded-lg overflow-hidden">
               <a
-                href="https://www.mattparkarchive.xyz/"
+                href="https://world.mattparkarchive.xyz/"
                 className="block w-full h-full"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -66,7 +66,7 @@ export default function Home() {
             {/* Top row - FIXED HEIGHT */}
             <div className="col-span-9 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
               <a
-                href="https://gradient-cat.mattparkarchive.xyz/"
+                href="https://goodtime.mattparkarchive.xyz/"
                 className="block w-full h-full"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -91,7 +91,7 @@ export default function Home() {
 
             <div className="col-span-3 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
               <a
-                href="https://gradient-cat.mattparkarchive.xyz/"
+                href="https://monalisa.mattparkarchive.xyz/"
                 className="block w-full h-full"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -116,7 +116,7 @@ export default function Home() {
             {/* Middle row */}
             <div className="col-span-6 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
               <a
-                href="https://gradient-cat.mattparkarchive.xyz/"
+                href="https://nokia.mattparkarchive.xyz/"
                 className="block w-full h-full"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -141,7 +141,7 @@ export default function Home() {
             <div className="col-span-6 grid grid-cols-8 gap-4">
               <div className="col-span-8 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
                 <a
-                  href="https://gradient-cat.mattparkarchive.xyz/"
+                  href="https://eye.mattparkarchive.xyz/"
                   className="block w-full h-full"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -165,7 +165,7 @@ export default function Home() {
 
               <div className="col-span-8 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
                 <a
-                  href="https://gradient-cat.mattparkarchive.xyz/"
+                  href="https://cow.mattparkarchive.xyz/"
                   className="block w-full h-full"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -187,7 +187,7 @@ export default function Home() {
             {/* Bottom row */}
             <div className="col-span-8 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
               <a
-                href="https://gradient-cat.mattparkarchive.xyz/"
+                href="https://halftone-camera.mattparkarchive.xyz/"
                 className="block w-full h-full"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -211,7 +211,7 @@ export default function Home() {
 
             <div className="col-span-4 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
               <a
-                href="https://gradient-cat.mattparkarchive.xyz/"
+                href="https://halftone.mattparkarchive.xyz/"
                 className="block w-full h-full"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -251,7 +251,7 @@ export default function Home() {
             {/* First row - Same ratio as Dithering Portraits and Raymarching Experiment */}
             <div className="col-span-8 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
               <a
-                href="https://gradient-cat.mattparkarchive.xyz/"
+                href="https://transparent-cube.mattparkarchive.xyz/"
                 className="block w-full h-full"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -275,7 +275,7 @@ export default function Home() {
 
             <div className="col-span-4 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
               <a
-                href="https://gradient-cat.mattparkarchive.xyz/"
+                href="https://holographic-text.mattparkarchive.xyz/"
                 className="block w-full h-full"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -300,12 +300,12 @@ export default function Home() {
             {/* Second row - Square first, then rectangular */}
             <div className="col-span-4 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
               <a
-                href="https://gradient-cat.mattparkarchive.xyz/"
+                href="https://transparent-text.mattparkarchive.xyz/"
                 className="block w-full h-full"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <div className="w-full h-full aspect-square bg-[#252532]">
+                <div className="w-full h-full aspect-[2/1] bg-[#252532]">
                   <video
                     className="w-full h-full object-cover"
                     poster="/placeholder.svg?height=400&width=400&text=3D+Modeling"
@@ -324,15 +324,15 @@ export default function Home() {
 
             <div className="col-span-8 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
               <a
-                href="https://gradient-cat.mattparkarchive.xyz/"
+                href="https://bar.mattparkarchive.xyz/"
                 className="block w-full h-full"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <div className="w-full h-full aspect-video bg-[#252532]">
+                <div className="w-full h-full aspect-[2/1] bg-[#252532]">
                   <video
                     className="w-full h-full object-cover"
-                    poster="/placeholder.svg?height=300&width=600&text=Texture+Painting"
+                    poster="/placeholder.svg?height=300&width=500&text=Texture+Painting"
                     muted
                     loop
                     autoPlay
@@ -361,7 +361,7 @@ export default function Home() {
             {/* First row */}
             <div className="col-span-6 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
               <a
-                href="https://gradient-cat.mattparkarchive.xyz/"
+                href="https://bowlofwrongs.mattparkarchive.xyz/"
                 className="block w-full h-full"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -385,7 +385,7 @@ export default function Home() {
 
             <div className="col-span-6 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
               <a
-                href="https://gradient-cat.mattparkarchive.xyz/"
+                href="https://lighted-text.mattparkarchive.xyz/"
                 className="block w-full h-full"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -410,7 +410,7 @@ export default function Home() {
             {/* Second row (new) - same ratio as first row */}
             <div className="col-span-6 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
               <a
-                href="https://gradient-cat.mattparkarchive.xyz/"
+                href="https://scroll-particles.mattparkarchive.xyz/"
                 className="block w-full h-full"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -434,7 +434,7 @@ export default function Home() {
 
             <div className="col-span-6 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
               <a
-                href="https://gradient-cat.mattparkarchive.xyz/"
+                href="https://rotating-laptop.mattparkarchive.xyz/"
                 className="block w-full h-full"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -499,7 +499,7 @@ export default function Home() {
             <div className="col-span-8 grid grid-cols-8 gap-4">
               <div className="col-span-8 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
                 <a
-                  href="https://gradient-cat.mattparkarchive.xyz/"
+                  href="https://twisted-text.mattparkarchive.xyz/"
                   className="block w-full h-full"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -523,7 +523,7 @@ export default function Home() {
 
               <div className="col-span-8 relative group bg-[#1E1E27] rounded-lg overflow-hidden">
                 <a
-                  href="https://gradient-cat.mattparkarchive.xyz/"
+                  href="https://gradient-cone.mattparkarchive.xyz/"
                   className="block w-full h-full"
                   target="_blank"
                   rel="noopener noreferrer"

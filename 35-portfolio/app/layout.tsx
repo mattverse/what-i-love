@@ -4,9 +4,7 @@ import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 
 export const metadata: Metadata = {
-  title: "Creative Portfolio",
-  description: "A showcase of creative works and projects",
-    generator: 'v0.dev'
+  title: "Matt Park Archive",
 }
 
 export default function RootLayout({
@@ -18,6 +16,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="stylesheet" href="https://use.typekit.net/xll3sai.css" />
+        <link rel="icon" type="image/x-icon" href="./favicon.ico" />
       </head>
       <body>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
