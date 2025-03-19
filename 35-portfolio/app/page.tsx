@@ -38,6 +38,7 @@ export default function Home() {
                     muted
                     loop
                     autoPlay
+                    playsInline
                   >
                     <source src="/mattparkarchive.mp4" type="video/mp4" />
                   </video>
@@ -78,6 +79,7 @@ export default function Home() {
                     muted
                     loop
                     autoPlay
+                    playsInline
                   >
                     <source src="/good-time.mp4" type="video/mp4" />
                   </video>
@@ -103,6 +105,7 @@ export default function Home() {
                     muted
                     loop
                     autoPlay
+                    playsInline
                   >
                     <source src="/monalisa.mp4" type="video/mp4" />
                   </video>
@@ -128,6 +131,7 @@ export default function Home() {
                     muted
                     loop
                     autoPlay
+                    playsInline
                   >
                     <source src="/nokia.mp4" type="video/mp4" />
                   </video>
@@ -153,6 +157,7 @@ export default function Home() {
                       muted
                       loop
                       autoPlay
+                      playsInline
                     >
                       <source src="/eye.mp4" type="video/mp4" />
                     </video>
@@ -199,6 +204,7 @@ export default function Home() {
                     muted
                     loop
                     autoPlay
+                    playsInline
                   >
                     <source src="/halftone.mp4" type="video/mp4" />
                   </video>
@@ -223,6 +229,7 @@ export default function Home() {
                     muted
                     loop
                     autoPlay
+                    playsInline
                   >
                     <source src="/moon.mp4" type="video/mp4" />
                   </video>
@@ -263,6 +270,7 @@ export default function Home() {
                     muted
                     loop
                     autoPlay
+                    playsInline
                   >
                     <source src="/reflective-cube.mp4" type="video/mp4" />
                   </video>
@@ -287,6 +295,7 @@ export default function Home() {
                     muted
                     loop
                     autoPlay
+                    playsInline
                   >
                     <source src="/space.mp4" type="video/mp4" />
                   </video>
@@ -312,6 +321,7 @@ export default function Home() {
                     muted
                     loop
                     autoPlay
+                    playsInline
                   >
                     <source src="/torus.mp4" type="video/mp4" />
                   </video>
@@ -336,6 +346,7 @@ export default function Home() {
                     muted
                     loop
                     autoPlay
+                    playsInline
                   >
                     <source src="/bar.mp4" type="video/mp4" />
                   </video>
@@ -373,6 +384,7 @@ export default function Home() {
                     muted
                     loop
                     autoPlay
+                    playsInline
                   >
                     <source src="/hands.mp4" type="video/mp4" />
                   </video>
@@ -397,6 +409,7 @@ export default function Home() {
                     muted
                     loop
                     autoPlay
+                    playsInline
                   >
                     <source src="/light.mp4" type="video/mp4" />
                   </video>
@@ -422,6 +435,8 @@ export default function Home() {
                     muted
                     loop
                     autoPlay
+                    playsInline
+
                   >
                     <source src="/particles.mp4" type="video/mp4" />
                   </video>
@@ -446,6 +461,7 @@ export default function Home() {
                     muted
                     loop
                     autoPlay
+                    playsInline
                   >
                     <source src="/mac.mp4" type="video/mp4" />
                   </video>
@@ -485,6 +501,7 @@ export default function Home() {
                     muted
                     loop
                     autoPlay
+                    playsInline
                   >
                     <source src="/cat.mp4" type="video/mp4" />
                   </video>
@@ -511,6 +528,7 @@ export default function Home() {
                       muted
                       loop
                       autoPlay
+                      playsInline
                     >
                       <source src="/spiral.mp4" type="video/mp4" />
                     </video>
@@ -535,6 +553,7 @@ export default function Home() {
                       muted
                       loop
                       autoPlay
+                      playsInline
                     >
                       <source src="/cone.mp4" type="video/mp4" />
                     </video>
