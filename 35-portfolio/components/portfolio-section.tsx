@@ -1,4 +1,5 @@
 import { ArrowUpRight } from "lucide-react"
+import { LazyVideo } from "@/components/lazy-video"
 
 interface Project {
   title: string
@@ -21,7 +22,7 @@ export function PortfolioSection({ title, description, projects }: PortfolioSect
         <p className="content-1 text-[#D2D2FF]">{description}</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-4xl mx-auto">
         {projects.map((project, index) => (
           <div key={index} className="relative group bg-[#1E1E27] rounded-lg overflow-hidden">
             <a
@@ -31,9 +32,7 @@ export function PortfolioSection({ title, description, projects }: PortfolioSect
               rel="noopener noreferrer"
             >
               <div className="w-full h-full aspect-video bg-[#252532]">
-                <video className="w-full h-full object-cover" poster={project.poster} muted loop>
-                  {project.videoSrc && <source src={project.videoSrc} type="video/mp4" />}
-                </video>
+                <LazyVideo className="w-full h-full object-cover" poster={project.poster} src={project.videoSrc} />
               </div>
               <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
                 <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />

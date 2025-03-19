@@ -1,4 +1,6 @@
 import { ArrowUpRight } from "lucide-react"
+import { LazyVideo } from "@/components/lazy-video"
+
 
 export default function Home() {
   return (
@@ -32,16 +34,11 @@ export default function Home() {
                 rel="noopener noreferrer"
               >
                 <div className="w-full h-full aspect-video bg-[#252532]">
-                  <video
+                  <LazyVideo
                     className="w-full h-full object-cover"
                     poster="/placeholder.svg?height=400&width=600&text=Featured+Project"
-                    muted
-                    loop
-                    autoPlay
-                    playsInline
-                  >
-                    <source src="/mattparkarchive.mp4" type="video/mp4" />
-                  </video>
+                    src="/mattparkarchive.mp4"
+                  />
                 </div>
                 <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
                   <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
@@ -73,16 +70,11 @@ export default function Home() {
                 rel="noopener noreferrer"
               >
                 <div className="w-full h-full aspect-[5/1] bg-[#252532]">
-                  <video
+                  <LazyVideo
                     className="w-full h-full object-cover"
-                    poster="/placeholder.svg?height=200&width=1000&text=GPGPU+Particles"
-                    muted
-                    loop
-                    autoPlay
-                    playsInline
-                  >
-                    <source src="/good-time.mp4" type="video/mp4" />
-                  </video>
+                    poster="/placeholder.svg?height=400&width=600&text=Featured+Project"
+                    src="/good-time.mp4"
+                  />
                 </div>
                 <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
                   <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
@@ -99,7 +91,12 @@ export default function Home() {
                 rel="noopener noreferrer"
               >
                 <div className="w-full h-full aspect-square bg-[#252532]">
-                  <video
+                  <LazyVideo
+                    className="w-full h-full object-cover"
+                    poster="/placeholder.svg?height=400&width=600&text=Featured+Project"
+                    src="/monalisa.mp4"
+                  />
+                  {/* <video
                     className="w-full h-full object-cover"
                     poster="/placeholder.svg?height=200&width=200&text=Moebius+shader"
                     muted
@@ -108,7 +105,7 @@ export default function Home() {
                     playsInline
                   >
                     <source src="/monalisa.mp4" type="video/mp4" />
-                  </video>
+                  </video> */}
                 </div>
                 <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
                   <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
@@ -125,7 +122,12 @@ export default function Home() {
                 rel="noopener noreferrer"
               >
                 <div className="w-full h-full aspect-[3/4] bg-[#252532]">
-                  <video
+                  <LazyVideo
+                    className="w-full h-full object-cover"
+                    poster="/placeholder.svg?height=400&width=600&text=Featured+Project"
+                    src="/nokia.mp4"
+                  />
+                  {/* <video
                     className="w-full h-full object-cover"
                     poster="/placeholder.svg?height=400&width=300&text=Dithered+Waves"
                     muted
@@ -134,7 +136,7 @@ export default function Home() {
                     playsInline
                   >
                     <source src="/nokia.mp4" type="video/mp4" />
-                  </video>
+                  </video> */}
                 </div>
                 <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
                   <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
@@ -151,7 +153,12 @@ export default function Home() {
                   rel="noopener noreferrer"
                 >
                   <div className="w-full h-full aspect-[16/7] bg-[#252532]">
-                    <video
+                    <LazyVideo
+                      className="w-full h-full object-cover"
+                      poster="/placeholder.svg?height=400&width=600&text=Featured+Project"
+                      src="/eye.mp4"
+                    />
+                    {/* <video
                       className="w-full h-full object-cover"
                       poster="/placeholder.svg?height=220&width=500&text=Pixel+Art+Generator"
                       muted
@@ -160,7 +167,7 @@ export default function Home() {
                       playsInline
                     >
                       <source src="/eye.mp4" type="video/mp4" />
-                    </video>
+                    </video> */}
                   </div>
                   <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
                     <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
@@ -198,16 +205,11 @@ export default function Home() {
                 rel="noopener noreferrer"
               >
                 <div className="w-full h-full aspect-[2/1] bg-[#252532]">
-                  <video
+                  <LazyVideo
                     className="w-full h-full object-cover"
-                    poster="/placeholder.svg?height=400&width=800&text=Dithering+Portraits"
-                    muted
-                    loop
-                    autoPlay
-                    playsInline
-                  >
-                    <source src="/halftone.mp4" type="video/mp4" />
-                  </video>
+                    poster="/placeholder.svg?height=400&width=600&text=Featured+Project"
+                    src="/halftone.mp4"
+                  />
                 </div>
                 <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
                   <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
@@ -223,16 +225,11 @@ export default function Home() {
                 rel="noopener noreferrer"
               >
                 <div className="w-full h-full aspect-video bg-[#252532]">
-                  <video
+                  <LazyVideo
                     className="w-full h-full object-cover"
-                    poster="/placeholder.svg?height=300&width=500&text=Raymarching+Experiment"
-                    muted
-                    loop
-                    autoPlay
-                    playsInline
-                  >
-                    <source src="/moon.mp4" type="video/mp4" />
-                  </video>
+                    poster="/placeholder.svg?height=400&width=600&text=Featured+Project"
+                    src="/moon.mp4"
+                  />
                 </div>
                 <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
                   <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
@@ -264,16 +261,11 @@ export default function Home() {
                 rel="noopener noreferrer"
               >
                 <div className="w-full h-full aspect-[2/1] bg-[#252532]">
-                  <video
+                  <LazyVideo
                     className="w-full h-full object-cover"
-                    poster="/placeholder.svg?height=400&width=800&text=Character+Animation"
-                    muted
-                    loop
-                    autoPlay
-                    playsInline
-                  >
-                    <source src="/reflective-cube.mp4" type="video/mp4" />
-                  </video>
+                    poster="/placeholder.svg?height=400&width=600&text=Featured+Project"
+                    src="/reflective-cube.mp4"
+                  />
                 </div>
                 <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
                   <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
@@ -289,16 +281,11 @@ export default function Home() {
                 rel="noopener noreferrer"
               >
                 <div className="w-full h-full aspect-video bg-[#252532]">
-                  <video
+                  <LazyVideo
                     className="w-full h-full object-cover"
-                    poster="/placeholder.svg?height=300&width=500&text=Environment+Design"
-                    muted
-                    loop
-                    autoPlay
-                    playsInline
-                  >
-                    <source src="/space.mp4" type="video/mp4" />
-                  </video>
+                    poster="/placeholder.svg?height=400&width=600&text=Featured+Project"
+                    src="/space.mp4"
+                  />
                 </div>
                 <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
                   <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
@@ -315,16 +302,11 @@ export default function Home() {
                 rel="noopener noreferrer"
               >
                 <div className="w-full h-full aspect-[2/1] bg-[#252532]">
-                  <video
+                  <LazyVideo
                     className="w-full h-full object-cover"
-                    poster="/placeholder.svg?height=400&width=400&text=3D+Modeling"
-                    muted
-                    loop
-                    autoPlay
-                    playsInline
-                  >
-                    <source src="/torus.mp4" type="video/mp4" />
-                  </video>
+                    poster="/placeholder.svg?height=400&width=600&text=Featured+Project"
+                    src="/torus.mp4"
+                  />
                 </div>
                 <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
                   <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
@@ -340,16 +322,11 @@ export default function Home() {
                 rel="noopener noreferrer"
               >
                 <div className="w-full h-full aspect-[2/1] bg-[#252532]">
-                  <video
+                  <LazyVideo
                     className="w-full h-full object-cover"
-                    poster="/placeholder.svg?height=300&width=500&text=Texture+Painting"
-                    muted
-                    loop
-                    autoPlay
-                    playsInline
-                  >
-                    <source src="/bar.mp4" type="video/mp4" />
-                  </video>
+                    poster="/placeholder.svg?height=400&width=600&text=Featured+Project"
+                    src="/bar.mp4"
+                  />
                 </div>
                 <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
                   <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
@@ -378,16 +355,11 @@ export default function Home() {
                 rel="noopener noreferrer"
               >
                 <div className="w-full h-full aspect-video bg-[#252532]">
-                  <video
+                  <LazyVideo
                     className="w-full h-full object-cover"
-                    poster="/placeholder.svg?height=400&width=600&text=WebGL+Experience"
-                    muted
-                    loop
-                    autoPlay
-                    playsInline
-                  >
-                    <source src="/hands.mp4" type="video/mp4" />
-                  </video>
+                    poster="/placeholder.svg?height=400&width=600&text=Featured+Project"
+                    src="/hands.mp4"
+                  />
                 </div>
                 <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
                   <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
@@ -403,16 +375,11 @@ export default function Home() {
                 rel="noopener noreferrer"
               >
                 <div className="w-full h-full aspect-video bg-[#252532]">
-                  <video
+                  <LazyVideo
                     className="w-full h-full object-cover"
-                    poster="/placeholder.svg?height=400&width=600&text=Interactive+Installation"
-                    muted
-                    loop
-                    autoPlay
-                    playsInline
-                  >
-                    <source src="/light.mp4" type="video/mp4" />
-                  </video>
+                    poster="/placeholder.svg?height=400&width=600&text=Featured+Project"
+                    src="/light.mp4"
+                  />
                 </div>
                 <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
                   <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
@@ -429,17 +396,11 @@ export default function Home() {
                 rel="noopener noreferrer"
               >
                 <div className="w-full h-full aspect-video bg-[#252532]">
-                  <video
+                  <LazyVideo
                     className="w-full h-full object-cover"
-                    poster="/placeholder.svg?height=400&width=600&text=AR+Experience"
-                    muted
-                    loop
-                    autoPlay
-                    playsInline
-
-                  >
-                    <source src="/particles.mp4" type="video/mp4" />
-                  </video>
+                    poster="/placeholder.svg?height=400&width=600&text=Featured+Project"
+                    src="/particles.mp4"
+                  />
                 </div>
                 <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
                   <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
@@ -455,16 +416,11 @@ export default function Home() {
                 rel="noopener noreferrer"
               >
                 <div className="w-full h-full aspect-video bg-[#252532]">
-                  <video
+                  <LazyVideo
                     className="w-full h-full object-cover"
-                    poster="/placeholder.svg?height=400&width=600&text=VR+Prototype"
-                    muted
-                    loop
-                    autoPlay
-                    playsInline
-                  >
-                    <source src="/mac.mp4" type="video/mp4" />
-                  </video>
+                    poster="/placeholder.svg?height=400&width=600&text=Featured+Project"
+                    src="/mac.mp4"
+                  />
                 </div>
                 <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
                   <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
@@ -495,16 +451,11 @@ export default function Home() {
                 rel="noopener noreferrer"
               >
                 <div className="w-full h-full aspect-[3/4] bg-[#252532]">
-                  <video
+                  <LazyVideo
                     className="w-full h-full object-cover"
-                    poster="/placeholder.svg?height=800&width=600&text=Gradient+Flow"
-                    muted
-                    loop
-                    autoPlay
-                    playsInline
-                  >
-                    <source src="/cat.mp4" type="video/mp4" />
-                  </video>
+                    poster="/placeholder.svg?height=400&width=600&text=Featured+Project"
+                    src="/cat.mp4"
+                  />
                 </div>
                 <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
                   <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
@@ -522,16 +473,11 @@ export default function Home() {
                   rel="noopener noreferrer"
                 >
                   <div className="w-full h-full aspect-[16/7] bg-[#252532]">
-                    <video
+                    <LazyVideo
                       className="w-full h-full object-cover"
-                      poster="/placeholder.svg?height=220&width=500&text=Color+Transitions"
-                      muted
-                      loop
-                      autoPlay
-                      playsInline
-                    >
-                      <source src="/spiral.mp4" type="video/mp4" />
-                    </video>
+                      poster="/placeholder.svg?height=400&width=600&text=Featured+Project"
+                      src="/spiral.mp4"
+                    />
                   </div>
                   <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
                     <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
@@ -547,16 +493,11 @@ export default function Home() {
                   rel="noopener noreferrer"
                 >
                   <div className="w-full h-full aspect-[16/7] bg-[#252532]">
-                    <video
+                    <LazyVideo
                       className="w-full h-full object-cover"
-                      poster="/placeholder.svg?height=220&width=500&text=Gradient+Mesh"
-                      muted
-                      loop
-                      autoPlay
-                      playsInline
-                    >
-                      <source src="/cone.mp4" type="video/mp4" />
-                    </video>
+                      poster="/placeholder.svg?height=400&width=600&text=Featured+Project"
+                      src="/cone.mp4"
+                    />
                   </div>
                   <div className="absolute top-3 right-3 p-1 bg-[#16161D]/80 rounded-full opacity-70 group-hover:opacity-100 transition-opacity">
                     <ArrowUpRight className="w-4 h-4 text-[#D2D2FF]" />
